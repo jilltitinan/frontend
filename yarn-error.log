@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @babel-runtime
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add moment
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Java\jdk1.8.0_181\bin;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\dotnet\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Yarn\bin\;C:\Users\Jill\AppData\Local\Microsoft\WindowsApps;C:\Users\Jill\AppData\Local\GitHubDesktop\bin;C:\Users\Jill\AppData\Local\Android\sdk\platform-tools;C:\Users\Jill\AppData\Roaming\npm;C:\Users\Jill\.dotnet\tools;C:\Users\Jill\AppData\Local\Yarn\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: connect ETIMEDOUT 104.16.19.35:443
+  Error: connect ETIMEDOUT 104.16.18.35:443
       at Object._errnoException (util.js:992:11)
       at _exceptionWithHostPort (util.js:1014:20)
       at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1186:14)
@@ -34,6 +34,9 @@ npm manifest:
       "expo": "^30.0.1",
       "react": "16.3.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+      "react-native-date-picker": "^2.1.1",
+      "react-native-elements": "^0.19.1",
+      "react-native-modal-datetime-picker": "^6.0.0",
       "react-native-router-flux": "^4.0.5",
       "redux-thunk": "^2.3.0"
     }
@@ -3329,6 +3332,11 @@ Lockfile:
       p-locate "^2.0.0"
       path-exists "^3.0.0"
   
+  lodash.isempty@^4.4.0:
+    version "4.4.0"
+    resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
+    integrity sha1-b4bL7di+TsmHvpqvM8loTbGzHn4=
+  
   lodash.isequal@4.5.0:
     version "4.5.0"
     resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
@@ -3373,6 +3381,11 @@ Lockfile:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
     integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+  
+  lodash.times@^4.3.2:
+    version "4.3.2"
+    resolved "https://registry.yarnpkg.com/lodash.times/-/lodash.times-4.3.2.tgz#3e1f2565c431754d54ab57f2ed1741939285ca1d"
+    integrity sha1-Ph8lZcQxdU1Uq1fy7RdBk5KFyh0=
   
   lodash.zipobject@^4.1.3:
     version "4.1.3"
@@ -4359,10 +4372,22 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
     integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
   
+  react-native-animatable@^1.2.4:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.0.tgz#b5c3940fc758cfd9b2fe54613a457c4b6962b46e"
+    integrity sha512-GGYEYvderfzPZcPnw7xov4nlRmi9d6oqcIzx0fGkUUsMshOQEtq5IEzFp3np0uTB9n8/gZIZcdbUPggVlVydMg==
+    dependencies:
+      prop-types "^15.5.10"
+  
   react-native-branch@2.2.5:
     version "2.2.5"
     resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
     integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
+  
+  react-native-date-picker@^2.1.1:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.1.1.tgz#454d1a339b01480d3d832af98219ec97034ada63"
+    integrity sha512-v7jyBCQ0docrrkSz6UUrUOIrgZDwjZp9FuQ4HHaOPk0eF4bC0oru/6Fyk8COWJGYoxx0fXtvtzcQYxvGZF7idQ==
   
   react-native-dismiss-keyboard@1.0.0:
     version "1.0.0"
@@ -4383,6 +4408,16 @@ Lockfile:
     dependencies:
       react-native-dismiss-keyboard "1.0.0"
   
+  react-native-elements@^0.19.1:
+    version "0.19.1"
+    resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.19.1.tgz#f92b69d864a150215d01f81fe3c52a9cada83e45"
+    integrity sha1-+Stp2GShUCFdAfgf48UqnK2oPkU=
+    dependencies:
+      lodash.isempty "^4.4.0"
+      lodash.times "^4.3.2"
+      opencollective "^1.0.3"
+      prop-types "^15.5.8"
+  
   react-native-gesture-handler@1.0.6:
     version "1.0.6"
     resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.6.tgz#8a672ca0c7a1b706dffee4e230e5cf0197d2cdb8"
@@ -4399,6 +4434,22 @@ Lockfile:
     dependencies:
       babel-plugin-module-resolver "^2.3.0"
       babel-preset-react-native "1.9.0"
+  
+  react-native-modal-datetime-picker@^6.0.0:
+    version "6.0.0"
+    resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-6.0.0.tgz#8018994524122ad48fd6bc66f26f623c75a49fb3"
+    integrity sha512-O8brvSXgvRtfHzAyCNSrPcylE05cyK30D8/7rM0kjXLnlDcoiXtEl62qDQw8wnJOAL6kQFGn/iQ8H4mGXptiHw==
+    dependencies:
+      prop-types "^15.6.1"
+      react-native-modal "^6.2.0"
+  
+  react-native-modal@^6.2.0:
+    version "6.5.0"
+    resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-6.5.0.tgz#46220b2289a41597d344c1db17454611b426a758"
+    integrity sha512-ewchdETAGd32xLGLK93NETEGkRcePtN7ZwjmLSQnNW1Zd0SRUYE8NqftjamPyfKvK0i2DZjX4YAghGZTqaRUbA==
+    dependencies:
+      prop-types "^15.6.1"
+      react-native-animatable "^1.2.4"
   
   react-native-reanimated@1.0.0-alpha.6:
     version "1.0.0-alpha.6"

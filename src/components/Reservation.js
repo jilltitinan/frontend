@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Image, Picker, Text, StyleSheet } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import { View, Image, Picker, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import Moment from 'moment';
 import { Icon } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
 import { Button } from './common/Button';
@@ -22,7 +23,20 @@ class Home extends Component {
         this.setState({ switch1Value: value })
         console.log('Switch 1 is: ' + value)
     }
-    state = { date: new Date() }
+    state = {
+        isDateTimePickerVisible: false,
+        select: 'moment',
+    };
+
+    _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+    _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+    _handleDatePicked = (date) => {
+        this.setState({ select: date });
+        console.log('A date has been picked: ', this.state.select);
+        this._hideDateTimePicker();
+    };
 
     render() {
         const { container, picker, text, picker2, picker3, picker555 } = styles;
@@ -87,11 +101,17 @@ class Home extends Component {
                 <View style={picker}>
                     {this.state.switch1Value && <View style={picker2}>
                         <Text>More than one day</Text>
-                        <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
-                            <Picker.Item label="Steve" value="steve" />
-                            <Picker.Item label="Ellen" value="ellen" />
-                            <Picker.Item label="Maria" value="maria" />
-                        </Picker>
+                        <View style={{ flex: 1 }}>
+                            <TouchableOpacity onPress={this._showDateTimePicker}>
+                                <Text>dfdsfsd</Text>
+                            </TouchableOpacity>
+                            <DateTimePicker
+                                isVisible={this.state.isDateTimePickerVisible}
+                                onConfirm={this._handleDatePicked}
+                                onCancel={this._hideDateTimePicker}
+                            />
+                        </View>                     
+
                     </View>
                     }
                     {!this.state.switch1Value && <View style={picker2}>
