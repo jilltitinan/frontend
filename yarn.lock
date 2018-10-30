@@ -4329,6 +4329,11 @@ react-native-branch@2.2.5:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
   integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
 
+react-native-date-picker@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.1.1.tgz#454d1a339b01480d3d832af98219ec97034ada63"
+  integrity sha512-v7jyBCQ0docrrkSz6UUrUOIrgZDwjZp9FuQ4HHaOPk0eF4bC0oru/6Fyk8COWJGYoxx0fXtvtzcQYxvGZF7idQ==
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"

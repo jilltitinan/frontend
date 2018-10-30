@@ -1,8 +1,9 @@
 import React from 'react';
 import { Router, Scene, Actions, Tabs } from 'react-native-router-flux';
+import IconTab from './src/components/common/IconTab';
 import Login from './src/components/Login';
 import Home from './src/components/Home';
-import IconTab from './src/components/common/IconTab';
+import Reservation from './src/components/Reservation';
 
 class RouterComponent extends React.Component {
     render() {
@@ -11,7 +12,7 @@ class RouterComponent extends React.Component {
             <Router>
                 <Scene key="all" hideNavBar>
                     <Scene>
-                        <Scene key="login" component={Login} title="Welcome" initial />
+                        <Scene key="login" component={Reservation} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
