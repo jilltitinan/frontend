@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, StyleSheet } from 'react-native';
+import { View, Text, Picker, StyleSheet } from 'react-native'
 
-class Picker1 extends Component {
+class PickerReservation extends Component {
    state = {user: ''}
    updateUser = (user) => {
       this.setState({ user: user })
@@ -19,7 +19,6 @@ class Picker1 extends Component {
       )
    }
 }
-export { Picker1 } ;
 
 const styles = StyleSheet.create({
    text: {
@@ -27,4 +26,6 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       color: 'red'
    }
-})
+});
+
+export { PickerReservation };

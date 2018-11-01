@@ -15,6 +15,7 @@ const styles = {
     buttonStyle: {
         flex: 1,
         alignSelf: 'stretch',
+        justifyContent: 'center',
         padding: 20,
         borderWidth: 1,
         borderRadius: 5,
