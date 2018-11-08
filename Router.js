@@ -9,10 +9,10 @@ class RouterComponent extends React.Component {
     render() {
         const { tabBarStyle } = styles;
         return (
-            <Router>
+            <Router navigationBarStyle={{ backgroundColor: '#00A6A6'}}  titleStyle={{color : "#FFF"}}>
                 <Scene key="all" hideNavBar>
-                    <Scene>
-                        <Scene key="login" component={Reservation} title="Welcome" initial />
+                    <Scene >
+                        <Scene key="login" component={Home} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -20,7 +20,7 @@ class RouterComponent extends React.Component {
                             key='reservePlace'
                             title='Reserve'
                             onLeft={() => Actions.container()}
-                            component={Login}
+                            component={Reservation}
                             initial 
                         />
                     </Scene>

@@ -4,3 +4,4 @@ export * from './color';
 export * from './SwitchHome';
 export * from './PickerReservation';
 export * from './Switch';
+export * from './HomeButton';

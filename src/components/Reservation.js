@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Picker, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Moment from 'moment';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { Button } from './common/Button';
 import { SwitchHome } from './common/Switch';
@@ -51,7 +51,7 @@ class Home extends Component {
                                 size={40} />
                         </View>
                         <View style={picker2}>
-                            <Text>Location</Text>
+                            <Text style={{ fontSize: 18}}>Location</Text>
                             <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                                 <Picker.Item label="Steve" value="steve" />                                
                             </Picker>
@@ -67,7 +67,7 @@ class Home extends Component {
                                 size={40} />
                         </View>
                         <View style={picker2}>
-                            <Text>Size</Text>
+                            <Text style={{ fontSize: 18}}>Size</Text>
                             <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                                 <Picker.Item label="Steve" value="steve" />                                
                             </Picker>
@@ -79,7 +79,7 @@ class Home extends Component {
                                 size={40} />
                         </View>
                         <View style={picker2}>
-                            <Text>Amount</Text>
+                            <Text style={{ fontSize: 18}}>Amount</Text>
                             <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                                 <Picker.Item label="Steve" value="steve" />
                                 
@@ -103,7 +103,7 @@ class Home extends Component {
                                         size={40} />
                                 </View>
                                 <View style={picker2}>
-                                    <Text>Size</Text>
+                                    <Text style={{ fontSize: 18}}>Size</Text>
                                     <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                                         <Picker.Item label="Steve" value="steve" />                                        
                                     </Picker>
@@ -115,7 +115,7 @@ class Home extends Component {
                                         size={40} />
                                 </View>
                                 <View style={picker2}>
-                                    <Text>More than one day</Text>
+                                    <Text style={{ fontSize: 18}}>More than one day</Text>
                                     <View style={{ flex: 1 }}>
                                         <TouchableOpacity onPress={this._showDateTimePicker}>
                                             <Text>kuy idiot jill</Text>
@@ -126,7 +126,6 @@ class Home extends Component {
                                             onCancel={this._hideDateTimePicker}
                                         />
                                     </View>
-
                                 </View>
                             </View>
 
@@ -139,7 +138,7 @@ class Home extends Component {
                                         size={40} />
                                 </View>
                                 <View style={picker2}>
-                                    <Text>Size</Text>
+                                    <Text style={{ fontSize: 18}}>Size</Text>
                                     <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                                         <Picker.Item label="Steve" value="steve" />                                        
                                     </Picker>
@@ -151,10 +150,10 @@ class Home extends Component {
                                         size={40} />
                                 </View>
                                 <View style={picker2}>
-                                    <Text>One day</Text>
+                                    <Text style={{ fontSize: 18}}>One day</Text>
                                     <View style={{ flex: 1 }}>
                                         <TouchableOpacity onPress={this._showDateTimePicker}>
-                                            <Text>kuy idiot jill</Text>
+                                            <Text>Calendarrr</Text>
                                         </TouchableOpacity>
                                         <DateTimePicker
                                             isVisible={this.state.isDateTimePickerVisible}

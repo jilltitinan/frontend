@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button } from './common/Button';
+import { HomeButton } from './common/HomeButton';
+import { Icon } from 'react-native-elements';
 
-class Home extends Component {    
+class Home extends Component {
     render() {
         const { container, button } = styles;
         return (
@@ -12,12 +13,20 @@ class Home extends Component {
                     style={{ width: 200, height: 200 }} />
 
                 <View style={button}>
-                    <Button onPress={Actions.Reserve}>
-                        Reservation
-                    </Button>
-                    <Button onPress={Actions.Reserve}>
-                        Reservation 2
-                    </Button>
+                    <View>
+                        
+                        <HomeButton onPress={Actions.Reserve}>
+                            Reservation
+                    </HomeButton>
+                    </View>
+                    <View>
+                        
+
+                        <HomeButton onPress={Actions.Reserve}>
+                            Promotion
+                    </HomeButton>
+                    </View>
+
                 </View>
             </View>
         );
