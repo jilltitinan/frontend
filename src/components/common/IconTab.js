@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from 'react-native-elements';
-import { ORANGE, PINK } from './color';
+import { ORANGE, PINK, GREEN, GRAY } from './color';
 
 class IconTab extends React.Component {
     render() {
@@ -9,8 +9,8 @@ class IconTab extends React.Component {
             <Icon 
                 name={iconName} 
                 type='material-community' 
-                size={20} 
-                color={focused ? PINK : 'black'} 
+                size={30} 
+                color={focused ? GREEN : GRAY } 
             />
         );
     }

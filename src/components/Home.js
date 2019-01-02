@@ -1,33 +1,96 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Dimensions, TouchableHighlight, TouchableOpacity, Text, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { HomeButton } from './common/HomeButton';
+import { Card } from './common/Card';
+import { Color, GREEN, GRAY } from './common/color';
+import { IconTab } from './common/IconTab';
+import { CardSection } from './common/CardSection';
+import { Slick } from './common/Slick';
+import { SlickItem } from './common/SlickItem';
+import { LinearGradient } from 'expo';
 import { Icon } from 'react-native-elements';
 
+
 class Home extends Component {
+    componentWillMount() {
+        const { width } = Dimensions.get('window');
+
+        // Responsive Condition
+        if (width > 375) {
+            this.setState({
+                ...this.state,
+                size: 24,
+            });
+        } else if (width > 320) {
+            this.setState({
+                ...this.state,
+                size: 24,
+            });
+        } else {
+            this.setState({
+                ...this.state,
+            });
+        }
+    }
     render() {
         const { container, button } = styles;
+        const { size } = this.state;
         return (
             <View style={container}>
-                <Image source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-                    style={{ width: 200, height: 200 }} />
+                <Card>
+                    <Image
+                        style={{ width: 200, height: 200 }}
+                        source={require('/frontend/src/components/image/dog1.jpg')}
+                    />
+                    {/* <Card>
+                    <Slick>
+                        <SlickItem source={require('/frontend/src/components/image/dog1.jpg')} />
+                        <SlickItem source={require('/frontend/src/components/image/dog1.jpg')} />
+                        <SlickItem source={require('/frontend/src/components/image/dog1.jpg')} />
+                    </Slick>
+                </Card> */}
+                </Card>
+                <Card>
+                    <View style={button}>
+                        <View>
+                            <TouchableOpacity onPress={Actions.Reserve}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: 'rgba(0,0,0,0.2)',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: 130,
+                                    height: 130,
+                                    backgroundColor: '#fff',
+                                    borderRadius: 10,
 
-                <View style={button}>
-                    <View>
-                        
-                        <HomeButton onPress={Actions.Reserve}>
-                            Reservation
-                    </HomeButton>
+                                }}  >
+                                <Icon name={"spa"} size={40} color={GRAY} />
+                                <Text style={{fontWeight: 'bold', color: GREEN, fontSize: 20}}> Reservation</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <TouchableOpacity
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: 'rgba(0,0,0,0.2)',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: 130,
+                                    height: 130,
+                                    backgroundColor: '#fff',
+                                    borderRadius: 10,
+                                }}                    >
+                                <Icon name={"snooze"} size={40} color={GRAY} />
+                                <Text style={{fontWeight: 'bold', color: GREEN, fontSize: 20}}> Promotion </Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
-                    <View>
-                        
 
-                        <HomeButton onPress={Actions.Reserve}>
-                            Promotion
-                    </HomeButton>
-                    </View>
+                </Card>
 
-                </View>
             </View>
         );
     }
@@ -35,14 +98,11 @@ class Home extends Component {
 
 const styles = {
     container: {
-        marginTop: 20,
-        alignItems: 'center',
-        marginHorizontal: 10,
+        flexDirection: 'column', flex: 1, justifyContent: 'flex-start'
 
     },
     button: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        flexDirection:'row',flex:15,marginTop:10,justifyContent:'space-between', paddingLeft: 60, paddingRight: 60
 
     }
 }

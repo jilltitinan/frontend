@@ -1,27 +1,28 @@
 import React from 'react';
 import { Router, Scene, Actions, Tabs } from 'react-native-router-flux';
-import IconTab from './src/components/common/IconTab';
-import Login from './src/components/Login';
-import Home from './src/components/Home';
-import Reservation from './src/components/Reservation';
+import { IconTab } from './common/IconTab';
+import Login from './Login';
+import Home from './Home';
+import Reservation from './Reservation';
+import MyBooking from './MyBooking';
 
 class RouterComponent extends React.Component {
+
     render() {
         const { tabBarStyle } = styles;
         return (
-            <Router navigationBarStyle={{ backgroundColor: '#00A6A6'}}  titleStyle={{color : "#FFF"}}>
+            <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
-                    <Scene >
-                        <Scene key="login" component={Home} title="Welcome" initial />
+                    <Scene key="authen" >
+                        <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
                         <Scene
                             key='reservePlace'
                             title='Reserve'
-                            onLeft={() => Actions.container()}
                             component={Reservation}
-                            initial 
+                            initial
                         />
                     </Scene>
 
@@ -31,23 +32,27 @@ class RouterComponent extends React.Component {
                                 <Scene
                                     key='home'
                                     component={Home}
-                                    title='Home'                                    
+                                    title='Home'
+                                    initial
                                 />
                             </Scene>
 
                             <Scene key='My Booking' icon={IconTab} iconName='book'>
                                 <Scene
                                     key='test1'
-                                    component={Login}
-                                    title='My Booking'                                    
-                                />
+                                    component={MyBooking}
+                                    title='My Booking'
+                                >
+                                   
+                                </Scene>
+
                             </Scene>
 
                             <Scene key='Inbox' icon={IconTab} iconName='inbox'>
                                 <Scene
                                     key='MainMenu3'
                                     component={Login}
-                                    title='Inbox'                                    
+                                    title='Inbox'
                                 />
                             </Scene>
 
@@ -55,7 +60,7 @@ class RouterComponent extends React.Component {
                                 <Scene
                                     key='MainMenu4'
                                     component={Login}
-                                    title='My Account'                                   
+                                    title='My Account'
                                 />
                             </Scene>
                         </Tabs>
