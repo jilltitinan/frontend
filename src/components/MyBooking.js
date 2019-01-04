@@ -5,9 +5,12 @@ import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements';
 import { Constants } from 'expo';
+import AlbumList from './AlbumList';
 
 const FirstRoutePending = () => (
-    <View style={[styles.container, { backgroundColor: '#ff4081' }]} />
+    <View style={[styles.container]} >
+     <AlbumList />
+    </View>
   );
   const SecondRouteHistory = () => (
     <View style={[styles.container, { backgroundColor: '#673ab7' }]} />
@@ -40,7 +43,8 @@ class MyBooking extends Component {
               return (
                 <TouchableOpacity
                   style={styles.tabItem}
-                  onPress={() => this.setState({ index: i })}>
+                  onPress={() => this.setState({ index: i })}
+                   >
                   {/* <Icon
                                 name='home'
                                 color='#00aced'
@@ -100,9 +104,8 @@ class MyBooking extends Component {
       },
       tabItem: {
         flex: 1, 
-       
-        alignItems: 'center',
-       
+        backgroundColor: '#ffffff',
+        alignItems: 'center',       
         padding: 16,
       },
     });

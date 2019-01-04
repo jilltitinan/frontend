@@ -5,6 +5,7 @@ import Login from './Login';
 import Home from './Home';
 import Reservation from './Reservation';
 import MyBooking from './MyBooking';
+import BookingDetail from './BookingDetail';
 
 class RouterComponent extends React.Component {
 
@@ -24,6 +25,10 @@ class RouterComponent extends React.Component {
                             component={Reservation}
                             initial
                         />
+                    </Scene>
+
+                    <Scene key="bookdetail" >
+                        <Scene key="booking" component={BookingDetail} title="Booking Detail" />
                     </Scene>
 
                     <Scene key='container' hideNavBar>
