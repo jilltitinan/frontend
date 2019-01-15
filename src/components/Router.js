@@ -6,6 +6,10 @@ import Home from './Home';
 import Reservation from './Reservation';
 import MyBooking from './MyBooking';
 import BookingDetail from './BookingDetail';
+import ComfirmCode from './ConfirmCode';
+import MyAccount from './MyAccount';
+import MoreBookingDetail from './MoreBookingDetail';
+
 
 class RouterComponent extends React.Component {
 
@@ -15,7 +19,7 @@ class RouterComponent extends React.Component {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={Login} title="Welcome" initial />
+                        <Scene key="login" component={BookingDetail} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -47,10 +51,8 @@ class RouterComponent extends React.Component {
                                     key='test1'
                                     component={MyBooking}
                                     title='My Booking'
-                                >
-                                   
+                                >                                   
                                 </Scene>
-
                             </Scene>
 
                             <Scene key='Inbox' icon={IconTab} iconName='inbox'>
@@ -64,7 +66,7 @@ class RouterComponent extends React.Component {
                             <Scene key='My Account' icon={IconTab} iconName='account'>
                                 <Scene
                                     key='MainMenu4'
-                                    component={Login}
+                                    component={MyAccount}
                                     title='My Account'
                                 />
                             </Scene>

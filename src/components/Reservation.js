@@ -8,13 +8,14 @@ import { Button } from './common/Button';
 import { SwitchHome } from './common/SwitchHome';
 
 class Home extends Component {
-    state = { 
+    state = {
         user: '',
-        selectedDate: " ",
+        selectedStartDate: " ",
+        selectedEndDate: " ",
         startDateTimePickerVisible: false,
         endDateTimePickerVisible: false,
         select: 'moment',
-     };
+    };
 
     updateUser = (user) => {
         this.setState({ user: user })
@@ -30,24 +31,24 @@ class Home extends Component {
         this.setState({ switch1Value: value })
         console.log('Switch 1 is: ' + value)
     }
-   
+
 
     showStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: true });
 
     showEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: true });
-    
+
     hideStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: false });
-    
+
     hideEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: false });
-    
+
     handleStartDatePicked = (date) => {
-      console.log('A start date has been picked: ', date);
-      this.hideStartDateTimePicker();
+        this.setState({ selectedStartDate: date.toString() });
+        this.hideStartDateTimePicker();
     };
-    
+
     handleEndDatePicked = (date) => {
-      this.setState({ selectedDate: date.toString()});
-      this.hideEndDateTimePicker();
+        this.setState({ selectedEndDate: date.toString() });
+        this.hideEndDateTimePicker();
     };
 
     componentWillMount() {
@@ -73,15 +74,15 @@ class Home extends Component {
 
     render() {
         const { container, picker, text, picker2, picker3, buttonNext } = styles;
-        const { isDateTimePickerVisible, selectedDate } = this.state;
+        const { isDateTimePickerVisible, selectedStartDate, selectedEndDate } = this.state;
         return (
             <View style={{ flex: 1 }}>
                 <View style={container}>
                     <View style={picker}>
                         <View style={{ flexDirection: 'row' }}>
                             <Icon
-                                name='home'
-                                color='#00aced'
+                                name='gps-fixed'
+                                color='#00A6A6'
                                 size={40} />
                         </View>
                         <View style={picker2}>
@@ -96,8 +97,8 @@ class Home extends Component {
                     <View style={picker}>
                         <View style={{ flexDirection: 'row' }}>
                             <Icon
-                                name='home'
-                                color='#00aced'
+                                name='compare'
+                                color='#00A6A6'
                                 size={40} />
                         </View>
                         <View style={picker2}>
@@ -112,50 +113,60 @@ class Home extends Component {
                         <SwitchHome
                             toggleSwitch1={this.toggleSwitch1}
                             switch1Value={this.state.switch1Value} />
-                        <Text>Multiple day or only one day</Text>
+                        <Text style={{textAlign: 'right'}}>multiple day or single day</Text>
                     </View>
                     <View style={picker3}>
                         {!this.state.switch1Value &&
-                            <View style={picker3}    >
+                            <View style={picker3}>
+
+                                {/* start date */}
                                 <View style={picker}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
-                                            name='home'
-                                            color='#00aced'
+                                            name='today'
+                                            color='#00A6A6'
                                             size={40} />
                                     </View>
                                     <View style={picker2}>
-                                        <Text style={{ fontSize: 18 }}>Start Date</Text>
                                         <View style={{ flex: 1 }}>
                                             <TouchableOpacity onPress={this.showStartDateTimePicker}>
-                                                <Text>is{selectedDate}</Text>
+                                                <Text style={{ fontSize: 18 }}>Start Date</Text>
                                             </TouchableOpacity>
                                             <DateTimePicker
                                                 isVisible={this.state.startDateTimePickerVisible}
                                                 onConfirm={this.handleStartDatePicked}
                                                 onCancel={this.hideStartDateTimePicker}
+                                                datePickerModeAndroid='calendar'
                                             />
+                                        </View>
+                                        <View style={{ flex: 1 }}>
+                                            <Text>{selectedStartDate}</Text>
                                         </View>
                                     </View>
                                 </View>
+
+                                {/* end date */}
                                 <View style={picker}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
-                                            name='home'
-                                            color='#00aced'
+                                            name='today'
+                                            color='#00A6A6'
                                             size={40} />
                                     </View>
                                     <View style={picker2}>
-                                        <Text style={{ fontSize: 18 }}>End Date</Text>
                                         <View style={{ flex: 1 }}>
                                             <TouchableOpacity onPress={this.showEndDateTimePicker}>
-                                                <Text>endd Calendarrr</Text>
+                                                <Text style={{ fontSize: 18 }}>End Date</Text>
                                             </TouchableOpacity>
                                             <DateTimePicker
                                                 isVisible={this.state.endDateTimePickerVisible}
                                                 onConfirm={this.handleEndDatePicked}
                                                 onCancel={this.hideEndDateTimePicker}
+                                                datePickerModeAndroid='calendar'
                                             />
+                                        </View>
+                                        <View style={{ flex: 1 }}>
+                                            <Text>{selectedEndDate}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -164,35 +175,38 @@ class Home extends Component {
                         {this.state.switch1Value && <View style={picker}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Icon
-                                    name='home'
-                                    color='#00aced'
+                                    name='access-time'
+                                    color='#00A6A6'
                                     size={40} />
                             </View>
                             <View style={picker2}>
-                                <Text style={{ fontSize: 18 }}>Size</Text>
+                                <Text style={{ fontSize: 18 }}>Hour</Text>
                                 <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
-                                    <Picker.Item label="Steve" value="steve" />
+                                    <Picker.Item label="2" value="2" />
                                 </Picker>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Icon
-                                    name='home'
-                                    color='#00aced'
+                                    name='today'
+                                    color='#00A6A6'
                                     size={40} />
                             </View>
+
                             <View style={picker2}>
-                                <Text style={{ fontSize: 18 }}>One day</Text>
                                 <View style={{ flex: 1 }}>
-                                    <TouchableOpacity onPress={this._showDateTimePicker}>
-                                        <Text>Calendarrr</Text>
+                                    <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                        <Text style={{ fontSize: 18 }}>Start Date</Text>
                                     </TouchableOpacity>
                                     <DateTimePicker
-                                        isVisible={this.state.isDateTimePickerVisible}
-                                        onConfirm={this._handleDatePicked}
-                                        onCancel={this._hideDateTimePicker}
+                                        isVisible={this.state.startDateTimePickerVisible}
+                                        onConfirm={this.handleStartDatePicked}
+                                        onCancel={this.hideStartDateTimePicker}
+                                        datePickerModeAndroid='calendar'
                                     />
                                 </View>
-
+                                <View style={{ flex: 1 }}>
+                                    <Text>{selectedStartDate}</Text>
+                                </View>
                             </View>
                         </View>
                         }

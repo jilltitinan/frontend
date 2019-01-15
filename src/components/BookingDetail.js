@@ -1,6 +1,6 @@
 // albums/src/components/AlbumList.js
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
 import MoreBookingDetail from './MoreBookingDetail';
 import { Actions } from 'react-native-router-flux';
@@ -16,6 +16,7 @@ class BookingDetail extends Component {
     renderAlbums() {
         return this.state.albums.map(album =>
             <MoreBookingDetail key={album.title} album={album} />
+            
         );
     }
 
@@ -23,7 +24,7 @@ class BookingDetail extends Component {
         console.log(this.state);
         
         return (
-            <View>
+            <View style={{ flex: 1, }}>
                  {this.renderAlbums()}
             </View>              
         );

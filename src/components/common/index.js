@@ -7,3 +7,4 @@ export * from './SwitchHome';
 export * from './HomeButton';
 export * from './Slick';
 export * from './SlickItem';
+export * from './CodeInput';

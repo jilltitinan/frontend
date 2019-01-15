@@ -15,7 +15,9 @@ class AlbumList extends Component {
 
     renderAlbums() {
         return this.state.albums.map(album =>
-            <AlbumDetail key={album.title} album={album} />
+            <TouchableOpacity onPress={Actions.bookdetail} key={album.title}>
+                <AlbumDetail album={album} />
+            </TouchableOpacity>
         );
     }
 
@@ -23,11 +25,9 @@ class AlbumList extends Component {
         console.log(this.state);
         
         return (
-            <TouchableOpacity onPress={Actions.bookdetail}>
-                <ScrollView>
-                    {this.renderAlbums()}
-                </ScrollView>
-            </TouchableOpacity>
+            <ScrollView>
+                {this.renderAlbums()}
+            </ScrollView>
         );
     }
 }

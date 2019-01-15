@@ -86,9 +86,7 @@ class Home extends Component {
                                 <Text style={{fontWeight: 'bold', color: GREEN, fontSize: 20}}> Promotion </Text>
                             </TouchableOpacity>
                         </View>
-
                     </View>
-
                 </Card>
 
             </View>
@@ -102,7 +100,7 @@ const styles = {
 
     },
     button: {
-        flexDirection:'row',flex:15,marginTop:10,justifyContent:'space-between', paddingLeft: 60, paddingRight: 60
+        flexDirection:'row',flex:1,marginTop:10,justifyContent:'space-between', paddingLeft: 30, paddingRight: 30
 
     }
 }
