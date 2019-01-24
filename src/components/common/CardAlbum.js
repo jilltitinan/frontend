@@ -3,7 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
  
-const Card = (props) => {
+const CardAlbum = (props) => {
   return (
     <View style={styles.containerStyle}>
        {props.children}
@@ -28,4 +28,4 @@ const styles = {
   }
 };
  
-export default Card;
+export default CardAlbum;

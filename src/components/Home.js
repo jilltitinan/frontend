@@ -67,7 +67,7 @@ class Home extends Component {
 
                                 }}  >
                                 <Icon name={"spa"} size={40} color={GRAY} />
-                                <Text style={{fontWeight: 'bold', color: GREEN, fontSize: 20}}> Reservation</Text>
+                                <Text style={{ fontWeight: 'bold', color: GREEN, fontSize: 20 }}> Reservation</Text>
                             </TouchableOpacity>
                         </View>
                         <View>
@@ -83,7 +83,7 @@ class Home extends Component {
                                     borderRadius: 10,
                                 }}                    >
                                 <Icon name={"snooze"} size={40} color={GRAY} />
-                                <Text style={{fontWeight: 'bold', color: GREEN, fontSize: 20}}> Promotion </Text>
+                                <Text style={{ fontWeight: 'bold', color: GREEN, fontSize: 20 }}> Promotion </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -96,12 +96,17 @@ class Home extends Component {
 
 const styles = {
     container: {
-        flexDirection: 'column', flex: 1, justifyContent: 'flex-start'
-
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'flex-start'
     },
     button: {
-        flexDirection:'row',flex:1,marginTop:10,justifyContent:'space-between', paddingLeft: 30, paddingRight: 30
-
+        flexDirection: 'row',
+        flex: 1,
+        marginTop: 10,
+        justifyContent: 'space-between',
+        paddingLeft: 30,
+        paddingRight: 30,
     }
 }
 

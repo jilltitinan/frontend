@@ -227,13 +227,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginHorizontal: 10,
-        marginTop: 10,
-
+        marginTop: 10,    
     },
     picker: {
         backgroundColor: '#FFFFFF',
         // flex: 1,
         // justifyContent: 'space-between',
+        // padding: 15,
         flexDirection: 'row',
         borderRadius: 4,
         borderWidth: 0.5,
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: '#d6d7da',
         marginHorizontal: 10,
+       
     },
 
 });

@@ -1,4 +1,6 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Router, Scene, Actions, Tabs } from 'react-native-router-flux';
 import { IconTab } from './common/IconTab';
 import Login from './Login';
@@ -9,17 +11,26 @@ import BookingDetail from './BookingDetail';
 import ComfirmCode from './ConfirmCode';
 import MyAccount from './MyAccount';
 import MoreBookingDetail from './MoreBookingDetail';
-
+import Policy from './Policy';
+import Term from './Term';
+import EditAccount from './EditAccount';
+import Setting from './Setting';
 
 class RouterComponent extends React.Component {
-
+renderCustomButton() {
+    return () => (
+      <TouchableOpacity onPress={() => Actions.pop()}>
+        <Icon name="arrow-back" size={30} color="#FFF" />
+      </TouchableOpacity>
+    );
+  }
     render() {
         const { tabBarStyle } = styles;
         return (
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={BookingDetail} title="Welcome" initial />
+                        <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -28,20 +39,38 @@ class RouterComponent extends React.Component {
                             title='Reserve'
                             component={Reservation}
                             initial
+                            renderLeftButton={this.renderCustomButton()} 
                         />
                     </Scene>
 
                     <Scene key="bookdetail" >
-                        <Scene key="booking" component={BookingDetail} title="Booking Detail" />
+                        <Scene key="booking" component={BookingDetail} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="editaccount" >
+                        <Scene key="editac" component={EditAccount} title="Edit Account" 
+                         renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="setting" >
+                        <Scene key="set" component={Setting} title="Setting"  renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="privacypolicy" >
+                        <Scene key="policy" component={Policy} title="Privacy Policy" renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="termandcondition" >
+                        <Scene key="term" component={Term} title="Term and Condition" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key='container' hideNavBar>
                         <Tabs key='tabber' tabBarStyle={tabBarStyle} showLabel={true}>
-                            <Scene key='Home' icon={IconTab} iconName='home' initial>
+                            <Scene key='Home' icon={IconTab} iconName='home' labelStyle={{ color: 'red' }} initial>
                                 <Scene
                                     key='home'
                                     component={Home}
-                                    title='Home'
+                                    title='Home' 
                                     initial
                                 />
                             </Scene>
@@ -51,7 +80,7 @@ class RouterComponent extends React.Component {
                                     key='test1'
                                     component={MyBooking}
                                     title='My Booking'
-                                >                                   
+                                >
                                 </Scene>
                             </Scene>
 

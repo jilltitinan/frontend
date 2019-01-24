@@ -42,15 +42,13 @@ class MyBooking extends Component {
           });
           return (
             <TouchableOpacity
+              key={i}
               style={styles.tabItem}
               onPress={() => this.setState({ index: i })}
             >
-              {/* <Icon
-                                name='home'
-                                color='#00aced'
-                                size={16} /> */}
               <Animated.Text style={{ color }}>{route.title}</Animated.Text>
             </TouchableOpacity>
+
           );
         })}
       </View>

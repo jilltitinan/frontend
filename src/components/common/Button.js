@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import React, { PropTypes } from 'react';
+import { TouchableOpacity, Text, Actions } from 'react-native';
 
 const Button = ({ children, onPress, style }) => {
     const { buttonStyle, textStyle } = styles;
@@ -10,6 +10,7 @@ const Button = ({ children, onPress, style }) => {
         </TouchableOpacity>
     );
 };
+
 
 const styles = {
     buttonStyle: {

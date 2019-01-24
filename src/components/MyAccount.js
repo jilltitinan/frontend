@@ -46,28 +46,28 @@ class MyAccount extends Component {
                 <View style={styles.inputWrapper1}>
                     <TouchableOpacity
                         style={styles.container2}
-                        onPress={Actions.container}>
+                        onPress={Actions.editaccount}>
                         <Text style={styles.text}>
                             Edit Account
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.container2}
-                        onPress={Actions.container}>
+                        onPress={Actions.termandcondition}>
                         <Text style={styles.text}>
                             Terms and Conditons
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.container2}
-                        onPress={Actions.container}>
+                        onPress={Actions.privacypolicy}>
                         <Text style={styles.text}>
                             Privacy Policy
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.container2}
-                        onPress={Actions.container}>
+                        onPress={Actions.setting}>
                         <Text style={styles.text}>
                             Settings
                         </Text>

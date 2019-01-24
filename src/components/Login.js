@@ -3,7 +3,6 @@ import { Text, View, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements'
 
-
 class Login extends Component {
     render() {
         return (

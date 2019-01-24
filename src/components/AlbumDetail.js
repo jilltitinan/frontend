@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Text, View, Image } from 'react-native';
-import Card from './Card';
-import CardSection from './CardSection';
+import Card from './common/CardAlbum';
+import CardSection from './common/CardSectionAlbum';
 
 const AlbumDetail = ({ album }) => {
   const { title, artist, thumbnail_image, image } = album;
@@ -23,8 +23,8 @@ const AlbumDetail = ({ album }) => {
         <View style={thumbnailContainerStyle}>
           <Text>{thumbnail_image}</Text>
         </View>
-      </CardSection>
-      
+
+      </CardSection>      
     </Card>
   );
 };
