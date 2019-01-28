@@ -1,13 +1,20 @@
-import  React, { Component } from 'react';
+import React, { Component } from 'react';
 import Router from './src/components/Router';
+import { Provider } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
+import reducers from './src/reducers';
+import { createStore, applyMiddleware } from 'redux';
 
 class App extends Component {
-    render() {     
+    render() {
+        const store = createStore(reducers, applyMiddleware(ReduxThunk));
         return (
-            <Router />
+            <Provider store={store}>
+                <Router />
+            </Provider>
+
         );
     }
 }
-
 
 export default App;

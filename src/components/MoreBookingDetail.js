@@ -4,13 +4,14 @@ import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
 import { Icon } from 'react-native-elements';
+import { bookingSelected } from '../actions';
+import { connect } from 'react-redux';
 
-const MoreBookingDetail = ({ album }) => {
+const MoreBookingDetail = ({ data }) => {
     
-    console.log('jylllllll',album[0]);
-     
+    // console.log('jylllllll',data);    
     
-    const { title, artist, thumbnail_image, image } = album;
+    const { title, artist, thumbnail_image, image } = data.album;
     const {
         headerContentStyle,
         headerTextStyle,
@@ -18,8 +19,8 @@ const MoreBookingDetail = ({ album }) => {
         containerStyle,
         bottom,
     } = styles;
-    if (album.title === 'Red') {
-        
+    // if (data.title === 'Red') {
+        // console.log('data title ', data);
         return (
             
             <View
@@ -48,10 +49,19 @@ const MoreBookingDetail = ({ album }) => {
             </View>
         );
     };
-    return (
-        <View />
-    );
-};
+    // return (
+    //     <View />
+    // );
+// };
+
+const mapStateToProps = ({ booking }) => {
+    
+            const { data } = booking;
+     
+            return { data };
+        
+    };
+    
 
 const styles = {
     headerContentStyle: {
@@ -82,4 +92,4 @@ const styles = {
 };
 
 
-export default MoreBookingDetail;
+export default connect(mapStateToProps, {bookingSelected})(MoreBookingDetail);
