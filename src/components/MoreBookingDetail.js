@@ -1,33 +1,35 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Text, View, Image, Actions } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
+import { Confirm } from './common/Confirm';
 import { Icon } from 'react-native-elements';
 import { bookingSelected } from '../actions';
 import { connect } from 'react-redux';
 
-const MoreBookingDetail = ({ data }) => {
-    
+// const MoreBookingDetail = ({ data }) => {
+class MoreBookingDetail extends Component {
     // console.log('jylllllll',data);    
-    
-    const { title, artist, thumbnail_image, image } = data.album;
-    const {
-        headerContentStyle,
-        headerTextStyle,
-        buttonNext,
-        containerStyle,
-        bottom,
-    } = styles;
-    // if (data.title === 'Red') {
+    render() {
+        
+        // state = { showModal: false };
+        const { title, artist, thumbnail_image, image } = this.props.data.album;
+        const {
+            headerContentStyle,
+            headerTextStyle,
+            buttonNext,
+            containerStyle,
+            bottom,
+        } = styles;
+        // if (data.title === 'Red') {
         // console.log('data title ', data);
         return (
-            
+
             <View
                 style={{
                     marginHorizontal: 10,
                     marginTop: 10,
-                    // backgroundColor: 'red',
                     flex: 1,
                 }}
             >
@@ -40,28 +42,32 @@ const MoreBookingDetail = ({ data }) => {
                             name='launch'
                             color='#909395'
                             size={120}
-                            />
+                        />
                     </View>
                 </View>
                 <View style={bottom}>
-                    <Button style={buttonNext}  > Show the code </Button>
+                    {/* <Button style={buttonNext} onPress={() => this.setState({ showModal: !this.state.showModal })}>  Fire Employee </Button> */}
+                    <Confirm style={buttonNext} > Are you sure you want to delete this? </Confirm>
+                    <Button style={buttonNext} > Show the code </Button>
                 </View>
+
             </View>
         );
-    };
-    // return (
-    //     <View />
-    // );
+    }
+};
+// return (
+//     <View />
+// );
 // };
 
 const mapStateToProps = ({ booking }) => {
-    
-            const { data } = booking;
-     
-            return { data };
-        
-    };
-    
+
+    const { data } = booking;
+
+    return { data };
+
+};
+
 
 const styles = {
     headerContentStyle: {
@@ -92,4 +98,4 @@ const styles = {
 };
 
 
-export default connect(mapStateToProps, {bookingSelected})(MoreBookingDetail);
+export default connect(mapStateToProps, { bookingSelected })(MoreBookingDetail);
