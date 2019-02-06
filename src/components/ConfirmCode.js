@@ -8,8 +8,11 @@ import {
     TextInput,
     Alert
 } from 'react-native';
+import { pinEnter } from '../actions';
 import CodeInput from './common/CodeInput';
 import { Button } from './common/Button';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 class ComfirmCode extends Component {
     constructor(props) {
@@ -23,69 +26,72 @@ class ComfirmCode extends Component {
     _onFulfill(code) {
         // TODO: call API to check code here
         // If code does not match, clear input with: this.refs.codeInputRef1.clear()
-        if (code == '222222') {
-            Alert.alert(
-                'Confirmation Code',
-                'Successful!',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        } else {
-            Alert.alert(
-                'Confirmation Code',
-                'Code not match!',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
+        // if (code == '222222') {
+        //     Alert.alert(
+        //         'Confirmation Code',
+        //         'Successful!',
+        //         [{ text: 'OK' }],
+        //         { cancelable: false }
+        //     );
+        // } else {
+        //     Alert.alert(
+        //         'Confirmation Code',
+        //         'Code not match!',
+        //         [{ text: 'OK' }],
+        //         { cancelable: false }
+        //     );
 
-            this.refs.codeInputRef1.clear();
-        }
+        //     this.refs.codeInputRef1.clear();
+        // }
+        console.log(code)
+        this.setState({ code: code});
+        this.props.pinEnter(code);
     }
 
-    _onFinishCheckingCode1(isValid) {
-        console.log(isValid);
-        if (!isValid) {
-            Alert.alert(
-                'Confirmation Code',
-                'Code not match!',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        } else {
-            Alert.alert(
-                'Confirmation Code',
-                'Successful!',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        }
-    }
+    // _onFinishCheckingCode1(isValid) {
+    //     console.log(isValid);
+    //     if (!isValid) {
+    //         Alert.alert(
+    //             'Confirmation Code',
+    //             'Code not match!',
+    //             [{ text: 'OK' }],
+    //             { cancelable: false }
+    //         );
+    //     } else {
+    //         Alert.alert(
+    //             'Confirmation Code',
+    //             'Successful!',
+    //             [{ text: 'OK' }],
+    //             { cancelable: false }
+    //         );
+    //     }
+    // }
 
-    _onFinishCheckingCode2(isValid, code) {
-        console.log(isValid);
-        if (!isValid) {
-            Alert.alert(
-                'Confirmation Code',
-                'Code not match!',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        } else {
-            this.setState({ code });
-            Alert.alert(
-                'Confirmation Code',
-                'Successful!',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        }
-    }
+    // _onFinishCheckingCode2(isValid, code) {
+    //     console.log(isValid);
+    //     if (!isValid) {
+    //         Alert.alert(
+    //             'Confirmation Code',
+    //             'Code not match!',
+    //             [{ text: 'OK' }],
+    //             { cancelable: false }
+    //         );
+    //     } else {
+    //         this.setState({ code });
+    //         Alert.alert(
+    //             'Confirmation Code',
+    //             'Successful!',
+    //             [{ text: 'OK' }],
+    //             { cancelable: false }
+    //         );
+    //     }
+    // }
 
     render() {
 
         return (
             <View style={styles.container}>
-                <ScrollView style={styles.wrapper}>
+                <View style={styles.wrapper}>
                     <View style={styles.titleWrapper}>
                         <Text style={styles.title}>Enter 6 Digit Number</Text>
                     </View>
@@ -100,11 +106,12 @@ class ComfirmCode extends Component {
                             onFulfill={(code) => this._onFulfill(code)}
                         />
                     </View>
-                    <View style={styles.button}>
-                        <Button>Hoooo</Button>
-                    </View>
+                   
                     
-                </ScrollView>
+                </View>
+                <View style={styles.button}>
+                        <Button onPress={Actions.reserve}>Save</Button>
+                    </View>
             </View>
         );
     }
@@ -116,7 +123,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#EFEFEF'
     },
     titleWrapper: {
-        flex: 1,
         justifyContent: 'center',
         flexDirection: 'row',
     },
@@ -127,7 +133,10 @@ const styles = StyleSheet.create({
         paddingVertical: 30
     },
     wrapper: {
-        marginTop: 30
+        flex: 1,
+        padding: 10,
+        marginTop: 10,
+        marginHorizontal: 10,
     },
     inputWrapper1: {
         paddingVertical: 50,
@@ -149,4 +158,12 @@ const styles = StyleSheet.create({
     
 });
 
-export default ComfirmCode;
+const mapStateToProps = (state) => {
+    // console.log("before mapstateToProps   "+ state.reserve);
+    const { pin } = state.pin;
+    // console.log("after  "+ l2 + "  "+ s2);
+    return { pin };
+};
+
+
+export default connect(mapStateToProps, { pinEnter }) (ComfirmCode);

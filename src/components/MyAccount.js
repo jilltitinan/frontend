@@ -76,8 +76,6 @@ class MyAccount extends Component {
                 <View style={styles.button}>
                     <Button>Log out</Button>
                 </View>
-
-
             </View>
         );
     }

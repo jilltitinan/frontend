@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { TouchableOpacity, Text, Actions } from 'react-native';
 
-const Button = ({ children, onPress, style }) => {
+const WhiteButton = ({ children, onPress, style }) => {
     const { buttonStyle, textStyle } = styles;
 
     return(
@@ -18,16 +18,16 @@ const styles = {
         alignSelf: 'stretch',
         justifyContent: 'center',
         padding: 10,
-        // borderWidth: 1,
+        borderWidth: 1,
         borderRadius: 10,
-        // borderColor: '#3C6E71',
-        // backgroundColor: '#3C6E71'
+        borderColor: 'white',
+        backgroundColor: 'white'
     },
     textStyle: {
-        color: '#FFFFFF',
+        color: '#3C6E71',
         alignSelf: 'center',
         fontSize: 16
     }
 };
 
-export { Button };
+export { WhiteButton };

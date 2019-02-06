@@ -7,14 +7,17 @@ import Login from './Login';
 import Home from './Home';
 import Reservation from './Reservation';
 import MyBooking from './MyBooking';
+import SumReservation from './SumReservation';
 import BookingDetail from './BookingDetail';
-import ComfirmCode from './ConfirmCode';
+import ConfirmCode from './ConfirmCode';
 import MyAccount from './MyAccount';
 import MoreBookingDetail from './MoreBookingDetail';
 import Policy from './Policy';
 import Term from './Term';
 import EditAccount from './EditAccount';
 import Setting from './Setting';
+import Confirm from './Confirm';
+import FullReservation from './FullReservation';
 
 class RouterComponent extends React.Component {
 renderCustomButton() {
@@ -30,7 +33,7 @@ renderCustomButton() {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={MyBooking} title="Welcome" initial />
+                        <Scene key="login" component={Reservation} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -45,6 +48,10 @@ renderCustomButton() {
 
                     <Scene key="bookdetail" >
                         <Scene key="booking" component={MoreBookingDetail} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="sumreserve" >
+                        <Scene key="sumreserve" component={SumReservation} title="Sumary"  renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="editaccount" >
@@ -62,6 +69,10 @@ renderCustomButton() {
 
                     <Scene key="termandcondition" >
                         <Scene key="term" component={Term} title="Term and Condition" renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="fullreserve" >
+                        <Scene key="fullreservation" component={FullReservation} title="Term and Condition" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key='container' hideNavBar>

@@ -3,7 +3,7 @@ import { Text, View, Image, Actions } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
-import { Confirm } from './common/Confirm';
+import  Confirm  from './Confirm';
 import { Icon } from 'react-native-elements';
 import { bookingSelected } from '../actions';
 import { connect } from 'react-redux';
@@ -21,6 +21,7 @@ class MoreBookingDetail extends Component {
             buttonNext,
             containerStyle,
             bottom,
+            buttonCancle,
         } = styles;
         // if (data.title === 'Red') {
         // console.log('data title ', data);
@@ -46,8 +47,8 @@ class MoreBookingDetail extends Component {
                     </View>
                 </View>
                 <View style={bottom}>
-                    {/* <Button style={buttonNext} onPress={() => this.setState({ showModal: !this.state.showModal })}>  Fire Employee </Button> */}
-                    <Confirm style={buttonNext} > Are you sure you want to delete this? </Confirm>
+                    {/* <Button style={buttonNext}}>  </Button> */}
+                    <Confirm style={buttonNext} > Cancle Booking </Confirm>
                     <Button style={buttonNext} > Show the code </Button>
                 </View>
 
@@ -55,17 +56,10 @@ class MoreBookingDetail extends Component {
         );
     }
 };
-// return (
-//     <View />
-// );
-// };
 
 const mapStateToProps = ({ booking }) => {
-
     const { data } = booking;
-
     return { data };
-
 };
 
 
@@ -83,17 +77,17 @@ const styles = {
     buttonNext: {
         marginBottom: 15,
         borderRadius: 4,
-        borderWidth: 0.5,
-        borderColor: '#3C6E71',
         marginHorizontal: 10,
+        backgroundColor: '#3C6E71',
+        elevation: 2,
+        
     },
     containerStyle: {
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         padding: 5,
-        backgroundColor: '#fff',
-        borderColor: '#ddd',
-    }
-
+        backgroundColor: '#FFFFFF',
+    },
+   
 
 };
 
