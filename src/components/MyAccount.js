@@ -9,38 +9,40 @@ import {
     Alert,
     TouchableOpacity
 } from 'react-native';
+import { authen } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import CodeInput from './common/CodeInput';
 import { Button } from './common/Button';
 import Login from './Login';
 import { ActionConst } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
-class MyAccount extends Component {       
+class MyAccount extends Component {
     componentWillMount() {
         const { width } = Dimensions.get('window');
-    
+
         // Responsive Condition
         if (width > 375) {
-          this.setState({
-            ...this.state,
-            size: 24,
-          });
+            this.setState({
+                ...this.state,
+                size: 24,
+            });
         } else if (width > 320) {
-          this.setState({
-            ...this.state,
-            size: 24,
-          });
+            this.setState({
+                ...this.state,
+                size: 24,
+            });
         } else {
-          this.setState({
-            ...this.state,
-          });
+            this.setState({
+                ...this.state,
+            });
         }
-      }
+    }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
-                    <Text style={styles.title}>Name</Text>
+                    <Text style={styles.title}>{this.props.result.user.name}</Text>
                     <Text style={styles.title}>Point: 100</Text>
                 </View>
                 <View style={styles.inputWrapper1}>
@@ -116,6 +118,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         borderRadius: 4,
         borderWidth: 0.5,
+        backgroundColor: '#3C6E71',
         borderColor: '#d6d7da',
         marginHorizontal: 50,
     },
@@ -132,7 +135,11 @@ const styles = StyleSheet.create({
     text: {
         color: '#686868'
     }
-
 });
 
-export default MyAccount;
+const mapStateToProps = (state) => {
+    const { result } = state.auth;
+    return { result };
+}
+
+export default connect(mapStateToProps, { authen })(MyAccount);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { authen } from '../actions';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 import Expo from "expo";
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements';
 
@@ -40,7 +42,7 @@ class Login extends Component {
         this.state = {
             signedIn: false,
             name: "",
-            photoUrl: ""
+            photoUrl: "",
         }
     }
     signIn = async () => {
@@ -51,14 +53,15 @@ class Login extends Component {
                 //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
                 scopes: ["profile", "email"]
             })
-
+            console.log(result);
             if (result.type === "success") {
-                console.log(result);
-                this.setState({
-                    signedIn: true,
-                    name: result.user.name,
-                    photoUrl: result.user.photoUrl
-                })
+                
+                // this.setState({
+                //     signedIn: true,
+                //     name: result.user.name,
+                //     photoUrl: result.user.photoUrl,
+                // })
+                this.props.authen(result);
             } else {
                 console.log("cancelled")
             }
@@ -116,4 +119,17 @@ const styles = StyleSheet.create({
         borderRadius: 150
     }
 })
-export default Login;
+export default connect(null, { authen })(Login);
+
+// "refreshToken": "1/vMzkQEyucCqDKeRWkBdJaqhndOLxxNnn1OytqBx2Xj8Sr1nzGF9X5Ka8vdbIzMGq",
+//  "serverAuthCode": "4/6gCF1bmHmolwAuMDI18TBOKaxduLKv27huQM1eS1gZ23jFGF68ckiNw6-agN8IxIxtswjZ8L7o89ad85rKraMXo",
+//  "type": "success",
+//  "user": Object {
+//     "email": "jilltitinan@gmail.com",
+//     "familyName": "Titinan",
+//     "givenName": "Jill",
+//     "id": "111754653601874456461",
+//     "name": "Jill Titinan",
+//     "photoUrl": "https://lh5.googleusercontent.com/-Sx4YVPCUCbI/AAAAAAAAAAI/AAAAAAAAABM/U4C_hz6mefs/photo.jpg",
+//   },
+//  }

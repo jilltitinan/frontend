@@ -4,3 +4,4 @@ export const RESERVATION_SIZE = 'reservation_created';
 export const RESERVATION_START = 'reservation_start';
 export const RESERVATION_END = 'reservation_end';
 export const PIN_ENTER = 'pin_enter';
+export const AUTHEN = 'google_authen'
