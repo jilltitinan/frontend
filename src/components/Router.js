@@ -10,6 +10,7 @@ import MyBooking from './MyBooking';
 import SumReservation from './SumReservation';
 import BookingDetail from './BookingDetail';
 import ConfirmCode from './ConfirmCode';
+import Inbox from './Inbox';
 import MyAccount from './MyAccount';
 import MoreBookingDetail from './MoreBookingDetail';
 import Policy from './Policy';
@@ -18,6 +19,7 @@ import EditAccount from './EditAccount';
 import Setting from './Setting';
 import Confirm from './Confirm';
 import FullReservation from './FullReservation';
+import testBase2 from './LockerFull';
 
 class RouterComponent extends React.Component {
 renderCustomButton() {
@@ -33,7 +35,7 @@ renderCustomButton() {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={Login} title="Welcome" initial />
+                        <Scene key="login" component={Reservation} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -98,7 +100,7 @@ renderCustomButton() {
                             <Scene key='Inbox' icon={IconTab} iconName='inbox'>
                                 <Scene
                                     key='MainMenu3'
-                                    component={Login}
+                                    component={Inbox}
                                     title='Inbox'
                                 />
                             </Scene>

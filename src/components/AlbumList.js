@@ -1,4 +1,3 @@
-// albums/src/components/AlbumList.js
 import React, { Component } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';

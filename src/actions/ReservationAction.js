@@ -3,6 +3,9 @@ import {
     RESERVATION_SIZE,
     RESERVATION_START,
     RESERVATION_END,
+    RESERVATION_STARTTIME,
+    RESERVATION_HOUR,
+    RESERVATION_TYPE,
 } from './types';
 import { Actions } from 'react-native-router-flux';
 
@@ -33,5 +36,26 @@ export const reservationEnd = (endDate) => {
     return {
         type: RESERVATION_END,
         payload: endDate
+    };
+};
+
+export const reservationHour = (hour) => {
+    return {
+        type: RESERVATION_HOUR,
+        payload: hour
+    };
+};
+
+export const reservationStartTime = (time) => {
+    return {
+        type: RESERVATION_STARTTIME,
+        payload: time
+    };
+};
+
+export const reservationType = (value) => {
+    return {
+        type: RESERVATION_TYPE,
+        payload: value
     };
 };

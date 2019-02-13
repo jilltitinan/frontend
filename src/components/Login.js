@@ -5,6 +5,7 @@ import Expo from "expo";
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements';
+import axios from 'axios';
 
 class Login extends Component {
     //     render() {
@@ -41,8 +42,9 @@ class Login extends Component {
         super(props)
         this.state = {
             signedIn: false,
-            name: "",
-            photoUrl: "",
+            name:"",
+            email: '',
+            id:''
         }
     }
     signIn = async () => {
@@ -54,14 +56,25 @@ class Login extends Component {
                 scopes: ["profile", "email"]
             })
             console.log(result);
+            this.props.authen(result);
+
+            this.setState({
+                signedIn: true,
+                name: result.user.name,
+                email: result.user.email,
+                id: result.user.id,
+            })
+
             if (result.type === "success") {
-                
-                // this.setState({
-                //     signedIn: true,
-                //     name: result.user.name,
-                //     photoUrl: result.user.photoUrl,
-                // })
-                this.props.authen(result);
+                axios.post('https://locker54.azurewebsites.net/api/Account/AddUserAccount', {
+                    "id_account": this.state.id,
+                    "name": this.state.name,
+                    "phone": " ",
+                    "email": this.state.email,
+                    "role": " ",
+                    "point": 0
+                })
+              
             } else {
                 console.log("cancelled")
             }
