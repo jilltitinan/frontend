@@ -1,33 +1,39 @@
 import React, { Component } from 'react';
 import { View, Image, Picker, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import DateTimePicker from 'react-native-modal-datetime-picker';
-import Moment from 'moment';
+import DateTimePicker from './common/DatePicker';
 import { Icon } from 'react-native-elements';
 import { reservationUpdate, reservationSize, reservationStart, reservationEnd, reservationHour, reservationStartTime, reservationType } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import { Button } from './common/Button';
 import { SwitchHome } from './common/SwitchHome';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import moment from 'moment';
 
 
-const item1 = ['2','4','6','8','10','12','14','16','18','20'];
-const item2 = ['2','4','6','8','10','12','14','16','18'];
-const item3 = ['2','4','6','8','10','12','14','16'];
-const item4 = ['2','4','6','8','10','12','14'];
-const item5 = ['2','4','6','8','10','12'];
-const item6 = ['2','4','6','8','10'];
-const item7 = ['2','4','6','8'];
-const item8 = ['2','4','6'];
-const item9 = ['2','4'];
+var today = new Date();
+var nextDay = new Date();
+// nextDay.setDate(nextDay.getDate() + 1);
+
+
+const item1 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
+const item2 = ['2', '4', '6', '8', '10', '12', '14', '16', '18'];
+const item3 = ['2', '4', '6', '8', '10', '12', '14', '16'];
+const item4 = ['2', '4', '6', '8', '10', '12', '14'];
+const item5 = ['2', '4', '6', '8', '10', '12'];
+const item6 = ['2', '4', '6', '8', '10'];
+const item7 = ['2', '4', '6', '8'];
+const item8 = ['2', '4', '6'];
+const item9 = ['2', '4'];
 const item10 = ['2',];
-const item11 = ['2','4','6','8','10','12','14','16','18','20','22'];
-const item12 = ['2','4','6','8','10','12','14','16','18','20','22','24'];
+const item11 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
+const item12 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24'];
 
 var BUTTONS = ['Option 0', 'Option 1', 'Option 2', 'Delete', 'Cancel',];
 
 class Home extends Component {
 
-    
+
     state = {
         //location: '',
         //size: '',
@@ -86,62 +92,64 @@ class Home extends Component {
     hideEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: false });
 
     handleStartDatePicked = (date) => {
-        var date2 = date.toString();
-        var date3 = date2.substring(0, 10);
+        // var date2 = date.toString();
+        // var date3 = date2.substring(0, 10);
+        var date3 = moment(date).format('DD-MM-YYYY');
         this.setState({ selectedStartDate: date3, date3: date3 });
         this.hideStartDateTimePicker();
         this.props.reservationStart(date3);
+        nextDay = date;
+        nextDay.setDate(nextDay.getDate() + 1);
     };
 
     handleEndDatePicked = (date) => {
-        var date2 = date.toString();
-        var date3 = date2.substring(0, 10);
-        this.setState({ selectedEndDate: date3, date3: date3 });
+        var date4 = moment(date).format('DD-MM-YYYY');
+        this.setState({ selectedEndDate: date4, date4: date4 });
         this.hideEndDateTimePicker();
-        this.props.reservationEnd(date3);
+        this.props.reservationEnd(date4);
     };
 
     getItems(val) {
         if (val === '04:00') {
-            return item1;        
+            return item1;
         }
-        else if(val === '06:00') {
+        else if (val === '06:00') {
             return item2;
         }
-        else if(val === '08:00') {
+        else if (val === '08:00') {
             return item3;
         }
-        else if(val === '10:00') {
+        else if (val === '10:00') {
             return item4;
         }
-        else if(val === '12:00') {
+        else if (val === '12:00') {
             return item5;
         }
-        else if(val === '14:00') {
+        else if (val === '14:00') {
             return item6;
         }
-        else if(val === '16:00') {
+        else if (val === '16:00') {
             return item7;
         }
-        else if(val === '18:00') {
+        else if (val === '18:00') {
             return item8;
         }
-        else if(val === '20:00') {
+        else if (val === '20:00') {
             return item9;
         }
-        else if(val === '22:00') {
+        else if (val === '22:00') {
             return item10;
         }
-        else if(val === '00:00') {
+        else if (val === '00:00') {
             return item12;
         }
         else {
             return item11;
-        }    
+        }
     }
 
     onValueChange(value) {
-        this.setState({  selected1: value });
+        this.setState({ selected1: value });
         this.props.reservationStartTime(value);
 
     }
@@ -178,7 +186,7 @@ class Home extends Component {
     }
 
     render() {
-        const { container, picker, text, picker2, picker3, buttonNext } = styles;
+        const { container, picker, text, picker2, picker3, buttonNext, pickerCalendar } = styles;
         const { isDateTimePickerVisible, selectedStartDate, selectedEndDate } = this.state;
         return (
             <View style={{ flex: 1 }}>
@@ -216,9 +224,9 @@ class Home extends Component {
                                 selectedValue={this.state.size}
                                 onValueChange={this.updateSize}>
 
-                                <Picker.Item label="S" value="s" />
-                                <Picker.Item label="M" value="m" />
-                                <Picker.Item label="L" value="l" />
+                                <Picker.Item label="s" value="s" />
+                                <Picker.Item label="m" value="m" />
+                                <Picker.Item label="l" value="l" />
                             </Picker>
                         </View>
                     </View>
@@ -234,8 +242,8 @@ class Home extends Component {
 
                             <View style={picker3}>
 
-                               
-                                <View style={picker}>
+
+                                <View style={pickerCalendar}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
                                             name='today'
@@ -243,7 +251,7 @@ class Home extends Component {
                                             size={40} />
                                     </View>
                                     <View style={picker2}>
-                                        <View style={{ flex: 1 }}>
+                                        <View style={{ flex: 1, }}>
                                             <TouchableOpacity onPress={this.showStartDateTimePicker}>
                                                 <Text style={{ fontSize: 18 }}>Start Date</Text>
                                             </TouchableOpacity>
@@ -252,6 +260,7 @@ class Home extends Component {
                                                 onConfirm={this.handleStartDatePicked}
                                                 onCancel={this.hideStartDateTimePicker}
                                                 datePickerModeAndroid='calendar'
+                                                minimumDate={today}
                                             // onPress={() => this.onStartPress(selectedStartDate)}
                                             />
                                         </View>
@@ -261,8 +270,8 @@ class Home extends Component {
                                     </View>
                                 </View>
 
-                                
-                                <View style={picker}>
+
+                                <View style={pickerCalendar}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
                                             name='today'
@@ -279,6 +288,7 @@ class Home extends Component {
                                                 onConfirm={this.handleEndDatePicked}
                                                 onCancel={this.hideEndDateTimePicker}
                                                 datePickerModeAndroid='calendar'
+                                                minimumDate={nextDay}
                                             // onPress={() => this.onEndPress(selectedEndDate)}
                                             />
                                         </View>
@@ -334,6 +344,7 @@ class Home extends Component {
                                                 onConfirm={this.handleStartDatePicked}
                                                 onCancel={this.hideStartDateTimePicker}
                                                 datePickerModeAndroid='calendar'
+                                                minimumDate={today}
                                             />
                                         </View>
                                         <View style={{ flex: 1 }}>
@@ -402,6 +413,14 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderWidth: 0.5,
         borderColor: '#d6d7da',
+    },
+    pickerCalendar: {
+        backgroundColor: '#FFFFFF',
+        flexDirection: 'row',
+        borderRadius: 4,
+        borderWidth: 0.5,
+        borderColor: '#d6d7da',
+        height: 70
     },
     text: {
         fontSize: 30,

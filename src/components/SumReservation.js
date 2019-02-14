@@ -10,6 +10,27 @@ import axios from 'axios';
 
 
 class SumReservation extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            id_reserve: 0,
+            code: '',
+            isActive: true,
+            status: '',
+            startDay: '',
+            endDay: '',
+            startTime: '',
+            endTime: '',
+            dateModified: '',
+            optional: false,
+            size: '',
+            location: '',
+            id_account: '',
+            id_vacancy: 0,
+        }
+    }
+
     componentWillMount() {
         const { width } = Dimensions.get('window');
 
@@ -32,24 +53,48 @@ class SumReservation extends Component {
     }
 
     onButtonPress() {
+        this.setState({
+            id_reserve: 0,
+            code: '',
+            isActive: true,
+            status: '',
+            startDay: '',
+            endDay: '',
+            startTime: '',
+            endTime: '',
+            dateModified: '',
+            optional: false,
+            size: this.props.size,
+            location: '',
+            id_account: '',
+            id_vacancy: 0,
+        })
 
-        console.log('axios ' + this.props.date)
+        console.log('axios ' + this.props.date + 'T' + this.props.size)
         axios.post('https://locker54.azurewebsites.net/api/Reservation/AddReserve', {
-            "id_reserve": 1,
+
+
+            "id_reserve": 0,
             "code": "string",
             "isActive": true,
-            "status": "Unuse",
-            "startDay": "2019-02-12T14:00:52.459",
-            "endDay": "2019-02-13T14:00:52.459",
-            "startTime": "2019-02-12T14:00:52.459",
-            "endTime": "2019-02-12T14:00:52.459",
-            "dateModified": "2019-02-12T21:02:25.837389",
-            "optional": true,
-            "size": "s",
+            "status": "string",
+            "startDay": "2019-07-14",
+            "endDay": "2019-07-16T23:59",
+            "startTime": "2019-02-14T10:37:20.999Z",
+            "endTime": "2019-02-14T10:37:20.999Z",
+            "dateModified": "2019-02-14T10:37:20.999Z",
+            "optional": false,
+            "size": this.props.size,
             "location": "ecc",
             "id_account": "123456789",
-            "id_vacancy": 1
+            "id_vacancy": 0
+
         })
+            .then(res => {
+                console.log('ress ' + res);
+                console.log('res dataa' + res.data);
+            })
+            .catch(error => console.log(error.res.data))
     }
 
     render() {
@@ -96,7 +141,7 @@ class SumReservation extends Component {
                     <Card>
                         <CardSection>
                             <View style={headerContentStyle}>
-                                <Text style={headerTextStyle}>{this.props.date + ' ' + this.props.endDate}</Text>
+                                <Text style={headerTextStyle}>{this.props.date + ' - ' + this.props.endDate}</Text>
                                 <Text>{'Locker size: ' + this.props.size}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                             </View>

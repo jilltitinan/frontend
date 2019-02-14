@@ -1,8 +1,8 @@
 import { RESERVATION_SIZE, RESERVATION_UPDATE, RESERVATION_START, RESERVATION_END, RESERVATION_HOUR, RESERVATION_STARTTIME, RESERVATION_TYPE } from '../actions/types';
 
 const INITIAL_STATE = {
-    location: 'ECC',
-    size: 'S',
+    location: 'ecc',
+    size: 's',
     date: '',
     endDate: '',
     hour: '2',
