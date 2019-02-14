@@ -13,6 +13,7 @@ import ConfirmCode from './ConfirmCode';
 import Inbox from './Inbox';
 import MyAccount from './MyAccount';
 import MoreBookingDetail from './MoreBookingDetail';
+import MoreHistoryDetail from './MoreHistoryDetail';
 import Policy from './Policy';
 import Term from './Term';
 import EditAccount from './EditAccount';
@@ -35,7 +36,7 @@ renderCustomButton() {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={BookingDetail} title="Welcome" initial />
+                        <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -50,6 +51,10 @@ renderCustomButton() {
 
                     <Scene key="bookdetail" >
                         <Scene key="booking" component={MoreBookingDetail} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="historydetail" >
+                        <Scene key="booking" component={MoreHistoryDetail} title="History Detail"  renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="sumreserve" >

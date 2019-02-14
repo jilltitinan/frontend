@@ -1,17 +1,14 @@
-// albums/src/components/AlbumList.js
 import React, { Component } from 'react';
 import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
-import MoreBookingDetail from './MoreBookingDetail';
+import MoreHistoryDetail from './MoreHistoryDetail';
 import { authen } from '../actions';
 import { connect } from 'react-redux';
 import { emailChanged } from '../actions';
 import { Actions } from 'react-native-router-flux';
 
-class BookingDetail extends Component {
-    state = { reserve: [] }
-
-   
+class HistoryDetail extends Component {
+    state = { reserve: [] }   
 
     componentWillMount() {
         axios.get(`https://locker54.azurewebsites.net/api/Reservation/Pending?id=${this.props.result.user.id}`)
@@ -20,7 +17,7 @@ class BookingDetail extends Component {
 
     renderReserve() {
         return this.state.reserve.map(booking =>
-            <MoreBookingDetail key={booking.id_reserve} booking={booking} />            
+            <MoreHistoryDetail key={booking.id_reserve} booking={booking} />            
 
         );
     }
@@ -41,4 +38,4 @@ const mapStateToProps = (state) => {
     return { result };
 }
 
-export default connect(mapStateToProps, { authen })(BookingDetail);
+export default connect(mapStateToProps, { authen })(HistoryDetail);

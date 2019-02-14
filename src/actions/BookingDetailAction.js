@@ -10,12 +10,12 @@ import { Actions } from 'react-native-router-flux';
 //     }
 // }
 
-export const bookingSelected = (album) => {
-    console.log('resduvxx   ' + album)
+export const bookingSelected = (booking) => {
+    console.log('resduvxx   ' + booking)
     return (dispatch) => {
         dispatch({
             type: BOOKING_SELECTED,
-            payload: { album }
+            payload: { booking }
         })
         Actions.bookdetail();
     }

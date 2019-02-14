@@ -3,8 +3,8 @@ import { Text, View, Image } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 
-const AlbumDetail = ({ album }) => {
-  const { title, artist, thumbnail_image, image } = album;
+const AlbumDetail = ({ booking }) => {
+  const {id_reserve, code } = booking;
   const {
     thumbnailStyle,
     headerContentStyle,
@@ -17,11 +17,11 @@ const AlbumDetail = ({ album }) => {
       <CardSection>
        
         <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{title}</Text>
-          <Text>{artist}</Text>
+          <Text style={headerTextStyle}>{id_reserve}</Text>
+          <Text>{code}</Text>
         </View> 
         <View style={thumbnailContainerStyle}>
-          <Text>{thumbnail_image}</Text>
+          <Text>{code}</Text>
         </View>
 
       </CardSection>      

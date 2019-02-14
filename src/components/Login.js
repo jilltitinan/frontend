@@ -66,14 +66,16 @@ class Login extends Component {
             })
 
             if (result.type === "success") {
-                axios.post('https://locker54.azurewebsites.net/api/Account/AddUserAccount', {
+                const response = await axios.post('https://locker54.azurewebsites.net/api/Account/AddUserAccount', {
                     "id_account": this.state.id,
                     "name": this.state.name,
                     "phone": " ",
                     "email": this.state.email,
                     "role": " ",
                     "point": 0
-                })
+                });
+                console.log(response)
+
               
             } else {
                 console.log("cancelled")

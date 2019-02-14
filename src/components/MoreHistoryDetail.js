@@ -1,19 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import { Text, View, Image, Actions } from 'react-native';
-import Card from './common/CardAlbum';
-import CardSection from './common/CardSectionAlbum';
-import { Button } from './common/Button';
-import  Confirm  from './Confirm';
 import { Icon } from 'react-native-elements';
 import { bookingSelected } from '../actions';
 import { connect } from 'react-redux';
 
-// const MoreBookingDetail = ({ data }) => {
-class MoreBookingDetail extends Component {
-    // console.log('jylllllll',data);    
+class MoreHistoryDetail extends Component {
     render() {
         
-        // state = { showModal: false };
         const { id_reserve, code, status} = this.props.data.booking;
         const {
             headerContentStyle,
@@ -23,8 +16,7 @@ class MoreBookingDetail extends Component {
             bottom,
             buttonCancle,
         } = styles;
-        // if (data.title === 'Red') {
-        // console.log('data title ', data);
+        
         return (
 
             <View
@@ -46,11 +38,7 @@ class MoreBookingDetail extends Component {
                         />
                     </View>
                 </View>
-                <View style={bottom}>
-                    {/* <Button style={buttonNext}}>  </Button> */}
-                    <Confirm style={buttonNext} > Cancle Booking </Confirm>
-                    <Button style={buttonNext} > Show the code </Button>
-                </View>
+                
 
             </View>
         );
@@ -92,4 +80,4 @@ const styles = {
 };
 
 
-export default connect(mapStateToProps, { bookingSelected })(MoreBookingDetail);
+export default connect(mapStateToProps, { bookingSelected })(MoreHistoryDetail);

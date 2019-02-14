@@ -3,12 +3,9 @@ import { View, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import AlbumDetail from './AlbumDetail';
 import { authen, bookingSelected } from '../actions';
-import MoreBookingDetail from './MoreBookingDetail';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
 
-class AlbumList extends Component {
+class Histy extends Component {
     state = { reserve: [] }
 
     // onEmailChange(text) {
@@ -47,7 +44,7 @@ class AlbumList extends Component {
     }
 
     render() {
-        console.log('AlbumList is ' + this.state);
+        console.log('history is ' + this.state);
         return (
             <ScrollView>
                 {this.renderReserve()}
@@ -61,4 +58,4 @@ const mapStateToProps = (state) => {
     return { result };
 }
 
-export default connect(mapStateToProps, { authen, bookingSelected  })(AlbumList);
+export default connect(mapStateToProps, { authen, bookingSelected  })(Histy);

@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements';
 import { Constants } from 'expo';
 import AlbumList from './AlbumList';
+import History5 from './Histy';
 
 const FirstRoutePending = () => (
   <View style={[styles.container]} >
@@ -13,7 +14,7 @@ const FirstRoutePending = () => (
   </View>
 );
 const SecondRouteHistory = () => (
-  <View style={[styles.container, { backgroundColor: '#673ab7' }]} />
+  <History5 />
 );
 
 
