@@ -1,13 +1,15 @@
 import React, { PropTypes, Component } from 'react';
 import { Text, View, Image, Actions } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { bookingSelected } from '../actions';
+import { historySelected } from '../actions';
 import { connect } from 'react-redux';
+import { Button } from './common/Button';
+
 
 class MoreHistoryDetail extends Component {
     render() {
         
-        const { id_reserve, code, status} = this.props.data.booking;
+        const {  code, status} = this.props.data.past;
         const {
             headerContentStyle,
             headerTextStyle,
@@ -18,7 +20,7 @@ class MoreHistoryDetail extends Component {
         } = styles;
         
         return (
-
+           
             <View
                 style={{
                     marginHorizontal: 10,
@@ -28,7 +30,7 @@ class MoreHistoryDetail extends Component {
             >
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
-                        <Text style={headerTextStyle}>{id_reserve}</Text>
+                        {/* <Text style={headerTextStyle}>{id_reserve}</Text> */}
                         <Text>{code}</Text>
                         <Text>{status}</Text>
                         <Icon
@@ -38,15 +40,19 @@ class MoreHistoryDetail extends Component {
                         />
                     </View>
                 </View>
-                
+                <View style={bottom}>
+                    {/* <Button style={buttonNext}}>  </Button> */}
+                    
+                    <Button style={buttonNext} > Show the code </Button>
+                </View>
 
             </View>
         );
     }
 };
 
-const mapStateToProps = ({ booking }) => {
-    const { data } = booking;
+const mapStateToProps = ({ past }) => {
+    const { data } = past;
     return { data };
 };
 
@@ -80,4 +86,4 @@ const styles = {
 };
 
 
-export default connect(mapStateToProps, { bookingSelected })(MoreHistoryDetail);
+export default connect(mapStateToProps, { historySelected })(MoreHistoryDetail);

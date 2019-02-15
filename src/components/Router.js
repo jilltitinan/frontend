@@ -36,7 +36,7 @@ renderCustomButton() {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={Login} title="Welcome" initial />
+                        <Scene key="login" component={MyBooking} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -54,7 +54,7 @@ renderCustomButton() {
                     </Scene>
 
                     <Scene key="historydetail" >
-                        <Scene key="booking" component={MoreHistoryDetail} title="History Detail"  renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail"  renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="sumreserve" >

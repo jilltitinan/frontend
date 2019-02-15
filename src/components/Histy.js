@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import AlbumDetail from './AlbumDetail';
-import { authen, bookingSelected } from '../actions';
+import HistoryDetail from './HistoryDetail';
+import HistoryList from './HistoryList';
+import { authen, bookingSelected, historySelected } from '../actions';
 import { connect } from 'react-redux';
 
 class Histy extends Component {
@@ -16,11 +17,11 @@ class Histy extends Component {
     onButtonPress(booking) {
         // const { title } = this.props;
         console.log('booking ' + booking)
-        this.props.bookingSelected(booking);
+        this.props.historySelected(booking);
     }
 
     componentWillMount() {
-        axios.get(`https://locker54.azurewebsites.net/api/Reservation/Pending?id=${this.props.result.user.id}`)
+        axios.get('https://locker54.azurewebsites.net/api/Reservation/ReserveID?id=111754653601874456461')
             .then(response =>
                 this.setState({ reserve: response.data })
             )
@@ -35,10 +36,11 @@ class Histy extends Component {
     }
 
     renderReserve() {
+        console.log('History');
 
         return this.state.reserve.map(booking =>
-            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.id_reserve}>
-                <AlbumDetail booking={booking} />
+            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.id_reserve}>                
+                <HistoryList booking={booking} />
             </TouchableOpacity>
         );
     }
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => {
     return { result };
 }
 
-export default connect(mapStateToProps, { authen, bookingSelected  })(Histy);
+export default connect(mapStateToProps, { authen, historySelected  })(Histy);

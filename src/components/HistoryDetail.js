@@ -11,7 +11,7 @@ class HistoryDetail extends Component {
     state = { reserve: [] }   
 
     componentWillMount() {
-        axios.get(`https://locker54.azurewebsites.net/api/Reservation/Pending?id=${this.props.result.user.id}`)
+        axios.get('https://locker54.azurewebsites.net/api/Reservation/ReserveID?id=111754653601874456461')
             .then(response => this.setState({ reserve: response.data }));
     }
 
