@@ -17,13 +17,13 @@ class AlbumList extends Component {
     // }
 
     onButtonPress(booking) {
-        // const { title } = this.props;
-        console.log('booking ' + booking)
+       
+        // console.log('booking ' + booking)
         this.props.bookingSelected(booking);
     }
 
     componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/api/Reservation/ReserveID?id=111754653601874456461')
+        axios.get('https://locker54.azurewebsites.net/mobile/Pending?id_account=58010326')
             .then(response =>
                 this.setState({ reserve: response.data })
             )
@@ -40,14 +40,14 @@ class AlbumList extends Component {
     renderReserve() {
 
         return this.state.reserve.map(booking =>
-            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.id_reserve}>
+            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>
                 <AlbumDetail booking={booking} />
             </TouchableOpacity>
         );
     }
 
     render() {
-        console.log('AlbumList is ' + this.state);
+        // console.log('AlbumList is ' + this.state);
         return (
             <ScrollView>
                 {this.renderReserve()}

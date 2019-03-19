@@ -21,6 +21,7 @@ import Setting from './Setting';
 import Confirm from './Confirm';
 import FullReservation from './FullReservation';
 import testBase2 from './LockerFull';
+import AfterBooked from './AfterBooked';
 
 class RouterComponent extends React.Component {
 renderCustomButton() {
@@ -52,6 +53,11 @@ renderCustomButton() {
                     <Scene key="bookdetail" >
                         <Scene key="booking" component={MoreBookingDetail} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
                     </Scene>
+
+                    <Scene key="afterbooked" >
+                        <Scene key="afterbook" component={AfterBooked} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
 
                     <Scene key="historydetail" >
                         <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail"  renderLeftButton={this.renderCustomButton()} />

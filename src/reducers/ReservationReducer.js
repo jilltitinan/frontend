@@ -1,4 +1,4 @@
-import { RESERVATION_SIZE, RESERVATION_UPDATE, RESERVATION_START, RESERVATION_END, RESERVATION_HOUR, RESERVATION_STARTTIME, RESERVATION_TYPE } from '../actions/types';
+import { RESERVATION_SIZE, RESERVATION_UPDATE, RESERVATION_START, RESERVATION_END, RESERVATION_HOUR, RESERVATION_STARTTIME, RESERVATION_TYPE, RESERVATION_ID } from '../actions/types';
 
 const INITIAL_STATE = {
     location: 'ecc',
@@ -7,7 +7,8 @@ const INITIAL_STATE = {
     endDate: '',
     hour: '2',
     time: '8:00',
-    value: ''
+    value: '',
+    id : ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +27,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, time: action.payload };
         case RESERVATION_TYPE:
             return { ...state, value: action.payload };
+        case RESERVATION_ID:
+            return { ...state, id: action.payload };
         default:
             return state;
     }

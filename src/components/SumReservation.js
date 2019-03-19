@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions } from 'react-native';
-import { reservationUpdate, reservationSize, reservationStart, reservationEnd, reservationHour, reservationStartTime, reservationType } from '../actions';
+import { Text, View, Dimensions, Alert } from 'react-native';
+import { reservationUpdate, reservationSize, reservationStart, reservationEnd, reservationHour, reservationStartTime, reservationType, authen, reservationId } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import { Button } from './common/Button';
 import { connect } from 'react-redux';
@@ -70,31 +70,61 @@ class SumReservation extends Component {
             id_vacancy: 0,
         })
 
-        console.log('axios ' + this.props.date + 'T' + this.props.size)
-        axios.post('https://locker54.azurewebsites.net/api/Reservation/AddReserve', {
 
+        var newdate = this.props.date.split("-").reverse().join("-");
+        var newEndDate = this.props.endDate.split("-").reverse().join("-");
+        var newId = this.props.result.user.email.toString();
+        var newId_accout = newId.substring(0, newId.length - 12)
+        console.log('axios ' + this.props.date + 'T   ' + newId_accout);
+        axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
 
             "id_reserve": 0,
             "code": "string",
             "isActive": true,
-            "status": "string",
-            "startDay": "2019-07-14",
-            "endDay": "2019-07-16T23:59",
-            "startTime": "2019-02-14T10:37:20.999Z",
-            "endTime": "2019-02-14T10:37:20.999Z",
-            "dateModified": "2019-02-14T10:37:20.999Z",
+            "status": "Unuse",
+            "startDay": newdate,
+            "endDay": newEndDate,
+            "startTime": "2019-03-18T08:38:57.829",
+            "endTime": "2019-03-18T08:38:57.829",
+            "dateModified": "2019-03-18T08:38:57.829",
             "optional": false,
             "size": this.props.size,
-            "location": "ecc",
-            "id_account": "123456789",
+            "location": "twv",
+            "id_account": newId_accout,
             "id_vacancy": 0
 
         })
             .then(res => {
                 console.log('ress ' + res);
-                console.log('res dataa' + res.data);
+                console.log('res dataa  ' + res.data);
+                this.props.reservationId(res.data);
+                Actions.afterbooked();
             })
-            .catch(error => console.log(error.res.data))
+            .catch(error => {
+                console.log('error reserve response ' + error.response);
+                console.log('error reserve data ' + error.response.data);
+                if (error.response.data == 'Cannot_find_size_requirement'){
+                Alert.alert(
+                    'Reservation Failed',
+                    'Cannot_find_size_requirement',
+                    [
+                      {text: 'OK', onPress: () => Actions.Reserve()},
+                    ],
+                    {cancelable: false},
+                  );
+                }
+                else {
+                    Alert.alert(
+                        'Reservation Failed',
+                        'something else',
+                        [
+                          {text: 'OK', onPress: () => Actions.Reserve()},
+                        ],
+                        {cancelable: false},
+                      );
+                    }
+                
+            })
     }
 
     render() {
@@ -195,9 +225,10 @@ const styles = {
 const mapStateToProps = (state) => {
     // console.log("before mapstateToProps   "+ state.reserve);
     const { location, size, date, endDate, hour, time, value } = state.reserve;
+    const { result } = state.auth;
     // console.log("after  "+ l2 + "  "+ s2);
-    return { location, size, date, endDate, hour, time, value };
+    return { location, size, date, endDate, hour, time, value, result };
 };
 
 
-export default connect(mapStateToProps, { reservationUpdate, reservationSize, reservationStart, reservationEnd, reservationHour, reservationStartTime, reservationType })(SumReservation);
+export default connect(mapStateToProps, { authen, reservationId, reservationUpdate, reservationSize, reservationStart, reservationEnd, reservationHour, reservationStartTime, reservationType })(SumReservation);

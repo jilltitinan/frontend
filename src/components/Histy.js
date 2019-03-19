@@ -21,7 +21,7 @@ class Histy extends Component {
     }
 
     componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/api/Reservation/ReserveID?id=111754653601874456461')
+        axios.get('https://locker54.azurewebsites.net/mobile/Pending?id_account=58010326')
             .then(response =>
                 this.setState({ reserve: response.data })
             )
@@ -39,7 +39,7 @@ class Histy extends Component {
         console.log('History');
 
         return this.state.reserve.map(booking =>
-            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.id_reserve}>                
+            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>                
                 <HistoryList booking={booking} />
             </TouchableOpacity>
         );

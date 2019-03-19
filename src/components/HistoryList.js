@@ -2,9 +2,10 @@ import React, { PropTypes } from 'react';
 import { Text, View, Image } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
+import Moment from 'react-moment';
 
 const HistoryList = ({ booking }) => {
-  const {id_reserve, code } = booking;
+  const {bookingID, startDate, endDate, location, size } = booking;
   const {
     thumbnailStyle,
     headerContentStyle,
@@ -17,12 +18,11 @@ const HistoryList = ({ booking }) => {
       <CardSection>
        
         <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{id_reserve}</Text>
-          <Text>{code}</Text>
+          <Text style={headerTextStyle}>{startDate} - {endDate}</Text>
+          <Text>Location : {location}</Text>
+          <Text>Size : {size} </Text>
         </View> 
-        <View style={thumbnailContainerStyle}>
-          <Text>{code}</Text>
-        </View>
+       
 
       </CardSection>      
     </Card>

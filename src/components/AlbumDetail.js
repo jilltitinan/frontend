@@ -4,7 +4,7 @@ import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 
 const AlbumDetail = ({ booking }) => {
-  const {id_reserve, code } = booking;
+  const { bookingID, startDate, endDate, location, size } = booking;
   const {
     thumbnailStyle,
     headerContentStyle,
@@ -15,14 +15,12 @@ const AlbumDetail = ({ booking }) => {
   return (
     <Card>
       <CardSection>
-       
-        <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{id_reserve}</Text>
-          <Text>{code}</Text>
+        
+      <View style={headerContentStyle}>
+          <Text style={headerTextStyle}>{startDate} - {endDate}</Text>
+          <Text>Location : {location}</Text>
+          <Text>Size : {size} </Text>
         </View> 
-        <View style={thumbnailContainerStyle}>
-          <Text>{code}</Text>
-        </View>
 
       </CardSection>      
     </Card>

@@ -8,8 +8,8 @@ import { Button } from './common/Button';
 
 class MoreHistoryDetail extends Component {
     render() {
-        
-        const {  code, status} = this.props.data.past;
+
+        const { bookingID, startDate, endDate, location, size } = this.props.data.past;
         const {
             headerContentStyle,
             headerTextStyle,
@@ -18,9 +18,9 @@ class MoreHistoryDetail extends Component {
             bottom,
             buttonCancle,
         } = styles;
-        
+
         return (
-           
+
             <View
                 style={{
                     marginHorizontal: 10,
@@ -31,8 +31,8 @@ class MoreHistoryDetail extends Component {
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
                         {/* <Text style={headerTextStyle}>{id_reserve}</Text> */}
-                        <Text>{code}</Text>
-                        <Text>{status}</Text>
+                        <Text>{size}</Text>
+                        <Text>{startDate}</Text>
                         <Icon
                             name='launch'
                             color='#909395'
@@ -42,7 +42,7 @@ class MoreHistoryDetail extends Component {
                 </View>
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
-                    
+
                     <Button style={buttonNext} > Show the code </Button>
                 </View>
 
@@ -74,14 +74,14 @@ const styles = {
         marginHorizontal: 10,
         backgroundColor: '#3C6E71',
         elevation: 2,
-        
+
     },
     containerStyle: {
         // borderBottomWidth: 1,
         padding: 5,
         backgroundColor: '#FFFFFF',
     },
-   
+
 
 };
 

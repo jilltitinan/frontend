@@ -4,6 +4,7 @@ export const RESERVATION_UPDATE = 'reservation_update';
 export const RESERVATION_SIZE = 'reservation_created';
 export const RESERVATION_START = 'reservation_start';
 export const RESERVATION_END = 'reservation_end';
+export const RESERVATION_ID = 'reservation_id';
 export const RESERVATION_STARTTIME = 'reservation_starttime';
 export const RESERVATION_TYPE = 'reservation_type';
 export const RESERVATION_HOUR = 'reservation_hour';

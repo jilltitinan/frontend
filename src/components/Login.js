@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { authen } from '../actions';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, Alert } from 'react-native';
 import Expo from "expo";
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements';
 import axios from 'axios';
+import { Action } from 'rxjs/scheduler/Action';
 
 class Login extends Component {
     //     render() {
@@ -66,32 +67,44 @@ class Login extends Component {
             })
 
             if (result.type === "success") {
-                const response = await axios.post('https://locker54.azurewebsites.net/api/Account/AddUserAccount', {
+                const response = await axios.post('https://locker54.azurewebsites.net/mobile/AddUserAccount', {
                     "id_account": this.state.id,
                     "name": this.state.name,
                     "phone": " ",
                     "email": this.state.email,
-                    "role": " ",
+                    "role": "",
                     "point": 0
                 });
-                console.log(response)
-
+                console.log('add account : ', response)
+                Actions.container();
               
             } else {
                 console.log("cancelled")
             }
         } catch (e) {
-            console.log("error", e)
+            console.log("error  account ", e.response.data)
+            if(e.response.data == 'account_already_exist') {
+                Actions.container();
+            }
+            else {
+                 Alert.alert(
+                'Login Failed',
+                'Your email is incorrect.',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                {cancelable: false},
+              );
+            }
+           
         }
     }
     render() {
         return (
             <View style={styles.container}>
-                {this.state.signedIn ? (
-                    <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
-                ) : (
+               
                         <LoginPage signIn={this.signIn} />
-                    )}
+                   
             </View>
         )
     }

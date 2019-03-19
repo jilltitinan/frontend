@@ -10,6 +10,6 @@ export const authen = (result) => {
             type: AUTHEN,
             payload: result,
         })
-        Actions.container();
+        // Actions.container();
     }
 }
