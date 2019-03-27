@@ -64,16 +64,18 @@ class Login extends Component {
                 name: result.user.name,
                 email: result.user.email,
                 id: result.user.id,
+                token: result.idToken,
             })
 
             if (result.type === "success") {
                 const response = await axios.post('https://locker54.azurewebsites.net/mobile/AddUserAccount', {
-                    "id_account": this.state.id,
-                    "name": this.state.name,
-                    "phone": " ",
-                    "email": this.state.email,
-                    "role": "",
-                    "point": 0
+                    // "id_account": this.state.id,
+                    // "name": this.state.name,
+                    // "phone": " ",
+                    // "email": this.state.email,
+                    // "role": "",
+                    // "point": 0,
+                    "_Token": this.state.token,
                 });
                 console.log('add account : ', response)
                 Actions.container();
@@ -89,7 +91,7 @@ class Login extends Component {
             else {
                  Alert.alert(
                 'Login Failed',
-                'Your email is incorrect.',
+                e.response.data,
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ],

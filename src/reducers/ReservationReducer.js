@@ -6,8 +6,8 @@ const INITIAL_STATE = {
     date: '',
     endDate: '',
     hour: '2',
-    time: '8:00',
-    value: '',
+    time: '4:00',
+    valueType: 'false',
     id : ''
 };
 
@@ -26,7 +26,7 @@ export default (state = INITIAL_STATE, action) => {
         case RESERVATION_STARTTIME:
             return { ...state, time: action.payload };
         case RESERVATION_TYPE:
-            return { ...state, value: action.payload };
+            return { ...state, valueType: action.payload };
         case RESERVATION_ID:
             return { ...state, id: action.payload };
         default:

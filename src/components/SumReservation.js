@@ -28,6 +28,7 @@ class SumReservation extends Component {
             location: '',
             id_account: '',
             id_vacancy: 0,
+            value: '',
         }
     }
 
@@ -68,63 +69,134 @@ class SumReservation extends Component {
             location: '',
             id_account: '',
             id_vacancy: 0,
+            value: ''
         })
 
 
         var newdate = this.props.date.split("-").reverse().join("-");
+        var newnewdate = newdate.toString();
         var newEndDate = this.props.endDate.split("-").reverse().join("-");
         var newId = this.props.result.user.email.toString();
-        var newId_accout = newId.substring(0, newId.length - 12)
-        console.log('axios ' + this.props.date + 'T   ' + newId_accout);
-        axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
+        var newId_accout = newId.substring(0, newId.length - 12);
+        var newEndtime = parseInt(this.props.time);
+        var newHour = parseInt(this.props.hour);
+        var newDuration = newEndtime + newHour;
+        console.log("new duration ", newnewdate);
 
-            "id_reserve": 0,
-            "code": "string",
-            "isActive": true,
-            "status": "Unuse",
-            "startDay": newdate,
-            "endDay": newEndDate,
-            "startTime": "2019-03-18T08:38:57.829",
-            "endTime": "2019-03-18T08:38:57.829",
-            "dateModified": "2019-03-18T08:38:57.829",
-            "optional": false,
-            "size": this.props.size,
-            "location": "twv",
-            "id_account": newId_accout,
-            "id_vacancy": 0
 
-        })
-            .then(res => {
-                console.log('ress ' + res);
-                console.log('res dataa  ' + res.data);
-                this.props.reservationId(res.data);
-                Actions.afterbooked();
+        // if(valueType == 'true'){
+        console.log('value reservation ' + this.props.valueType)
+        // }
+
+        console.log('axios ' + this.props.date + 'T   ' + this.props.time);
+        if (this.props.valueType == 'true') { // one day
+
+            axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
+
+                "id_reserve": 0,
+                "code": "string",
+                "isActive": true,
+                "status": "unuse",
+                "startDay": newdate + 'T' + this.props.time,
+                "endDay": newEndDate + 'T' + newDuration +':00:00',
+                "dateModified": "2019-03-27T08:40:32.391Z",
+                "size": this.props.size,
+                "location": this.props.location,
+                "id_account": newId_accout,
+                "id_vacancy": 0
+               
+
             })
-            .catch(error => {
-                console.log('error reserve response ' + error.response);
-                console.log('error reserve data ' + error.response.data);
-                if (error.response.data == 'Cannot_find_size_requirement'){
-                Alert.alert(
-                    'Reservation Failed',
-                    'Cannot_find_size_requirement',
-                    [
-                      {text: 'OK', onPress: () => Actions.Reserve()},
-                    ],
-                    {cancelable: false},
-                  );
-                }
-                else {
-                    Alert.alert(
-                        'Reservation Failed',
-                        'something else',
-                        [
-                          {text: 'OK', onPress: () => Actions.Reserve()},
-                        ],
-                        {cancelable: false},
-                      );
+                .then(res => {
+                    console.log('ress ' + res);
+                    console.log('res dataa  ' + res.data);
+                    if (res.status == 200) {
+                        this.props.reservationId(res.data);
+                        Actions.afterbooked();
                     }
-                
-            })
+
+                })
+                .catch(error => {
+                    console.log('error reserve response ' + error.response);
+                    console.log('error reserve data ' + error.response.data);
+                    if (error.response.data == 'Cannot_find_size_requirement') {
+                        Alert.alert(
+                            'Reservation Failed',
+                            'Cannot_find_size_requirement',
+                            [
+                                { text: 'OK', onPress: () => Actions.Reserve() },
+                            ],
+                            { cancelable: false },
+                        );
+                    }
+                    else {
+                        Alert.alert(
+                            'Reservation Failed',
+                            error.response.data,
+                            [
+                                { text: 'OK', onPress: () => Actions.Reserve() },
+                            ],
+                            { cancelable: false },
+                        );
+                    }
+
+                })
+        } else {
+            if (this.props.valueType == 'true') { // more than one day
+
+                axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
+
+                    "id_reserve": 0,
+                    "code": "string",
+                    "isActive": true,
+                    "status": "string",
+                    "startDay": newnewdate,
+                    "endDay": "2019-04-30",
+                    "dateModified": "2019-03-27T08:40:32.391Z",
+                    "size": "s",
+                    "location": "ecc",
+                    "id_account": newId_accout,
+                    "id_vacancy": 0
+
+                    // "id_reserve": 0,
+                    // "code": "string",
+                    // "isActive": true,
+                    // "status": "string",
+                    // "startDay": "2019-04-27T17:10:23.318Z",
+                    // "endDay": "2019-04-30",
+                    // "dateModified": "2019-03-26",
+                    // "size": "s",
+                    // "location": "ecc",
+                    // "id_account": "58010326",
+                    // "id_vacancy": 0
+
+                })
+                    .then(res => {
+                        console.log('ress ' + res);
+                        console.log('res dataa  ' + res.data);
+                        if (res.status == 200) {
+                            this.props.reservationId(res.data);
+                            Actions.afterbooked();
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log('error reserve response ' + error.response);
+                        console.log('error reserve data ' + error.response.data);
+
+                        Alert.alert(
+                            'Reservation Failed',
+                            error.response.data,
+                            [
+                                { text: 'OK', onPress: () => Actions.Reserve() },
+                            ],
+                            { cancelable: false },
+                        );
+
+
+                    })
+            }
+        }
     }
 
     render() {
@@ -138,7 +210,7 @@ class SumReservation extends Component {
             bottom,
             buttonNext,
         } = styles;
-        if (this.props.value) {
+        if (this.props.valueType == 'true') {
             return (
                 <View style={{
                     marginHorizontal: 10,
@@ -148,11 +220,11 @@ class SumReservation extends Component {
                     <Card>
                         <CardSection>
                             <View style={headerContentStyle}>
-                                <Text style={headerTextStyle}>{this.props.date}</Text>
+                                <Text style={headerTextStyle}>{newdate}</Text>
                                 <Text>{'Locker size: ' + this.props.size}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                                 <Text>{'Total Hour: ' + this.props.hour}</Text>
-                                <Text>{'Start Time: ' + this.props.time}</Text>
+                                <Text>{'Start Time: ' + this.props.valueType}</Text>
                             </View>
                         </CardSection>
                     </Card>
@@ -172,7 +244,7 @@ class SumReservation extends Component {
                         <CardSection>
                             <View style={headerContentStyle}>
                                 <Text style={headerTextStyle}>{this.props.date + ' - ' + this.props.endDate}</Text>
-                                <Text>{'Locker size: ' + this.props.size}</Text>
+                                <Text>{'Locker size: ' + this.props.valueType}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                             </View>
                         </CardSection>
@@ -224,10 +296,10 @@ const styles = {
 
 const mapStateToProps = (state) => {
     // console.log("before mapstateToProps   "+ state.reserve);
-    const { location, size, date, endDate, hour, time, value } = state.reserve;
+    const { location, size, date, endDate, hour, time, valueType } = state.reserve;
     const { result } = state.auth;
     // console.log("after  "+ l2 + "  "+ s2);
-    return { location, size, date, endDate, hour, time, value, result };
+    return { location, size, date, endDate, hour, time, valueType, result };
 };
 
 

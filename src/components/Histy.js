@@ -9,11 +9,6 @@ import { connect } from 'react-redux';
 class Histy extends Component {
     state = { reserve: [] }
 
-    // onEmailChange(text) {
-    //     this.props.emailChanged(text);
-    //     console.log('testtttt' + props);
-    // }
-
     onButtonPress(booking) {
         // const { title } = this.props;
         console.log('booking ' + booking)
@@ -36,7 +31,7 @@ class Histy extends Component {
     }
 
     renderReserve() {
-        console.log('History');
+        // console.log('History');
 
         return this.state.reserve.map(booking =>
             <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>                
@@ -46,7 +41,7 @@ class Histy extends Component {
     }
 
     render() {
-        console.log('history is ' + this.state);
+        // console.log('history is ' + this.state);
         return (
             <ScrollView>
                 {this.renderReserve()}

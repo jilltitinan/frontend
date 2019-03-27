@@ -11,14 +11,7 @@ import * as actions from '../actions';
 class AlbumList extends Component {
     state = { reserve: [] }
 
-    // onEmailChange(text) {
-    //     this.props.emailChanged(text);
-    //     console.log('testtttt' + props);
-    // }
-
     onButtonPress(booking) {
-       
-        // console.log('booking ' + booking)
         this.props.bookingSelected(booking);
     }
 
@@ -61,4 +54,4 @@ const mapStateToProps = (state) => {
     return { result };
 }
 
-export default connect(mapStateToProps, { authen, bookingSelected  })(AlbumList);
+export default connect(mapStateToProps, { authen, bookingSelected })(AlbumList);

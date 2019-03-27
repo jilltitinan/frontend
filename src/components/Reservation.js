@@ -82,7 +82,7 @@ class Home extends Component {
 
     toggleSwitch1 = (value) => {
         this.setState({ switch1Value: value });
-        this.props.reservationType(value);
+        this.props.reservationType(value.toString());
         console.log('Switch 1 is: ' + value)
     }
 
@@ -367,7 +367,7 @@ class Home extends Component {
                                             selectedValue={this.state.selected2}
                                             onValueChange={this.onValueChange2.bind(this)}>
                                             {this.getItems(this.state.selected1).map((item, i) => {
-                                                console.log('item', item);
+                                                // console.log('item', item);
                                                 return <Picker.Item label={item} key={`${i}+1`} value={item} />
                                             })}
                                         </Picker>

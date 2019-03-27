@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Text, View, Image, Actions, Alert } from 'react-native';
+import { Text, View, Image,  Alert } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
@@ -8,7 +8,7 @@ import { Icon } from 'react-native-elements';
 import { reservationId } from '../actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
+import { Actions } from 'react-native-router-flux';
 
 // const MoreBookingDetail = ({ data }) => {
 class Afterbooked extends Component {
@@ -23,11 +23,11 @@ class Afterbooked extends Component {
 
         Alert.alert(
             'Cancle locker',
-            'Your email is incorrect.',
+            'Are you sure to cancle this locker?',
             [
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
+              {text: 'Yes', onPress: () => this.deleteReservation()},
               {
-                text: 'Cancel',
+                text: 'No',
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
@@ -44,6 +44,15 @@ class Afterbooked extends Component {
     }
 
     deleteReservation() {
+        Alert.alert(
+            'Cancle successful',
+            'Press ok to go back.',
+            [
+              {text: 'OK', onPress: () => console.log('go back Pressed'), style: 'cancel',},
+              
+            ],
+            {cancelable: false},
+          );
 
     }
     
@@ -55,7 +64,7 @@ class Afterbooked extends Component {
             .then(res => {
                 const info = res.data
                 this.setState({ detail: info })
-                console.log('detailll ' + this.state.detail);
+                // console.log('detailll ' + this.state.detail);
             }).catch(function (error) {
                 console.log(error.state.data);
             });
@@ -107,7 +116,7 @@ class Afterbooked extends Component {
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
                     <Button style={buttonNext} onPress={() => this.onButtonPress()}> Cancle Booking </Button>
-                    <Button style={buttonNext} > Show the code </Button>
+                    <Button style={buttonNext} onPress={() => Actions.entercode()}> Show the code </Button>
                 </View>
 
             </View>

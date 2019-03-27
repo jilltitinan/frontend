@@ -1,93 +1,81 @@
 import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    ScrollView,
-    TextInput,
-    Alert
-} from 'react-native';
-import { pinEnter } from '../actions';
+import { StyleSheet, Text, View, Alert } from 'react-native';
+import { pinEnter, bookingSelected } from '../actions';
 import CodeInput from './common/CodeInput';
 import { Button } from './common/Button';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
 
 class ComfirmCode extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            code: ''
+            setcode: '',
+            // detail: {}
         };
     }
 
-    _onFulfill(code) {
-        // TODO: call API to check code here
-        // If code does not match, clear input with: this.refs.codeInputRef1.clear()
-        // if (code == '222222') {
-        //     Alert.alert(
-        //         'Confirmation Code',
-        //         'Successful!',
-        //         [{ text: 'OK' }],
-        //         { cancelable: false }
-        //     );
-        // } else {
-        //     Alert.alert(
-        //         'Confirmation Code',
-        //         'Code not match!',
-        //         [{ text: 'OK' }],
-        //         { cancelable: false }
-        //     );
-
-        //     this.refs.codeInputRef1.clear();
-        // }
-        console.log(code)
-        this.setState({ code: code});
-        this.props.pinEnter(code);
+    _onFulfill(setcode) {
+        console.log(setcode)
+        this.setState({ setcode: setcode });
+        this.props.pinEnter(setcode);
     }
 
-    // _onFinishCheckingCode1(isValid) {
-    //     console.log(isValid);
-    //     if (!isValid) {
-    //         Alert.alert(
-    //             'Confirmation Code',
-    //             'Code not match!',
-    //             [{ text: 'OK' }],
-    //             { cancelable: false }
-    //         );
-    //     } else {
-    //         Alert.alert(
-    //             'Confirmation Code',
-    //             'Successful!',
-    //             [{ text: 'OK' }],
-    //             { cancelable: false }
-    //         );
-    //     }
-    // }
+    componentDidMount() {
+        axios.get(`https://locker54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.data.booking.bookingID}`)
+            .then(res => {
+                const info = res.data
+                this.setState({ detail: info })
+                console.log('detailll ' + this.state.detail.bookingID);
+            })
+    }
 
-    // _onFinishCheckingCode2(isValid, code) {
-    //     console.log(isValid);
-    //     if (!isValid) {
-    //         Alert.alert(
-    //             'Confirmation Code',
-    //             'Code not match!',
-    //             [{ text: 'OK' }],
-    //             { cancelable: false }
-    //         );
-    //     } else {
-    //         this.setState({ code });
-    //         Alert.alert(
-    //             'Confirmation Code',
-    //             'Successful!',
-    //             [{ text: 'OK' }],
-    //             { cancelable: false }
-    //         );
-    //     }
-    // }
+
+    onSavePress(bookingID) {
+        // console.log("onSavePress ", setcode)
+        
+        axios.put(`https://locker54.azurewebsites.net/mobile/SetCode?id_reserve=${bookingID}&code=456987`)
+            .then(res => {
+                console.log('ress ' + res);
+                console.log('res dataa  ' + res.data);
+                if (res.status == 200) {
+                    this.props.reservationId(res.data);
+                    Actions.afterbooked();
+                }
+
+            })
+            .catch(error => {
+                console.log('error reserve response ' + error.response);
+                console.log('error reserve data ' + error.response.data);
+                if (error.response.data == 'Cannot_find_size_requirement') {
+                    Alert.alert(
+                        'Reservation Failed',
+                        'Cannot_find_size_requirement',
+                        [
+                            { text: 'OK', onPress: () => Actions.Reserve() },
+                        ],
+                        { cancelable: false },
+                    );
+                }
+                else {
+                    Alert.alert(
+                        'Reservation Failed',
+                        error.response.data,
+                        [
+                            { text: 'OK', onPress: () => Actions.Reserve() },
+                        ],
+                        { cancelable: false },
+                    );
+                }
+
+            })
+    }
 
     render() {
+
+        const { bookingID, startDate, endDate, location, size } = this.props.data.booking;
 
         return (
             <View style={styles.container}>
@@ -96,22 +84,22 @@ class ComfirmCode extends Component {
                         <Text style={styles.title}>Enter 6 Digit Number</Text>
                     </View>
 
-                    <View style={styles.inputWrapper1}> 
+                    <View style={styles.inputWrapper1}>
                         <CodeInput
                             ref="codeInputRef1"
                             className={'border-b'}
                             space={5}
                             size={40}
                             inputPosition='center'
-                            onFulfill={(code) => this._onFulfill(code)}
+                            onFulfill={(setcode) => this._onFulfill(setcode)}
                         />
                     </View>
-                   
-                    
+
+
                 </View>
                 <View style={styles.button}>
-                        <Button onPress={Actions.reserve}>Save</Button>
-                    </View>
+                    <Button onPress={() => this.onSavePress(bookingID)}>Save</Button>
+                </View>
             </View>
         );
     }
@@ -142,7 +130,7 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
         paddingHorizontal: 20,
     },
-   
+
     inputLabel1: {
         color: '#fff',
         fontSize: 14,
@@ -153,17 +141,24 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderWidth: 0.5,
         borderColor: '#d6d7da',
+        backgroundColor: '#3C6E71',
         marginHorizontal: 10,
-    }
-    
+    },
+    buttonNext: {
+        marginBottom: 15,
+        borderRadius: 4,
+        marginHorizontal: 10,
+        backgroundColor: '#3C6E71',
+        elevation: 2,
+
+    },
 });
 
 const mapStateToProps = (state) => {
-    // console.log("before mapstateToProps   "+ state.reserve);
     const { pin } = state.pin;
-    // console.log("after  "+ l2 + "  "+ s2);
-    return { pin };
+    const { data } = state.booking;
+    return { pin, data };
 };
 
 
-export default connect(mapStateToProps, { pinEnter }) (ComfirmCode);
+export default connect(mapStateToProps, { pinEnter, bookingSelected })(ComfirmCode);

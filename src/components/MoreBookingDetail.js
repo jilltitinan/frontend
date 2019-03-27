@@ -8,6 +8,7 @@ import { Icon } from 'react-native-elements';
 import { bookingSelected } from '../actions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
 
 // const MoreBookingDetail = ({ data }) => {
 class MoreBookingDetail extends Component {
@@ -17,24 +18,50 @@ class MoreBookingDetail extends Component {
 
         Alert.alert(
             'Cancle locker',
-            'Your email is incorrect.',
+            'Are you sure to cancle this locker?',
             [
-              {text: 'OK', onPress: () => console.log('Cancel Pressed')},
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
+                { text: 'Yes', onPress: () => this.deleteReservation() },
+                {
+                    text: 'No',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
             ],
-            {cancelable: false},
-          );
+            { cancelable: false },
+        );
+    }
 
-        // axios.delete(`https://locker54.azurewebsites.net/api/Reservation/Delete?id_reserve=${this.props.id}`)
-        // .then(Bu
-        //     // Observe the data keyword this time. Very important
-        //     // payload is the request body
-        //     // Do something
-        //   )
+    deleteReservation() {
+        console.log('delete presssssssss ', this.props.data.booking.bookingID);
+        axios.delete(`https://locker54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`)
+            .then(response => {
+                if (response.status === 200) {
+                   console.log('status 200');
+                   Alert.alert(
+                    'Cancle successful',
+                    'Press ok to go back.',
+                    [
+                      {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
+                      
+                    ],
+                    {cancelable: false},
+                  );
+                }
+            }
+            )
+            .catch(err => {
+                console.log(err.response.data);
+                Alert.alert(
+                    err.response.data,
+                    'Press ok to go back.',
+                    [
+                      {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
+                      
+                    ],
+                    {cancelable: false},
+                  );
+            });
+
     }
 
     render() {
@@ -63,7 +90,7 @@ class MoreBookingDetail extends Component {
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
                         {/* <Text style={headerTextStyle}>{id_reserve}</Text> */}
-                        <Text>{size}</Text>
+                        <Text>{bookingID}</Text>
                         <Text>{startDate}</Text>
                         <Icon
                             name='launch'
@@ -75,17 +102,12 @@ class MoreBookingDetail extends Component {
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
                     <Button style={buttonNext} onPress={() => this.onButtonPress()} > Cancle Booking </Button>
-                    <Button style={buttonNext} > Show the code </Button>
+                    <Button style={buttonNext} onPress={() => Actions.entercode()}> Show the code </Button>
                 </View>
 
             </View>
         );
     }
-};
-
-const mapStateToProps = ({ booking }) => {
-    const { data } = booking;
-    return { data };
 };
 
 
@@ -115,6 +137,11 @@ const styles = {
     },
 
 
+};
+
+const mapStateToProps = ({ booking }) => {
+    const { data } = booking;
+    return { data };
 };
 
 

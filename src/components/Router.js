@@ -24,20 +24,36 @@ import testBase2 from './LockerFull';
 import AfterBooked from './AfterBooked';
 
 class RouterComponent extends React.Component {
-renderCustomButton() {
-    return () => (
-      <TouchableOpacity onPress={() => Actions.pop()}>
-        <Icon name="arrow-back" size={30} color="#FFF" />
-      </TouchableOpacity>
-    );
-  }
+    renderCustomButton() {
+        return () => (
+            <TouchableOpacity onPress={() => Actions.pop()}>
+                <Icon name="arrow-back" size={30} color="#FFF" />
+            </TouchableOpacity>
+        );
+    }
+
+    renderGoHome() {
+        return () => (
+            <TouchableOpacity onPress={() => Actions.container()}>
+                <Icon name="arrow-back" size={30} color="#FFF" />
+            </TouchableOpacity>
+        );
+    }
+
+    renderGoReservation() {
+        return () => (
+            <TouchableOpacity onPress={() => Actions.Reserve()}>
+                <Icon name="arrow-back" size={30} color="#FFF" />
+            </TouchableOpacity>
+        );
+    }
     render() {
         const { tabBarStyle } = styles;
         return (
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={MyBooking} title="Welcome" initial />
+                        <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -46,34 +62,34 @@ renderCustomButton() {
                             title='Reserve'
                             component={Reservation}
                             initial
-                            renderLeftButton={this.renderCustomButton()} 
+                            renderLeftButton={this.renderGoHome()}
                         />
                     </Scene>
 
                     <Scene key="bookdetail" >
-                        <Scene key="booking" component={MoreBookingDetail} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="booking" component={MoreBookingDetail} title="Booking Detail" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="afterbooked" >
-                        <Scene key="afterbook" component={AfterBooked} title="Booking Detail"  renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="afterbook" component={AfterBooked} title="After book Detail" renderLeftButton={this.renderGoHome()} />
                     </Scene>
 
 
                     <Scene key="historydetail" >
-                        <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail"  renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="sumreserve" >
-                        <Scene key="sumreserve" component={SumReservation} title="Sumary"  renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="sumreserve" component={SumReservation} title="Summary" renderLeftButton={this.renderGoReservation()} />
                     </Scene>
 
                     <Scene key="editaccount" >
-                        <Scene key="editac" component={EditAccount} title="Edit Account" 
-                         renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="editac" component={EditAccount} title="Edit Account"
+                            renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="setting" >
-                        <Scene key="set" component={Setting} title="Setting"  renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="set" component={Setting} title="Setting" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="privacypolicy" >
@@ -85,7 +101,11 @@ renderCustomButton() {
                     </Scene>
 
                     <Scene key="fullreserve" >
-                        <Scene key="fullreservation" component={FullReservation} title="Term and Condition" renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="fullreservation" component={FullReservation} title="full reserve" renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="entercode" >
+                        <Scene key="entercoderegister" component={ConfirmCode} title="Enter code" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key='container' hideNavBar>
@@ -94,12 +114,12 @@ renderCustomButton() {
                                 <Scene
                                     key='home'
                                     component={Home}
-                                    title='Home' 
+                                    title='Home'
                                     initial
                                 />
                             </Scene>
 
-                            <Scene key='My Booking' icon={IconTab} iconName='book'>
+                            <Scene key='MyBooking' icon={IconTab} iconName='book'>
                                 <Scene
                                     key='test1'
                                     component={MyBooking}

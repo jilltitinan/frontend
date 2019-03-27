@@ -55,15 +55,18 @@ export const reservationStartTime = (time) => {
     };
 };
 
-export const reservationType = (value) => {
+export const reservationType = (valueType) => {
+     console.log('id   ', valueType);
     return {
         type: RESERVATION_TYPE,
-        payload: value
+        payload: valueType
+        
     };
+   
 };
 
 export const reservationId = (id) => {
-    console.log('id   ', id);
+    // console.log('id   ', id);
     return {
         type: RESERVATION_ID,
         payload: id
