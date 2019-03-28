@@ -34,7 +34,6 @@ class ComfirmCode extends Component {
 
 
     onSavePress(bookingID) {
-        // console.log("onSavePress ", setcode)
         
         axios.put(`https://locker54.azurewebsites.net/mobile/SetCode?id_reserve=${bookingID}&code=456987`)
             .then(res => {

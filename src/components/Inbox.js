@@ -15,6 +15,7 @@ class Inbox extends Component {
     componentWillMount() {
         axios.get('https://locker54.azurewebsites.net/api/Content/ContentId?id=1')
             .then(response => this.setState({ contents: response.data }));
+            // console.log(contents);
     }
 
     renderContents() {

@@ -1,12 +1,53 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TextInput } from 'react-native';
+import { Text, View, Image, TextInput, Alert } from 'react-native';
 import { Button } from './common/Button';
+import axios from 'axios';
 
 class EditAccount extends Component {
+    state = { reserve: [] }
+    componentWillMount() {
+        axios.get('https://locker54.azurewebsites.net/mobile/Getphone?id_account=58010326')
+            .then(response => this.setState({ reserve: response.data }));
+    }
+
     constructor(props) {
         super(props);
-        this.state = { text: '' };
+        this.state = { text: undefined };
     }
+    onSavePress(phoneNum) {
+        console.log("onSavePress ", phoneNum)
+        
+        axios.put(`https://locker54.azurewebsites.net/mobile/AddPhoneNumber?id=58010326&phone=${phoneNum}`)
+            .then(res => {
+                console.log('ress ' + res);
+                console.log('res dataa  ' + res.data);
+                if (res.status == 200) {
+                    Alert.alert(
+                        'Reservation Success',
+                        'press ok to go back',
+                        [
+                            { text: 'OK'},
+                        ],
+                        { cancelable: false },
+                    );
+                }
+
+            })
+            .catch(error => {
+                console.log('error reserve response ' + error.response);
+                console.log('error reserve data ' + error.response.data);
+                
+                    Alert.alert(
+                        'Reservation Failed',
+                        error.response.data,
+                        [
+                            { text: 'OK', onPress: () => Actions.Reserve() },
+                        ],
+                        { cancelable: false },
+                    );
+            })
+    }
+
     render() {
 
         const {
@@ -27,17 +68,29 @@ class EditAccount extends Component {
             >
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
-                        <Text style={headerTextStyle}>Phone Number</Text>
-                        <TextInput
-                            style={{ height: 40, }}
-                            onChangeText={(text) => this.setState({ text })}
-                            value={this.state.text}
-                            keyboardType='numeric'
-                        />
+                        <Text style={headerTextStyle}>Phone Number + {this.state.reserve}</Text>
+                        {this.state.reserve != undefined &&
+                            <TextInput
+                                style={{ height: 40, }}
+                                onChangeText={(text) => this.setState({ text })}
+                                value={this.state.text}
+                                defaultValue={`${this.state.reserve}`}
+                                keyboardType='numeric'
+                            />
+                        }
+                        {this.state.reserve == undefined &&
+                            <TextInput
+                                style={{ height: 40, }}
+                                onChangeText={(text) => this.setState({ text })}
+                                value={this.state.reserve}
+                                keyboardType='numeric'
+                            />
+                        }
+
                     </View>
                 </View>
                 <View style={bottom}>
-                    <Button style={buttonNext}> Save </Button>
+                    <Button style={buttonNext} onPress={() => this.onSavePress(this.state.text)}> Save </Button>
                 </View>
             </View>
         );
@@ -64,6 +117,7 @@ const styles = {
         borderRadius: 4,
         borderWidth: 0.5,
         borderColor: '#3C6E71',
+        backgroundColor: '#3C6E71',
         marginHorizontal: 10,
     },
     containerStyle: {

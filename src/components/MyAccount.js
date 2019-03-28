@@ -10,11 +10,10 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { authen } from '../actions';
-import { Actions } from 'react-native-router-flux';
 import CodeInput from './common/CodeInput';
 import { Button } from './common/Button';
 import Login from './Login';
-import { ActionConst } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 class MyAccount extends Component {
@@ -76,7 +75,7 @@ class MyAccount extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
-                    <Button>Log out</Button>
+                    <Button onPress={() => Actions.authen()}>Log out</Button>
                 </View>
             </View>
         );

@@ -9,43 +9,13 @@ import axios from 'axios';
 import { Action } from 'rxjs/scheduler/Action';
 
 class Login extends Component {
-    //     render() {
-    //         return (
-    //             <View style={{flex: 1}}>
-    //                 <View style={{flex: 2}}>
-    //                     <Image
-    //                         style={{ width: 200, height: 200 }}
-    //                         source={require('/frontend/src/components/image/dog1.jpg')}
-    //                     />
-    //                 </View>
-
-    //                 <View style={
-    //                     {      
-    //                         flex: 1
-    //                     }
-    //                 }>
-    //                     <SocialIcon
-    //                         title='Login with Google+'
-    //                         button
-    //                         type='google-plus-official'
-    //                         onPress={Actions.container}
-    //                     />
-    //                 </View>
-
-    //             </View>
-
-
-    //         );
-    //     }
-    // }
-
     constructor(props) {
         super(props)
         this.state = {
             signedIn: false,
-            name:"",
+            name: "",
             email: '',
-            id:''
+            id: ''
         }
     }
     signIn = async () => {
@@ -69,44 +39,38 @@ class Login extends Component {
 
             if (result.type === "success") {
                 const response = await axios.post('https://locker54.azurewebsites.net/mobile/AddUserAccount', {
-                    // "id_account": this.state.id,
-                    // "name": this.state.name,
-                    // "phone": " ",
-                    // "email": this.state.email,
-                    // "role": "",
-                    // "point": 0,
                     "_Token": this.state.token,
                 });
                 console.log('add account : ', response)
                 Actions.container();
-              
+
             } else {
                 console.log("cancelled")
             }
         } catch (e) {
             console.log("error  account ", e.response.data)
-            if(e.response.data == 'account_already_exist') {
+            if (e.response.data == 'account_already_exist') {
                 Actions.container();
             }
             else {
-                 Alert.alert(
-                'Login Failed',
-                e.response.data,
-                [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                {cancelable: false},
-              );
+                Alert.alert(
+                    'Login Failed',
+                    e.response.data,
+                    [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false },
+                );
             }
-           
+
         }
     }
     render() {
         return (
             <View style={styles.container}>
-               
-                        <LoginPage signIn={this.signIn} />
-                   
+
+                <LoginPage signIn={this.signIn} />
+
             </View>
         )
     }
@@ -114,7 +78,13 @@ class Login extends Component {
 
 const LoginPage = props => {
     return (
-        <View>
+        <View style={{ flex: 1, marginTop: 15, }}>
+            <View >
+                <Image
+                    style={{ width: 200, height: 200 }}
+                    source={require('/frontend/src/components/image/dog1.jpg')}
+                />
+            </View>
             <Text style={styles.header}>Sign In With Google</Text>
             <Button title="Sign in with Google" onPress={() => props.signIn()} />
         </View>
