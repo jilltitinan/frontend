@@ -53,7 +53,7 @@ class RouterComponent extends React.Component {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={Login} title="Welcome" initial />
+                        <Scene key="login" component={MyBooking} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">

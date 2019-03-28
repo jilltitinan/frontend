@@ -12,7 +12,7 @@ class ComfirmCode extends Component {
         super(props);
 
         this.state = {
-            setcode: '',
+            setcode2: '',
             // detail: {}
         };
     }
@@ -34,41 +34,36 @@ class ComfirmCode extends Component {
 
 
     onSavePress(bookingID) {
-        
-        axios.put(`https://locker54.azurewebsites.net/mobile/SetCode?id_reserve=${bookingID}&code=456987`)
+        console.log("setcode : ", this.props.pin.pin)
+
+        axios.put(`https://locker54.azurewebsites.net/mobile/SetCode?id_reserve=${bookingID}&code=${this.props.pin.pin}`)
             .then(res => {
                 console.log('ress ' + res);
                 console.log('res dataa  ' + res.data);
                 if (res.status == 200) {
-                    this.props.reservationId(res.data);
-                    Actions.afterbooked();
+                    Alert.alert(
+                        'Save code success',
+                        'press ok',
+                        [
+                            { text: 'OK'},
+                        ],
+                        { cancelable: false },
+                    );
                 }
 
             })
             .catch(error => {
                 console.log('error reserve response ' + error.response);
                 console.log('error reserve data ' + error.response.data);
-                if (error.response.data == 'Cannot_find_size_requirement') {
-                    Alert.alert(
-                        'Reservation Failed',
-                        'Cannot_find_size_requirement',
-                        [
-                            { text: 'OK', onPress: () => Actions.Reserve() },
-                        ],
-                        { cancelable: false },
-                    );
-                }
-                else {
-                    Alert.alert(
-                        'Reservation Failed',
-                        error.response.data,
-                        [
-                            { text: 'OK', onPress: () => Actions.Reserve() },
-                        ],
-                        { cancelable: false },
-                    );
-                }
 
+                Alert.alert(
+                    'Reservation Failed',
+                    error.response.data,
+                    [
+                        { text: 'OK', onPress: () => Actions.Reserve() },
+                    ],
+                    { cancelable: false },
+                );
             })
     }
 
