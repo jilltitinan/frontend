@@ -1,12 +1,31 @@
 import React, { PropTypes, Component } from 'react';
-import { Text, View, Image, Actions } from 'react-native';
+import { Text, View, Image} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { historySelected } from '../actions';
 import { connect } from 'react-redux';
 import { Button } from './common/Button';
+import axios from 'axios';
+import { Actions } from 'react-native-router-flux';
 
 
 class MoreHistoryDetail extends Component {
+
+    onSetPress() {
+        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.past.bookingID}`)
+            .then(response => {
+                if (response.status === 200) {
+                   console.log('status 200');
+                   Actions.shownocode();
+                }
+            }
+            )
+            .catch(err => {
+                console.log(err)
+                Actions.shownocode();
+            });
+
+    }
+
     render() {
 
         const { bookingID, startDate, endDate, location, size } = this.props.data.past;
@@ -43,7 +62,7 @@ class MoreHistoryDetail extends Component {
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
 
-                    <Button style={buttonNext} > Show the code </Button>
+                    <Button style={buttonNext}  onPress={() => this.onSetPress()}> Show the code </Button>
                 </View>
 
             </View>

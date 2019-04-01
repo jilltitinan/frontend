@@ -18,7 +18,7 @@ const HistoryList = ({ booking }) => {
       <CardSection>
        
         <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{startDate} - {endDate}</Text>
+          <Text style={headerTextStyle}>{bookingID} - {endDate}</Text>
           <Text>Location : {location}</Text>
           <Text>Size : {size} </Text>
         </View> 

@@ -64,6 +64,21 @@ class MoreBookingDetail extends Component {
 
     }
 
+    onSetPress() {
+        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`)
+            .then(response => {
+                if (response.status === 200) {
+                   console.log('status 200');
+                   Actions.showthecode();
+                }
+            }
+            )
+            .catch(err => {
+                Actions.entercode();
+            });
+
+    }
+
     render() {
 
         // state = { showModal: false };
@@ -102,7 +117,7 @@ class MoreBookingDetail extends Component {
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
                     <Button style={buttonNext} onPress={() => this.onButtonPress()} > Cancle Booking </Button>
-                    <Button style={buttonNext} onPress={() => Actions.entercode()}> Show the code </Button>
+                    <Button style={buttonNext} onPress={() => this.onSetPress()}> Show the code </Button>
                 </View>
 
             </View>

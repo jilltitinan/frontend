@@ -22,6 +22,8 @@ import Confirm from './Confirm';
 import FullReservation from './FullReservation';
 import testBase2 from './LockerFull';
 import AfterBooked from './AfterBooked';
+import ShowTheCode from './ShowTheCode';
+import ShowNoCode from './ShowNoCode';
 
 class RouterComponent extends React.Component {
     renderCustomButton() {
@@ -87,6 +89,17 @@ class RouterComponent extends React.Component {
                         <Scene key="editac" component={EditAccount} title="Edit Account"
                             renderLeftButton={this.renderCustomButton()} />
                     </Scene>
+
+                    <Scene key="showthecode" >
+                        <Scene key="setcode" component={ShowTheCode} title="Show the code"
+                            renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
+                    <Scene key="shownocode" >
+                        <Scene key="setnocode" component={ShowNoCode} title="Show the code"
+                            renderLeftButton={this.renderCustomButton()} />
+                    </Scene>
+
 
                     <Scene key="setting" >
                         <Scene key="set" component={Setting} title="Setting" renderLeftButton={this.renderCustomButton()} />
