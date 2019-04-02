@@ -38,11 +38,11 @@ class ShowTheCode extends Component {
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <View style={styles.titleWrapper}>
-                        <Text style={styles.title}>Code for open the locker</Text>
+                        <Text style={styles.title}>Your code is</Text>
                     </View>
 
-                    <View style={styles.inputWrapper1}>                       
-                        <Text>{this.state.detail}</Text>
+                    <View style={styles.titleWrapper}>                       
+                        <Text style={styles.title2}>{this.state.detail}</Text>
                     </View>
 
                 </View>
@@ -67,6 +67,12 @@ const styles = StyleSheet.create({
         color: '#7C7C7C',
         fontSize: 30,
         fontWeight: '800',
+        paddingVertical: 30
+    },
+    title2: {
+        color: '#7C7C7C',
+        fontSize: 30   ,
+        fontWeight: '100',
         paddingVertical: 30
     },
     wrapper: {

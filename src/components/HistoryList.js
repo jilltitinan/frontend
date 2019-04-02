@@ -54,8 +54,4 @@ const styles = {
   }
 };
 
-// AlbumDetail.propTypes = {
-//   album: PropTypes.object.isRequired
-// };
-
 export default HistoryList;

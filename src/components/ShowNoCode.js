@@ -16,16 +16,16 @@ class ShowTheCode extends Component {
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <View style={styles.titleWrapper}>
-                        <Text style={styles.title}>Code for open the locker</Text>
+                        <Text style={styles.title}>Your code</Text>
                     </View>
 
-                    <View style={styles.inputWrapper1}>                       
-                        <Text>No code</Text>
+                    <View style={styles.titleWrapper}>                       
+                        <Text style={styles.title2}>No code</Text>
                     </View>
 
                 </View>
                 <View style={styles.button}>
-                    <Button  onPress={() => Actions.reserve()}>Back</Button>
+                    <Button  onPress={() => Actions.historydetail()}>Back</Button>
                 </View>
             </View>
         );
@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
         color: '#7C7C7C',
         fontSize: 30,
         fontWeight: '800',
+        paddingVertical: 30
+    },
+    title2: {
+        color: '#7C7C7C',
+        fontSize: 30   ,
+        fontWeight: '100',
         paddingVertical: 30
     },
     wrapper: {

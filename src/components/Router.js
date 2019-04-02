@@ -49,13 +49,22 @@ class RouterComponent extends React.Component {
             </TouchableOpacity>
         );
     }
+
+    renderGoHistory() {
+        return () => (
+            <TouchableOpacity onPress={() => Actions.MyBooking()}>
+                <Icon name="arrow-back" size={30} color="#FFF" />
+            </TouchableOpacity>
+        );
+    }
+
     render() {
         const { tabBarStyle } = styles;
         return (
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={MyBooking} title="Welcome" initial />
+                        <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -78,7 +87,7 @@ class RouterComponent extends React.Component {
 
 
                     <Scene key="historydetail" >
-                        <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail" renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail" renderLeftButton={this.renderGoHistory()} />
                     </Scene>
 
                     <Scene key="sumreserve" >
@@ -96,7 +105,7 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key="shownocode" >
-                        <Scene key="setnocode" component={ShowNoCode} title="Show the code"
+                        <Scene key="setnocode" component={ShowNoCode} title="Show NO code"
                             renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
