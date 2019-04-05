@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import axios from 'axios';
 import AlbumDetail from './AlbumDetail';
 import { authen, bookingSelected } from '../actions';
@@ -9,10 +9,25 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class AlbumList extends Component {
-    state = { reserve: [] }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            refreshing: false,
+            reserve: [],
+        }
+    }
 
     onButtonPress(booking) {
         this.props.bookingSelected(booking);
+    }
+
+    _onRefresh = () => {
+
+        this.setState({ refreshing: true });
+        { this.renderReserve() }
+        this.setState({ refreshing: false });
+
     }
 
     componentWillMount() {
@@ -42,7 +57,13 @@ class AlbumList extends Component {
     render() {
         // console.log('AlbumList is ' + this.state);
         return (
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />
+                }>
                 {this.renderReserve()}
             </ScrollView>
         );

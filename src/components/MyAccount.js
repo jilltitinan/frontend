@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
-    ScrollView,
     Dimensions,
-    Alert,
     TouchableOpacity
 } from 'react-native';
 import { authen } from '../actions';
-import CodeInput from './common/CodeInput';
 import { Button } from './common/Button';
-import Login from './Login';
+import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 class MyAccount extends Component {
+    state = { detail: {} }  
+    
+    componentDidMount() {
+        var newId = this.props.result.user.email.toString();
+        var newId_accout = newId.substring(0, newId.length - 12);
+        axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?id_account=${newId_accout}`)
+        .then(res => {
+            const info = res.data
+            this.setState({ detail: info })
+            console.log('detailll ' + this.state.detail.id_account);
+          })
+    }
+
     componentWillMount() {
         const { width } = Dimensions.get('window');
 
-        // Responsive Condition
         if (width > 375) {
             this.setState({
                 ...this.state,
@@ -38,11 +46,13 @@ class MyAccount extends Component {
         }
     }
     render() {
+
+        
         return (
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
-                    <Text style={styles.title}>{this.props.result.user.name}</Text>
-                    <Text style={styles.title}>Point: 100</Text>
+                    <Text style={styles.title}>Name : {this.props.result.user.name}</Text>
+                    <Text style={styles.title}>Point : {this.state.detail.point}</Text>
                 </View>
                 <View style={styles.inputWrapper1}>
                     <TouchableOpacity

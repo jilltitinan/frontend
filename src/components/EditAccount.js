@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { Text, View, Image, TextInput, Alert } from 'react-native';
 import { Button } from './common/Button';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { authen } from '../actions';
 
 class EditAccount extends Component {
     state = { reserve: [] }
     componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/mobile/Getphone?id_account=58010326')
+        var newId = this.props.result.user.email.toString();
+        var newId_accout = newId.substring(0, newId.length - 12);
+        axios.get(`https://locker54.azurewebsites.net/mobile/Getphone?id_account=${newId_accout}`)
             .then(response => this.setState({ reserve: response.data }));
     }
 
@@ -129,4 +133,9 @@ const styles = {
 
 };
 
-export default EditAccount;
+const mapStateToProps = (state) => {
+    const { result } = state.auth;
+    return { result };
+}
+
+export default connect(mapStateToProps, { authen })(EditAccount);

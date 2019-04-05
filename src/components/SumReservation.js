@@ -7,34 +7,20 @@ import { connect } from 'react-redux';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import axios from 'axios';
+import moment from 'moment';
 
 class SumReservation extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            id_reserve: 0,
-            code: '',
-            isActive: true,
-            status: '',
-            startDay: '',
-            endDay: '',
-            startTime: '',
-            endTime: '',
-            dateModified: '',
-            optional: false,
-            size: '',
-            location: '',
-            id_account: '',
-            id_vacancy: 0,
-            value: '',
-        }
-    }
+    state = {
+        user: '',
+        selectedStartDate: " ",
+        selectedEndDate: " ",
+        startDateTimePickerVisible: false,
+        endDateTimePickerVisible: false,
+        select: 'moment',
+    };
 
     componentWillMount() {
         const { width } = Dimensions.get('window');
-
-        // Responsive Condition
         if (width > 375) {
             this.setState({
                 ...this.state,
@@ -53,23 +39,6 @@ class SumReservation extends Component {
     }
 
     onButtonPress() {
-        this.setState({
-            id_reserve: 0,
-            code: '',
-            isActive: true,
-            status: '',
-            startDay: '',
-            endDay: '',
-            startTime: '',
-            endTime: '',
-            dateModified: '',
-            optional: false,
-            size: this.props.size,
-            location: '',
-            id_account: '',
-            id_vacancy: 0,
-            value: ''
-        })
 
         var newdate = this.props.date.split("-").reverse().join("-");
         var newnewdate = newdate.toString();
@@ -98,8 +67,6 @@ class SumReservation extends Component {
                 "id_vacancy": 0
             })
                 .then(res => {
-                    console.log('ress ' + res);
-                    console.log('res dataa  ' + res.data);
                     if (res.status == 200) {
                         this.props.reservationId(res.data);
                         Actions.afterbooked();
@@ -135,8 +102,6 @@ class SumReservation extends Component {
 
             })
                 .then(res => {
-                    console.log('ress ' + res);
-                    console.log('res dataa  ' + res.data);
                     if (res.status == 200) {
                         this.props.reservationId(res.data);
                         Actions.afterbooked();
@@ -167,6 +132,15 @@ class SumReservation extends Component {
             bottom,
             buttonNext,
         } = styles;
+
+            var weekDayName = moment(this.props.date).format('dddd');
+            var date1 = moment(this.props.date).format('DD-MM-YYYY');
+            var selectedStartDate =  weekDayName + ' ' + date1 
+
+            var weekDayName2 = moment(this.props.endDate).format('dddd');
+            var date2 = moment(this.props.date).format('DD-MM-YYYY');
+            var selectedEndDate =  weekDayName2 + ' ' + date2 
+
         if (this.props.valueType == 'true') {
             return (
                 <View style={{
@@ -177,7 +151,7 @@ class SumReservation extends Component {
                     <Card>
                         <CardSection>
                             <View style={headerContentStyle}>
-                                <Text style={headerTextStyle}>{this.props.date}</Text>
+                                <Text style={headerTextStyle}>{selectedStartDate}</Text>
                                 <Text>{'Locker size: ' + this.props.size}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                                 <Text>{'Total Hour: ' + this.props.hour}</Text>
@@ -200,7 +174,9 @@ class SumReservation extends Component {
                     <Card>
                         <CardSection>
                             <View style={headerContentStyle}>
-                                <Text style={headerTextStyle}>{this.props.date + ' - ' + this.props.endDate}</Text>
+                                <Text style={headerTextStyle}>{selectedStartDate}</Text>
+                                <Text> to </Text>
+                                <Text style={headerTextStyle}>{selectedEndDate}</Text>
                                 <Text>{'Locker size: ' + this.props.valueType}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                             </View>

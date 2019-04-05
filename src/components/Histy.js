@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import axios from 'axios';
 import HistoryDetail from './HistoryDetail';
 import HistoryList from './HistoryList';
@@ -7,12 +7,25 @@ import { authen, bookingSelected, historySelected } from '../actions';
 import { connect } from 'react-redux';
 
 class Histy extends Component {
-    state = { reserve: [] }
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            refreshing: false,
+            reserve: [],
+        }
+    }
 
     onButtonPress(booking) {
         // const { title } = this.props;
         console.log('booking ' + booking)
         this.props.historySelected(booking);
+    }
+    _onRefresh = () => {
+        this.setState({ refreshing: true });
+        { this.renderReserve() }
+        this.setState({ refreshing: false });
     }
 
     componentWillMount() {
@@ -34,7 +47,7 @@ class Histy extends Component {
         // console.log('History');
 
         return this.state.reserve.map(booking =>
-            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>                
+            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>
                 <HistoryList booking={booking} />
             </TouchableOpacity>
         );
@@ -43,7 +56,13 @@ class Histy extends Component {
     render() {
         // console.log('history is ' + this.state);
         return (
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />
+                }>
                 {this.renderReserve()}
             </ScrollView>
         );
@@ -55,4 +74,4 @@ const mapStateToProps = (state) => {
     return { result };
 }
 
-export default connect(mapStateToProps, { authen, historySelected  })(Histy);
+export default connect(mapStateToProps, { authen, historySelected })(Histy);

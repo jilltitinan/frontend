@@ -10,21 +10,13 @@ import { Actions } from 'react-native-router-flux';
 class HistoryDetail extends Component {
     state = { reserve: [] }   
 
-    componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/api/Reservation/ReserveID?id=111754653601874456461')
-            .then(response => this.setState({ reserve: response.data }));
-    }
-
     renderReserve() {
         return this.state.reserve.map(booking =>
             <MoreHistoryDetail key={booking.id_reserve} booking={booking} />            
-
         );
     }
 
     render() {
-        console.log(this.state);
-
         return (
             <View style={{ flex: 1, }}>
                 {this.renderReserve()}

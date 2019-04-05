@@ -13,8 +13,6 @@ import moment from 'moment';
 
 var today = new Date();
 var nextDay = new Date();
-// nextDay.setDate(nextDay.getDate() + 1);
-
 
 const item1 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
 const item2 = ['2', '4', '6', '8', '10', '12', '14', '16', '18'];
@@ -35,8 +33,6 @@ class Home extends Component {
 
 
     state = {
-        //location: '',
-        //size: '',
         user: '',
         selectedStartDate: " ",
         selectedEndDate: " ",
@@ -46,9 +42,6 @@ class Home extends Component {
     };
 
     onButtonPress() {
-        // const { location, size } = this.props;
-        // console.log("on button press location   " + location +"  size  "+ size );
-        // this.props.reservationUpdate({ location, size });
         Actions.sumreserve();
     }
 
@@ -83,7 +76,7 @@ class Home extends Component {
     toggleSwitch1 = (value) => {
         this.setState({ switch1Value: value });
         this.props.reservationType(value.toString());
-        console.log('Switch 1 is: ' + value)
+        // console.log('Switch 1 is: ' + value)
     }
 
     showStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: true });
@@ -92,21 +85,25 @@ class Home extends Component {
     hideEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: false });
 
     handleStartDatePicked = (date) => {
-        // var date2 = date.toString();
-        // var date3 = date2.substring(0, 10);
+        var dateRedux = date.toString();
+        var weekDayName =  moment(date).format('dddd');
         var date3 = moment(date).format('DD-MM-YYYY');
-        this.setState({ selectedStartDate: date3, date3: date3 });
+        this.setState({ selectedStartDate: weekDayName + ' ' + date3, dateRedux: dateRedux });
         this.hideStartDateTimePicker();
-        this.props.reservationStart(date3);
+        this.props.reservationStart(dateRedux);
         nextDay = date;
         nextDay.setDate(nextDay.getDate() + 1);
     };
 
     handleEndDatePicked = (date) => {
+        // var date5 = date.toString();
+        // var enddateDay = date5.substring(0, 10);
+        var dateRedux = date.toString();
+        var weekDayName = moment(date).format('dddd');
         var date4 = moment(date).format('DD-MM-YYYY');
-        this.setState({ selectedEndDate: date4, date4: date4 });
+        this.setState({ selectedEndDate: weekDayName + ' ' + date4, dateRedux: dateRedux });
         this.hideEndDateTimePicker();
-        this.props.reservationEnd(date4);
+        this.props.reservationEnd(dateRedux);
     };
 
     getItems(val) {
@@ -159,15 +156,9 @@ class Home extends Component {
         this.props.reservationHour(value);
     }
 
-    // onStartPress = (date) => {
-    //     console.log('daaaa' + date)
-    //     this.props.reservationStart(date);
-    // }
-
     componentWillMount() {
         const { width } = Dimensions.get('window');
 
-        // Responsive Condition
         if (width > 375) {
             this.setState({
                 ...this.state,
