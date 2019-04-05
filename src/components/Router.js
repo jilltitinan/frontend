@@ -64,7 +64,7 @@ class RouterComponent extends React.Component {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={Reservation} title="Welcome" initial />
+                        <Scene key="login" component={MyBooking} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">
@@ -84,7 +84,6 @@ class RouterComponent extends React.Component {
                     <Scene key="afterbooked" >
                         <Scene key="afterbook" component={AfterBooked} title="After book Detail" renderLeftButton={this.renderGoHome()} />
                     </Scene>
-
 
                     <Scene key="historydetail" >
                         <Scene key="historybooking" component={MoreHistoryDetail} title="History Detail" renderLeftButton={this.renderGoHistory()} />
@@ -108,7 +107,6 @@ class RouterComponent extends React.Component {
                         <Scene key="setnocode" component={ShowNoCode} title="Show NO code"
                             renderLeftButton={this.renderCustomButton()} />
                     </Scene>
-
 
                     <Scene key="setting" >
                         <Scene key="set" component={Setting} title="Setting" renderLeftButton={this.renderCustomButton()} />

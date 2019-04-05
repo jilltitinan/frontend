@@ -10,7 +10,7 @@ import { Slick } from './common/Slick';
 import { SlickItem } from './common/SlickItem';
 import { LinearGradient } from 'expo';
 import { Icon } from 'react-native-elements';
-
+import Slideshow from 'react-native-image-slider-show';
 
 class Home extends Component {
     componentWillMount() {
@@ -39,17 +39,12 @@ class Home extends Component {
         return (
             <View style={container}>
                 <Card>
-                    <Image
-                        style={{ width: 200, height: 200 }}
-                        source={require('/frontend/src/components/image/dog1.jpg')}
-                    />
-                    {/* <Card>
-                    <Slick>
-                        <SlickItem source={require('/frontend/src/components/image/dog1.jpg')} />
-                        <SlickItem source={require('/frontend/src/components/image/dog1.jpg')} />
-                        <SlickItem source={require('/frontend/src/components/image/dog1.jpg')} />
-                    </Slick>
-                </Card> */}
+                    <Slideshow
+                        dataSource={[
+                            { url: 'http://placeimg.com/640/480/any' },
+                            { url: 'http://placeimg.com/640/480/any' },
+                            { url: 'http://placeimg.com/640/480/any' }
+                        ]} />
                 </Card>
                 <Card>
                     <View style={button}>

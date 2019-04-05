@@ -10,10 +10,8 @@ import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import moment from 'moment';
 
-
 var today = new Date();
 var nextDay = new Date();
-
 const item1 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
 const item2 = ['2', '4', '6', '8', '10', '12', '14', '16', '18'];
 const item3 = ['2', '4', '6', '8', '10', '12', '14', '16'];
@@ -26,11 +24,8 @@ const item9 = ['2', '4'];
 const item10 = ['2',];
 const item11 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
 const item12 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24'];
-
 var BUTTONS = ['Option 0', 'Option 1', 'Option 2', 'Delete', 'Cancel',];
-
 class Home extends Component {
-
 
     state = {
         user: '',
@@ -76,7 +71,6 @@ class Home extends Component {
     toggleSwitch1 = (value) => {
         this.setState({ switch1Value: value });
         this.props.reservationType(value.toString());
-        // console.log('Switch 1 is: ' + value)
     }
 
     showStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: true });
@@ -88,7 +82,7 @@ class Home extends Component {
         var dateRedux = date.toString();
         var weekDayName =  moment(date).format('dddd');
         var date3 = moment(date).format('DD-MM-YYYY');
-        this.setState({ selectedStartDate: weekDayName + ' ' + date3, dateRedux: dateRedux });
+        this.setState({ selectedStartDate: weekDayName + ' ' + date3, dateRedux: date3 });
         this.hideStartDateTimePicker();
         this.props.reservationStart(dateRedux);
         nextDay = date;
@@ -101,7 +95,7 @@ class Home extends Component {
         var dateRedux = date.toString();
         var weekDayName = moment(date).format('dddd');
         var date4 = moment(date).format('DD-MM-YYYY');
-        this.setState({ selectedEndDate: weekDayName + ' ' + date4, dateRedux: dateRedux });
+        this.setState({ selectedEndDate: weekDayName + ' ' + date4, dateRedux: date4 });
         this.hideEndDateTimePicker();
         this.props.reservationEnd(dateRedux);
     };
@@ -148,7 +142,6 @@ class Home extends Component {
     onValueChange(value) {
         this.setState({ selected1: value });
         this.props.reservationStartTime(value);
-
     }
 
     onValueChange2(value) {
@@ -158,7 +151,6 @@ class Home extends Component {
 
     componentWillMount() {
         const { width } = Dimensions.get('window');
-
         if (width > 375) {
             this.setState({
                 ...this.state,
@@ -232,8 +224,6 @@ class Home extends Component {
                         {!this.state.switch1Value &&
 
                             <View style={picker3}>
-
-
                                 <View style={pickerCalendar}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
@@ -358,7 +348,6 @@ class Home extends Component {
                                             selectedValue={this.state.selected2}
                                             onValueChange={this.onValueChange2.bind(this)}>
                                             {this.getItems(this.state.selected1).map((item, i) => {
-                                                // console.log('item', item);
                                                 return <Picker.Item label={item} key={`${i}+1`} value={item} />
                                             })}
                                         </Picker>
@@ -369,6 +358,7 @@ class Home extends Component {
 
                     </View>
                 </View>
+
                 {((this.state.selectedEndDate && this.state.selectedStartDate && (this.state.switch1Value == false)) || (this.state.selectedStartDate && this.state.switch1Value)) &&
                     <View style={buttonNext}>
                         <Button onPress={this.onButtonPress.bind(this)}> Next </Button>
@@ -376,16 +366,12 @@ class Home extends Component {
                 }
 
             </View>
-
-
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    // console.log("before mapstateToProps   "+ state.reserve);
     const { location, size, selectedStartDate } = state.reserve;
-    // console.log("after  "+ l2 + "  "+ s2);
     return { location, size, selectedStartDate };
 };
 
@@ -397,9 +383,6 @@ const styles = StyleSheet.create({
     },
     picker: {
         backgroundColor: '#FFFFFF',
-        // flex: 1,
-        // justifyContent: 'space-between',
-        // padding: 15,
         flexDirection: 'row',
         borderRadius: 4,
         borderWidth: 0.5,
@@ -425,7 +408,6 @@ const styles = StyleSheet.create({
         borderColor: '#d6d7da',
     },
     picker3: {
-        // flex: 1,
         justifyContent: 'space-between',
         borderRadius: 4,
         borderWidth: 0.5,

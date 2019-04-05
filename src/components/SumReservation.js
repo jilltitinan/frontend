@@ -11,14 +11,10 @@ import moment from 'moment';
 
 class SumReservation extends Component {
     state = {
-        user: '',
         selectedStartDate: " ",
         selectedEndDate: " ",
-        startDateTimePickerVisible: false,
-        endDateTimePickerVisible: false,
-        select: 'moment',
     };
-
+    
     componentWillMount() {
         const { width } = Dimensions.get('window');
         if (width > 375) {
@@ -40,9 +36,9 @@ class SumReservation extends Component {
 
     onButtonPress() {
 
-        var newdate = this.props.date.split("-").reverse().join("-");
+        var newdate = moment(this.props.date).format('YYYY-MM-DD');
         var newnewdate = newdate.toString();
-        var newEndDate = this.props.endDate.split("-").reverse().join("-");
+        var newEndDate = moment(this.props.endDate).format('YYYY-MM-DD');
         var newId = this.props.result.user.email.toString();
         var newId_accout = newId.substring(0, newId.length - 12);
         var newEndtime = parseInt(this.props.time);
@@ -85,7 +81,7 @@ class SumReservation extends Component {
 
                 })
         } else { //more than one day
-
+            console.log('new dateeeee'+newnewdate)
             axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
 
                 "id_reserve": 0,
@@ -108,8 +104,11 @@ class SumReservation extends Component {
                     }
                 })
                 .catch(error => {
-
-                    Alert.alert(
+                    if(error.response.data = 'Cannot_find_size_requirement'){
+                        Actions.fullreserve();
+                    }
+                    else {
+                        Alert.alert(
                         'Reservation Failed',
                         error.response.data,
                         [
@@ -117,12 +116,15 @@ class SumReservation extends Component {
                         ],
                         { cancelable: false },
                     );
+                    }
+                    
                 })
         }
     }
 
     render() {
         // const { title, artist, thumbnail_image, image } = album;
+        console.disableYellowBox = true;
         const {
             thumbnailStyle,
             headerContentStyle,
@@ -177,7 +179,7 @@ class SumReservation extends Component {
                                 <Text style={headerTextStyle}>{selectedStartDate}</Text>
                                 <Text> to </Text>
                                 <Text style={headerTextStyle}>{selectedEndDate}</Text>
-                                <Text>{'Locker size: ' + this.props.valueType}</Text>
+                                <Text>{'Locker size: ' + this.props.size}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                             </View>
                         </CardSection>

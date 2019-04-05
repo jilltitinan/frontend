@@ -17,7 +17,6 @@ const SecondRouteHistory = () => (
   <History5 />
 );
 
-
 class MyBooking extends Component {
   state = {
     index: 0,
@@ -33,6 +32,7 @@ class MyBooking extends Component {
     const inputRange = props.navigationState.routes.map((x, i) => i);
 
     return (
+
       <View style={styles.tabBar}>
         {props.navigationState.routes.map((route, i) => {
           const color = props.position.interpolate({
@@ -41,6 +41,7 @@ class MyBooking extends Component {
               inputIndex => (inputIndex === i ? '#00A6A6' : '#222')
             ),
           });
+
           return (
             <TouchableOpacity
               key={i}
@@ -64,7 +65,6 @@ class MyBooking extends Component {
   componentWillMount() {
     const { width } = Dimensions.get('window');
 
-    // Responsive Condition
     if (width > 375) {
       this.setState({
         ...this.state,

@@ -38,9 +38,6 @@ class EditAccount extends Component {
 
             })
             .catch(error => {
-                console.log('error reserve response ' + error.response);
-                console.log('error reserve data ' + error.response.data);
-                
                     Alert.alert(
                         'Reservation Failed',
                         error.response.data,

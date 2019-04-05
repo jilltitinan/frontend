@@ -20,7 +20,6 @@ class Afterbooked extends Component {
     }
 
     onButtonPress() {
-
         Alert.alert(
             'Cancle locker',
             'Are you sure to cancle this locker?',
@@ -34,13 +33,6 @@ class Afterbooked extends Component {
             ],
             {cancelable: false},
           );
-
-        // axios.delete(`https://locker54.azurewebsites.net/api/Reservation/Delete?id_reserve=${this.props.id}`)
-        // .then(Bu
-        //     // Observe the data keyword this time. Very important
-        //     // payload is the request body
-        //     // Do something
-        //   )
     }
 
     deleteReservation() {
@@ -53,13 +45,9 @@ class Afterbooked extends Component {
             ],
             {cancelable: false},
           );
-
     }
     
-    // console.log('jylllllll',data);    
     render() {
-
-
         axios.get(`https://locker54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.id}`)
             .then(res => {
                 const info = res.data

@@ -10,15 +10,12 @@ import axios from 'axios';
 class ComfirmCode extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             setcode2: '',
-            // detail: {}
         };
     }
 
     _onFulfill(setcode) {
-        console.log(setcode)
         this.setState({ setcode: setcode });
         this.props.pinEnter(setcode);
     }
@@ -28,18 +25,13 @@ class ComfirmCode extends Component {
             .then(res => {
                 const info = res.data
                 this.setState({ detail: info })
-                console.log('detailll ' + this.state.detail.bookingID);
             })
     }
 
 
     onSavePress(bookingID) {
-        console.log("setcode : ", this.props.pin.pin)
-
         axios.put(`https://locker54.azurewebsites.net/mobile/SetCode?id_reserve=${bookingID}&code=${this.props.pin.pin}`)
             .then(res => {
-                console.log('ress ' + res);
-                console.log('res dataa  ' + res.data);
                 if (res.status == 200) {
                     Alert.alert(
                         'Save code success',
@@ -53,9 +45,6 @@ class ComfirmCode extends Component {
 
             })
             .catch(error => {
-                console.log('error reserve response ' + error.response);
-                console.log('error reserve data ' + error.response.data);
-
                 Alert.alert(
                     'Reservation Failed',
                     error.response.data,
@@ -88,7 +77,6 @@ class ComfirmCode extends Component {
                             onFulfill={(setcode) => this._onFulfill(setcode)}
                         />
                     </View>
-
 
                 </View>
                 <View style={styles.button}>

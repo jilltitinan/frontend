@@ -10,15 +10,12 @@ import axios from 'axios';
 class ShowTheCode extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             setcode2: '',
-            // detail: {}
         };
     }
 
     _onFulfill(setcode) {
-        console.log(setcode)
         this.setState({ setcode: setcode });
         this.props.pinEnter(setcode);
     }
@@ -28,7 +25,6 @@ class ShowTheCode extends Component {
             .then(res => {
                 const info = res.data
                 this.setState({ detail: info })
-                console.log('detailll ' + this.state.detail);
             })
     }
 

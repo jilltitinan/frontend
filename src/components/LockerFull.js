@@ -12,9 +12,7 @@ export default class testBase2 extends Component {
 
         super(props);
         this.state = {
-
             selected1: 'key1'
-
         }
     }
 

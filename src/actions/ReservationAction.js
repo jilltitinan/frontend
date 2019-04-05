@@ -12,8 +12,6 @@ import { Actions } from 'react-native-router-flux';
 
 
 export const reservationUpdate = (location) => {
-    // console.log("upadte " + prop + " update  " + value);
-    // console.log(location)
     return {
         type: RESERVATION_UPDATE,
         payload: location
@@ -56,17 +54,14 @@ export const reservationStartTime = (time) => {
 };
 
 export const reservationType = (valueType) => {
-     console.log('id   ', valueType);
     return {
         type: RESERVATION_TYPE,
-        payload: valueType
-        
+        payload: valueType        
     };
    
 };
 
 export const reservationId = (id) => {
-    // console.log('id   ', id);
     return {
         type: RESERVATION_ID,
         payload: id
