@@ -24,8 +24,74 @@ import testBase2 from './LockerFull';
 import AfterBooked from './AfterBooked';
 import ShowTheCode from './ShowTheCode';
 import ShowNoCode from './ShowNoCode';
+import { AsyncStorage } from 'react-native';
+import Axios from 'axios';
+
 
 class RouterComponent extends React.Component {
+    
+    componentDidMount = async () => {
+            console.log("cancelled")
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    // We have data!!
+                    const AuthStr = 'Bearer '.concat(value); 
+                      console.log("dfasfsdfsdf    ", AuthStr)
+                   var dataAxios = await Axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?token=${value}` , { headers: { 'Authorization': `${value} ` } } )
+                  
+                        .then(response => { 
+                            console.log("valure", value);
+                            if (response.status === 200) {
+                                Actions.container();
+                               
+                               console.log('status 200');
+                               Alert.alert(
+                                'Cancle successful',
+                                'Press ok to go back.',
+                                [
+                                  {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
+                                  
+                                ],
+                                {cancelable: false},
+                              );
+                            }
+                        }
+                        )
+                        .catch(err => {
+                            console.log(err.response.data);
+                            Alert.alert(
+                                err.response.data,
+                                'Press ok to go back.',
+                                [
+                                  {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
+                                  
+                                ],
+                                {cancelable: false},
+                              );
+                        });
+            
+                    }
+                    // Actions.container();
+                    
+                    else {
+                        Actions.authen();
+                }
+            } catch (error) {
+                if (error.status === undefined) {
+                   
+                   console.log("errrrrr ", error.data)
+                  
+                } else {
+                    console.log("hello error  ")
+                    Actions.authen();
+                }
+              
+            
+            }
+    };
+    
+
     renderCustomButton() {
         return () => (
             <TouchableOpacity onPress={() => Actions.pop()}>
@@ -64,7 +130,7 @@ class RouterComponent extends React.Component {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
                     <Scene key="authen" >
-                        <Scene key="login" component={MyBooking} title="Welcome" initial />
+                        <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
                     <Scene key="Reserve">

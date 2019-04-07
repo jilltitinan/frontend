@@ -6,7 +6,13 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { SocialIcon } from 'react-native-elements';
 import axios from 'axios';
+import { AuthSession } from 'expo';
 import { Action } from 'rxjs/scheduler/Action';
+import { AsyncStorage } from 'react-native';
+
+const Google_APP_ID = '367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com';
+
+
 
 class Login extends Component {
     constructor(props) {
@@ -18,6 +24,24 @@ class Login extends Component {
             id: ''
         }
     }
+
+    _storeData = async (response) => {
+        console.log('add account : ', response)
+        try {
+            await AsyncStorage.setItem('token', response);
+            Actions.container();
+        } catch (e) {
+            Alert.alert(
+                'Login Failed',
+                e.response.data,
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false },
+            );
+        }
+    };
+
     signIn = async () => {
         try {
             const result = await Expo.Google.logInAsync({
@@ -26,7 +50,7 @@ class Login extends Component {
                 //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
                 scopes: ["profile", "email"]
             })
-            console.log(result);
+            // console.log(result);
             this.props.authen(result);
 
             this.setState({
@@ -38,12 +62,11 @@ class Login extends Component {
             })
 
             if (result.type === "success") {
-                const response = await axios.post('https://locker54.azurewebsites.net/mobile/AddUserAccount', {
+                const response = await axios.post('https://locker54.azurewebsites.net/web/usersauthenticate', {
                     "_Token": this.state.token,
                 });
-                console.log('add account : ', response)
-                Actions.container();
 
+                { this._storeData(response.data) }
             } else {
                 console.log("cancelled")
             }
