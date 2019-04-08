@@ -6,6 +6,7 @@ import { Button } from './common/Button';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
 class ComfirmCode extends Component {
     constructor(props) {
@@ -20,24 +21,33 @@ class ComfirmCode extends Component {
         this.props.pinEnter(setcode);
     }
 
-    componentDidMount() {
-        axios.get(`https://locker54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.data.booking.bookingID}`)
-            .then(res => {
-                const info = res.data
-                this.setState({ detail: info })
-            })
-    }
+    // componentDidMount() {
+    //     axios.get(`https://locker54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.data.booking.bookingID}`)
+    //         .then(res => {
+    //             const info = res.data
+    //             this.setState({ detail: info })
+    //         })
+    // }
 
 
-    onSavePress(bookingID) {
-        axios.put(`https://locker54.azurewebsites.net/mobile/SetCode?id_reserve=${bookingID}&code=${this.props.pin.pin}`)
+    onSavePress = async (bookingID) => {
+
+        const valueToken = await AsyncStorage.getItem('token');
+        axios.post('https://locker54.azurewebsites.net/mobile/SetCode', {
+            "id_reserve": bookingID,
+            "code": this.props.pin.pin,
+        },
+            { headers: { "Authorization": `Bearer ${valueToken}` } }
+        )
             .then(res => {
+                console.log('dfsfs')
+
                 if (res.status == 200) {
                     Alert.alert(
                         'Save code success',
                         'press ok',
                         [
-                            { text: 'OK'},
+                            { text: 'OK' },
                         ],
                         { cancelable: false },
                     );

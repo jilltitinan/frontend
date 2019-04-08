@@ -4,13 +4,17 @@ import { Button } from './common/Button';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { authen } from '../actions';
+import { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 class EditAccount extends Component {
     state = { reserve: [] }
-    componentWillMount() {
-        var newId = this.props.result.user.email.toString();
-        var newId_accout = newId.substring(0, newId.length - 12);
-        axios.get(`https://locker54.azurewebsites.net/mobile/Getphone?id_account=${newId_accout}`)
+    componentWillMount= async () => {
+        // var newId = this.props.result.user.email.toString();
+        // var newId_accout = newId.substring(0, newId.length - 12);
+        const value = await AsyncStorage.getItem('token');
+        await axios.get(`https://locker54.azurewebsites.net/mobile/Getphone?id_account=${this.props.result.id_account}`,
+        { headers: { "Authorization": `Bearer ${value}` } })
             .then(response => this.setState({ reserve: response.data }));
     }
 
@@ -18,10 +22,16 @@ class EditAccount extends Component {
         super(props);
         this.state = { text: undefined };
     }
-    onSavePress(phoneNum) {
+
+    onSavePress = async (phoneNum) => {
         console.log("onSavePress ", phoneNum)
-        
-        axios.put(`https://locker54.azurewebsites.net/mobile/AddPhoneNumber?id=58010326&phone=${phoneNum}`)
+        const valueToken = await AsyncStorage.getItem('token');
+        axios.post('https://locker54.azurewebsites.net/mobile/AddPhoneNumber', {            
+                "id_account": this.props.result.id_account,
+                "phone": phoneNum              
+        },
+            { headers: { "Authorization": `Bearer ${valueToken}` } }
+        )
             .then(res => {
                 console.log('ress ' + res);
                 console.log('res dataa  ' + res.data);
@@ -69,7 +79,7 @@ class EditAccount extends Component {
             >
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
-                        <Text style={headerTextStyle}>Phone Number + {this.state.reserve}</Text>
+                        <Text style={headerTextStyle}>Phone Number</Text>
                         {this.state.reserve != undefined &&
                             <TextInput
                                 style={{ height: 40, }}

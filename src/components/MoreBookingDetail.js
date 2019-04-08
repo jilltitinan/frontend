@@ -9,6 +9,8 @@ import { bookingSelected } from '../actions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
+
 
 // const MoreBookingDetail = ({ data }) => {
 class MoreBookingDetail extends Component {
@@ -31,9 +33,12 @@ class MoreBookingDetail extends Component {
         );
     }
 
-    deleteReservation() {
-        console.log('delete presssssssss ', this.props.data.booking.bookingID);
-        axios.delete(`https://locker54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`)
+    deleteReservation = async () => {
+        // console.log('delete presssssssss ', this.props.data.booking.bookingID);
+        const value = await AsyncStorage.getItem('token');
+        axios.delete(`https://locker54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`,
+        { headers: { "Authorization": `Bearer ${value}` } }
+        )
             .then(response => {
                 if (response.status === 200) {
                    console.log('status 200');
@@ -64,8 +69,11 @@ class MoreBookingDetail extends Component {
 
     }
 
-    onSetPress() {
-        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`)
+    onSetPress= async () => {
+        const value = await AsyncStorage.getItem('token');
+        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
+        { headers: { "Authorization": `Bearer ${value}` } }
+        )
             .then(response => {
                 if (response.status === 200) {
                    console.log('status 200');

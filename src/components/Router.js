@@ -2,6 +2,8 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Router, Scene, Actions, Tabs } from 'react-native-router-flux';
+import { authen } from '../actions';
+import { connect } from 'react-redux';
 import { IconTab } from './common/IconTab';
 import Login from './Login';
 import Home from './Home';
@@ -20,7 +22,6 @@ import EditAccount from './EditAccount';
 import Setting from './Setting';
 import Confirm from './Confirm';
 import FullReservation from './FullReservation';
-import testBase2 from './LockerFull';
 import AfterBooked from './AfterBooked';
 import ShowTheCode from './ShowTheCode';
 import ShowNoCode from './ShowNoCode';
@@ -29,68 +30,84 @@ import Axios from 'axios';
 
 
 class RouterComponent extends React.Component {
-    
+
+    state = { detail: [], accountInformation: {} }
     componentDidMount = async () => {
-            console.log("cancelled")
-            try {
-                const value = await AsyncStorage.getItem('token');
-                if (value !== null) {
-                    // We have data!!
-                    const AuthStr = 'Bearer '.concat(value); 
-                      console.log("dfasfsdfsdf    ", AuthStr)
-                   var dataAxios = await Axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?token=${value}` , { headers: { 'Authorization': `${value} ` } } )
-                  
-                        .then(response => { 
-                            console.log("valure", value);
-                            if (response.status === 200) {
-                                Actions.container();
-                               
-                               console.log('status 200');
-                               Alert.alert(
-                                'Cancle successful',
-                                'Press ok to go back.',
-                                [
-                                  {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
-                                  
-                                ],
-                                {cancelable: false},
-                              );
-                            }
-                        }
-                        )
-                        .catch(err => {
-                            console.log(err.response.data);
-                            Alert.alert(
-                                err.response.data,
-                                'Press ok to go back.',
-                                [
-                                  {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
-                                  
-                                ],
-                                {cancelable: false},
-                              );
-                        });
-            
+        try {
+            const value = await AsyncStorage.getItem('token');
+            if (value !== null) {
+                console.log("Before axios useraccount    ", value)
+                await Axios.post('https://locker54.azurewebsites.net/api/Account/checkToken', {
+                    "_Token": value
+                }).then(res => {
+                    if (res.status == 200) {
+                        const information = res.data
+                        this.setState({ accountInformation: information })
+                        // console.log("check token :  ", this.state.accountInformation)
                     }
-                    // Actions.container();
-                    
                     else {
-                        Actions.authen();
-                }
-            } catch (error) {
-                if (error.status === undefined) {
-                   
-                   console.log("errrrrr ", error.data)
-                  
-                } else {
-                    console.log("hello error  ")
-                    Actions.authen();
-                }
-              
+                        console.log("check token : broke")
+                    }
+                })
+                .catch(err => {
+                    console.log(err.response.data);
+                    Alert.alert(
+                        err.response.data,
+                        'Press ok to go back.',
+                        [
+                            { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+
+                        ],
+                        { cancelable: false },
+                    );
+                });
+                console.log("Before UserAccount call")
             
+                await Axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?id_account=${this.state.accountInformation.id_account}`,
+                    { headers: { "Authorization": `Bearer ${value}` } })
+                    .then(response => {
+                        const info = response.data
+                        this.setState({ detail: info })
+                        console.log("data from axios : ", this.state.detail)
+                        if (response.status === 200) {
+                            this.props.authen(this.state.detail);
+                            Actions.container();
+                            console.log('status 200 at mobile/UserAccount');
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err.response.data);
+                        Alert.alert(
+                            err.response.data,
+                            'Press ok to go back.',
+                            [
+                                { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+
+                            ],
+                            { cancelable: false },
+                        );
+                    });
+
             }
+            // Actions.container();
+
+            else {
+                Actions.authen();
+            }
+        } catch (error) {
+            if (error.status === undefined) {
+
+                console.log("errrrrr ", error.data)
+
+            } else {
+                console.log("hello error  ")
+                Actions.authen();
+            }
+
+
+        }
     };
-    
+
 
     renderCustomButton() {
         return () => (
@@ -129,7 +146,7 @@ class RouterComponent extends React.Component {
         return (
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
-                    <Scene key="authen" >
+                    <Scene key="authen" hideNavBar>
                         <Scene key="login" component={Login} title="Welcome" initial />
                     </Scene>
 
@@ -246,4 +263,4 @@ const styles = {
     }
 };
 
-export default RouterComponent;
+export default connect(null, { authen })(RouterComponent);

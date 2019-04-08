@@ -15,16 +15,16 @@ import { connect } from 'react-redux';
 class MyAccount extends Component {
     state = { detail: {} }  
     
-    componentDidMount() {
-        var newId = this.props.result.user.email.toString();
-        var newId_accout = newId.substring(0, newId.length - 12);
-        axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?id_account=${newId_accout}`)
-        .then(res => {
-            const info = res.data
-            this.setState({ detail: info })
-            console.log('detailll ' + this.state.detail.id_account);
-          })
-    }
+    // componentDidMount() {
+    //     var newId = this.props.result.user.email.toString();
+    //     var newId_accout = newId.substring(0, newId.length - 12);
+    //     axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?id_account=${newId_accout}`)
+    //     .then(res => {
+    //         const info = res.data
+    //         this.setState({ detail: info })
+    //         console.log('detailll ' + this.state.detail.id_account);
+    //       })
+    // }
 
     componentWillMount() {
         const { width } = Dimensions.get('window');
@@ -51,8 +51,8 @@ class MyAccount extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
-                    <Text style={styles.title}>Name : {this.props.result.user.name}</Text>
-                    <Text style={styles.title}>Point : {this.state.detail.point}</Text>
+                    <Text style={styles.title}>{this.props.result.name}</Text>
+                    <Text style={styles.title}>Point : {this.props.result.point}</Text>
                 </View>
                 <View style={styles.inputWrapper1}>
                     <TouchableOpacity

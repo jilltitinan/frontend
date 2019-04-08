@@ -50,8 +50,8 @@ class Login extends Component {
                 //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
                 scopes: ["profile", "email"]
             })
-            // console.log(result);
-            this.props.authen(result);
+            console.log(result);
+            // this.props.authen(result);
 
             this.setState({
                 signedIn: true,
@@ -61,8 +61,8 @@ class Login extends Component {
                 token: result.idToken,
             })
 
-            if (result.type === "success") {
-                const response = await axios.post('https://locker54.azurewebsites.net/web/usersauthenticate', {
+            if (result.type === "success") {                
+                const response = await axios.post('https://locker54.azurewebsites.net/mobile/usersauthenticate', {
                     "_Token": this.state.token,
                 });
 
@@ -101,16 +101,18 @@ class Login extends Component {
 
 const LoginPage = props => {
     return (
-        <View style={{ flex: 1, marginTop: 15, }}>
+
+        <View style={{ flex: 1, marginTop: 100, }}>
             <View >
                 <Image
-                    style={{ width: 200, height: 200 }}
-                    source={require('/frontend/src/components/image/dog1.jpg')}
+                    style={{ width: 217.5, height: 298 }}
+                    source={require('/frontend/src/components/image/dog1.png')}
                 />
             </View>
-            <Text style={styles.header}>Sign In With Google</Text>
+            <Text style={styles.header}>Welcome to Locker</Text>
             <Button title="Sign in with Google" onPress={() => props.signIn()} />
         </View>
+
     )
 }
 
@@ -126,12 +128,13 @@ const LoggedInPage = props => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#404244",
         alignItems: "center",
         justifyContent: "center"
     },
     header: {
-        fontSize: 25
+        fontSize: 25,
+        color: '#fff'
     },
     image: {
         marginTop: 15,

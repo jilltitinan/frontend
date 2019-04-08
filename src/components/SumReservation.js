@@ -8,13 +8,14 @@ import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import axios from 'axios';
 import moment from 'moment';
+import { AsyncStorage } from 'react-native';
 
 class SumReservation extends Component {
     state = {
         selectedStartDate: " ",
         selectedEndDate: " ",
     };
-    
+
     componentWillMount() {
         const { width } = Dimensions.get('window');
         if (width > 375) {
@@ -34,20 +35,20 @@ class SumReservation extends Component {
         }
     }
 
-    onButtonPress() {
+    onButtonPress = async () => {
 
         var newdate = moment(this.props.date).format('YYYY-MM-DD');
         var newnewdate = newdate.toString();
         var newEndDate = moment(this.props.endDate).format('YYYY-MM-DD');
-        var newId = this.props.result.user.email.toString();
-        var newId_accout = newId.substring(0, newId.length - 12);
+        // var newId = this.props.result.id_account.toString();
+        var newId_accout = this.props.result.id_account;
         var newEndtime = parseInt(this.props.time);
         var newHour = parseInt(this.props.hour);
         var newDuration = newEndtime + newHour;
         var newTime = this.props.time.toString();
 
         if (this.props.valueType == 'true') { // one day
-
+            const valueToken = await AsyncStorage.getItem('token');
             axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
 
                 "id_reserve": 0,
@@ -61,7 +62,9 @@ class SumReservation extends Component {
                 "location": this.props.location,
                 "id_account": newId_accout,
                 "id_vacancy": 0
-            })
+            },
+                { headers: { "Authorization": `Bearer ${valueToken}` } }
+            )
                 .then(res => {
                     if (res.status == 200) {
                         this.props.reservationId(res.data);
@@ -81,44 +84,45 @@ class SumReservation extends Component {
 
                 })
         } else { //more than one day
-            console.log('new dateeeee'+newnewdate)
-            axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
+            try {
+                const valueToken = await AsyncStorage.getItem('token');
+                // console.log('new dateeeee' + valueToken)
+                axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
 
-                "id_reserve": 0,
-                "code": "string",
-                "isActive": true,
-                "status": "string",
-                "startDay": newnewdate + 'T' + '00:00:00Z',
-                "endDay": newEndDate + 'T' + '23:59:59Z',
-                "dateModified": "2019-03-27T08:40:32.391Z",
-                "size": this.props.size,
-                "location": this.props.location,
-                "id_account": newId_accout,
-                "id_vacancy": 0
+                    "id_reserve": 0,
+                    "code": "string",
+                    "isActive": true,
+                    "status": "string",
+                    "startDay": newnewdate + 'T' + '00:00:00Z',
+                    "endDay": newEndDate + 'T' + '23:59:59Z',
+                    "dateModified": "2019-03-27T08:40:32.391Z",
+                    "size": this.props.size,
+                    "location": this.props.location,
+                    "id_account": newId_accout,
+                    "id_vacancy": 0
 
-            })
-                .then(res => {
-                    if (res.status == 200) {
-                        this.props.reservationId(res.data);
-                        Actions.afterbooked();
-                    }
-                })
-                .catch(error => {
-                    if(error.response.data = 'Cannot_find_size_requirement'){
-                        Actions.fullreserve();
-                    }
-                    else {
+                },
+                    { headers: { "Authorization": `Bearer ${valueToken}` } }
+                )
+                    .then(res => {
+                        if (res.status == 200) {
+                            this.props.reservationId(res.data);
+                            Actions.afterbooked();
+                        }
+                    })
+                    .catch(error => {
                         Alert.alert(
-                        'Reservation Failed',
-                        error.response.data,
-                        [
-                            { text: 'OK', onPress: () => Actions.Reserve() },
-                        ],
-                        { cancelable: false },
-                    );
-                    }
-                    
-                })
+                            'Reservation Failed',
+                            error.response.data,
+                            [
+                                { text: 'OK', onPress: () => Actions.Reserve() },
+                            ],
+                            { cancelable: false },
+                        );
+                    })
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -135,13 +139,13 @@ class SumReservation extends Component {
             buttonNext,
         } = styles;
 
-            var weekDayName = moment(this.props.date).format('dddd');
-            var date1 = moment(this.props.date).format('DD-MM-YYYY');
-            var selectedStartDate =  weekDayName + ' ' + date1 
+        var weekDayName = moment(this.props.date).format('dddd');
+        var date1 = moment(this.props.date).format('DD-MM-YYYY');
+        var selectedStartDate = weekDayName + ' ' + date1
 
-            var weekDayName2 = moment(this.props.endDate).format('dddd');
-            var date2 = moment(this.props.date).format('DD-MM-YYYY');
-            var selectedEndDate =  weekDayName2 + ' ' + date2 
+        var weekDayName2 = moment(this.props.endDate).format('dddd');
+        var date2 = moment(this.props.date).format('DD-MM-YYYY');
+        var selectedEndDate = weekDayName2 + ' ' + date2
 
         if (this.props.valueType == 'true') {
             return (

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, ScrollView, TouchableOpacity, RefreshControl, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import HistoryDetail from './HistoryDetail';
 import HistoryList from './HistoryList';
 import { authen, bookingSelected, historySelected } from '../actions';
 import { connect } from 'react-redux';
+import { AsyncStorage } from 'react-native';
+
 
 class Histy extends Component {
-
 
     constructor(props) {
         super(props);
@@ -28,18 +30,27 @@ class Histy extends Component {
         this.setState({ refreshing: false });
     }
 
-    componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/mobile/Pending?id_account=58010326')
+    componentWillMount = async () => {
+        const value = await AsyncStorage.getItem('token');
+
+        axios.get(`https://locker54.azurewebsites.net/mobile/History?id_account=${this.props.result.id_account}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
             .then(response =>
                 this.setState({ reserve: response.data })
             )
-        //     .catch (function (error) {
-        //     if (error.response) {
-        //         console.log(error.response.data);
-        //         console.log(error.response.status);
-        //         console.log(error.response.headers);
-        //     }
-        // });
+            .catch(err => {
+                console.log(err.response.data);
+                Alert.alert(
+                    err.response.data,
+                    'Press ok to go back.',
+                    [
+                        { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+
+                    ],
+                    { cancelable: false },
+                );
+            });
 
     }
 
@@ -63,7 +74,19 @@ class Histy extends Component {
                         onRefresh={this._onRefresh}
                     />
                 }>
-                {this.renderReserve()}
+                {this.state.reserve.length != 0 && this.renderReserve()}
+                {this.state.reserve.length === 0 &&
+                    <View style={{ flex: 1, }}>
+                        <View style={{ flex: 0.8, padding: 120, }}>
+                            <Icon
+                                name='contacts'
+                                color='#00A6A6'
+                                size={80} />
+                            <Text style={{ fontSize: 16, textAlign: 'center' }}>
+                                No History
+                            </Text>
+                        </View>
+                    </View>}
             </ScrollView>
         );
     }

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, ScrollView, TouchableOpacity, RefreshControl, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import AlbumDetail from './AlbumDetail';
 import { authen, bookingSelected } from '../actions';
 import MoreBookingDetail from './MoreBookingDetail';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { AsyncStorage } from 'react-native';
 import * as actions from '../actions';
+import { empty } from 'rxjs/observable/empty';
 
 class AlbumList extends Component {
 
@@ -23,15 +26,16 @@ class AlbumList extends Component {
     }
 
     _onRefresh = () => {
-
         this.setState({ refreshing: true });
         { this.renderReserve() }
         this.setState({ refreshing: false });
-
     }
 
-    componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/mobile/Pending?id_account=58010326')
+    componentWillMount = async () => {
+        const value = await AsyncStorage.getItem('token');
+        axios.get(`https://locker54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
             .then(response =>
                 this.setState({ reserve: response.data })
             )
@@ -64,7 +68,19 @@ class AlbumList extends Component {
                         onRefresh={this._onRefresh}
                     />
                 }>
-                {this.renderReserve()}
+                {this.state.reserve.length != 0 && this.renderReserve()}
+                {this.state.reserve.length === 0 &&
+                    <View style={{ flex: 1, }}>
+                        <View style={{ flex: 0.8, padding: 120, }}>
+                            <Icon
+                                name='more'
+                                color='#00A6A6'
+                                size={80} />
+                            <Text style={{ fontSize: 16, textAlign: 'center' }}>
+                                No Reservation
+                            </Text>
+                        </View>
+                    </View>}
             </ScrollView>
         );
     }

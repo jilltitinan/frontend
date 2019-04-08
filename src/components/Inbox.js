@@ -12,11 +12,11 @@ class Inbox extends Component {
 
     state = { contents: [] }
 
-    componentWillMount() {
-        axios.get('https://locker54.azurewebsites.net/api/Content/ContentId?id=1')
-            .then(response => this.setState({ contents: response.data }));
-            // console.log(contents);
-    }
+    // componentWillMount() {
+    //     axios.get('https://locker54.azurewebsites.net/api/Content/ContentId?id=1')
+    //         .then(response => this.setState({ contents: response.data }));
+    //         // console.log(contents);
+    // }
 
     renderContents() {
         const {
@@ -32,7 +32,7 @@ class Inbox extends Component {
                     <CardSection>
 
                         <View style={headerContentStyle}>
-                            <Text style={headerTextStyle}>{content.id_content}</Text>
+                            <Text style={headerTextStyle}>fdf</Text>
                             <Text>{content.plainText}</Text>
                         </View>
                         {/* <View style={thumbnailContainerStyle}>

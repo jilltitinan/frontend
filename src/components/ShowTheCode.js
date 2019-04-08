@@ -6,6 +6,8 @@ import { Button } from './common/Button';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
+
 
 class ShowTheCode extends Component {
     constructor(props) {
@@ -20,8 +22,11 @@ class ShowTheCode extends Component {
         this.props.pinEnter(setcode);
     }
 
-    componentDidMount() {
-        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`)
+    componentDidMount = async () => {
+        const value = await AsyncStorage.getItem('token');
+        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
             .then(res => {
                 const info = res.data
                 this.setState({ detail: info })
@@ -37,13 +42,13 @@ class ShowTheCode extends Component {
                         <Text style={styles.title}>Your code is</Text>
                     </View>
 
-                    <View style={styles.titleWrapper}>                       
+                    <View style={styles.titleWrapper}>
                         <Text style={styles.title2}>{this.state.detail}</Text>
                     </View>
 
                 </View>
                 <View style={styles.button}>
-                    <Button  onPress={() => Actions.entercode()}>Edit</Button>
+                    <Button onPress={() => Actions.entercode()}>Edit</Button>
                 </View>
             </View>
         );
@@ -67,7 +72,7 @@ const styles = StyleSheet.create({
     },
     title2: {
         color: '#7C7C7C',
-        fontSize: 30   ,
+        fontSize: 30,
         fontWeight: '100',
         paddingVertical: 30
     },
