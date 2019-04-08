@@ -11,6 +11,8 @@ import { Button } from './common/Button';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { AsyncStorage, localStorage } from 'react-native';
+
 
 class MyAccount extends Component {
     state = { detail: {} }  
@@ -25,6 +27,11 @@ class MyAccount extends Component {
     //         console.log('detailll ' + this.state.detail.id_account);
     //       })
     // }
+    Logout() {
+        console.log('logouttt   fdsfsad')
+        AsyncStorage.clear('token');
+        Actions.authen();
+    }
 
     componentWillMount() {
         const { width } = Dimensions.get('window');
@@ -85,7 +92,7 @@ class MyAccount extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
-                    <Button onPress={() => Actions.authen()}>Log out</Button>
+                    <Button onPress={() => this.Logout()}>Log out</Button>
                 </View>
             </View>
         );
