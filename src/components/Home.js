@@ -41,7 +41,7 @@ class Home extends Component {
                 <Card>
                     <Slideshow
                         dataSource={[
-                            { url: 'http://placeimg.com/640/480/any' },
+                            { url: 'https://www.ihrsa.org/uploads/Articles/Column-Width/Legal_Active_Sports_Clubs_locker-room.jpg' },
                             { url: 'http://placeimg.com/640/480/any' },
                             { url: 'http://placeimg.com/640/480/any' }
                         ]} />

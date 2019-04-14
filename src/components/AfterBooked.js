@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Text, View, Image,  Alert } from 'react-native';
+import { Text, View, Image, Alert } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
@@ -9,6 +9,8 @@ import { reservationId } from '../actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
+import { AsyncStorage } from 'react-native';
+
 
 // const MoreBookingDetail = ({ data }) => {
 class Afterbooked extends Component {
@@ -19,20 +21,33 @@ class Afterbooked extends Component {
         }
     }
 
+    componentDidMount = async () => {
+        const valueToken = await AsyncStorage.getItem('token');
+        axios.get(`https://locker54.azurewebsites.net/mobile/BookingDetail?id_reserve=${this.props.id}`,
+            { headers: { "Authorization": `Bearer ${valueToken}` } })
+            .then(res => {
+                const info = res.data
+                this.setState({ detail: info })
+                console.log('detailll ' + this.state.detail);
+            }).catch(function (error) {
+                console.log(error.state.data);
+            });
+    }
+
     onButtonPress() {
         Alert.alert(
             'Cancle locker',
             'Are you sure to cancle this locker?',
             [
-              {text: 'Yes', onPress: () => this.deleteReservation()},
-              {
-                text: 'No',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
+                { text: 'Yes', onPress: () => this.deleteReservation() },
+                {
+                    text: 'No',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
             ],
-            {cancelable: false},
-          );
+            { cancelable: false },
+        );
     }
 
     deleteReservation() {
@@ -40,36 +55,24 @@ class Afterbooked extends Component {
             'Cancle successful',
             'Press ok to go back.',
             [
-              {text: 'OK', onPress: () => console.log('go back Pressed'), style: 'cancel',},
-              
+                { text: 'OK', onPress: () => console.log('go back Pressed'), style: 'cancel', },
+
             ],
-            {cancelable: false},
-          );
+            { cancelable: false },
+        );
     }
-    
+
     render() {
-        axios.get(`https://locker54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.id}`)
-            .then(res => {
-                const info = res.data
-                this.setState({ detail: info })
-                // console.log('detailll ' + this.state.detail);
-            }).catch(function (error) {
-                console.log(error.state.data);
-            });
 
-
-        //  Object {
-        //     "bookingID": 30,
-        //     "dateModified": "2019-03-18T08:38:57.829",
-        //     "endDate": "2019-07-23T00:00:00",
-        //     "id_user": "58010326",
-        //     "location": "twv",
-        //     "name": "titinan prajwatanakij",
-        //     "numberVacancy": "01",
-        //     "size": "s",
-        //     "startDate": "2019-07-22T00:00:00",
-        //     "status": "Unuse",
-        //   }
+        var newdate = moment(this.props.date).format('YYYY-MM-DD');
+        var newnewdate = newdate.toString();
+        var newEndDate = moment(this.props.endDate).format('YYYY-MM-DD');
+        // var newId = this.props.result.id_account.toString();
+        var newId_accout = this.props.result.id_account;
+        var newEndtime = parseInt(this.props.time);
+        var newHour = parseInt(this.props.hour);
+        var newDuration = newEndtime + newHour;
+        var newTime = this.props.time.toString();
 
         const {
             headerContentStyle,
@@ -91,9 +94,13 @@ class Afterbooked extends Component {
             >
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
-                        <Text style={headerTextStyle}>{this.state.detail.bookingID}</Text>
-                        <Text>{this.state.detail.dateModified}</Text>
-                        <Text>{this.state.detail.id_user}</Text>
+                        <Text style={headerTextStyle}>Booking ID : {this.state.detail.bookingID}</Text>
+                        <Text>Start Date : {this.state.detail.startDate}</Text>
+                        <Text>Start Time : {this.state.detail.endDate}</Text>
+                        <Text>End Date : {this.state.detail.endDate}</Text>
+                        <Text>End Time : {this.state.detail.endDate}</Text>
+                        <Text>Location : {this.state.detail.location}</Text>
+                        <Text>Size : {this.state.detail.size}</Text>
                         <Icon
                             name='launch'
                             color='#909395'

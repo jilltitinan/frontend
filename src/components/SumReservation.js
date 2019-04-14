@@ -111,14 +111,8 @@ class SumReservation extends Component {
                         }
                     })
                     .catch(error => {
-                        Alert.alert(
-                            'Reservation Failed',
-                            error.response.data,
-                            [
-                                { text: 'OK', onPress: () => Actions.Reserve() },
-                            ],
-                            { cancelable: false },
-                        );
+                        Actions.fullreserve();
+                        
                     })
             } catch (error) {
                 console.log(error)
@@ -144,7 +138,7 @@ class SumReservation extends Component {
         var selectedStartDate = weekDayName + ' ' + date1
 
         var weekDayName2 = moment(this.props.endDate).format('dddd');
-        var date2 = moment(this.props.date).format('DD-MM-YYYY');
+        var date2 = moment(this.props.endDate).format('DD-MM-YYYY');
         var selectedEndDate = weekDayName2 + ' ' + date2
 
         if (this.props.valueType == 'true') {

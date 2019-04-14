@@ -25,28 +25,27 @@ class AlbumList extends Component {
         this.props.bookingSelected(booking);
     }
 
-    _onRefresh = () => {
+    _onRefresh = async () => {
         this.setState({ refreshing: true });
+        const value = await AsyncStorage.getItem('token');
+        await axios.get(`https://locker54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
+            .then(response =>
+                this.setState({ reserve: response.data })
+        )
         { this.renderReserve() }
         this.setState({ refreshing: false });
     }
 
     componentWillMount = async () => {
         const value = await AsyncStorage.getItem('token');
-        axios.get(`https://locker54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
+        await axios.get(`https://locker54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response =>
                 this.setState({ reserve: response.data })
             )
-        //     .catch (function (error) {
-        //     if (error.response) {
-        //         console.log(error.response.data);
-        //         console.log(error.response.status);
-        //         console.log(error.response.headers);
-        //     }
-        // });
-
     }
 
     renderReserve() {

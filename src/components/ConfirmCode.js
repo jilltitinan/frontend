@@ -40,16 +40,15 @@ class ComfirmCode extends Component {
             { headers: { "Authorization": `Bearer ${valueToken}` } }
         )
             .then(res => {
-                console.log('dfsfs')
-
                 if (res.status == 200) {
                     Alert.alert(
                         'Save code success',
-                        'press ok',
+                        'Press ok to go back.',
                         [
                             { text: 'OK' },
                         ],
                         { cancelable: false },
+                        Actions.bookdetail(),
                     );
                 }
 
@@ -57,9 +56,9 @@ class ComfirmCode extends Component {
             .catch(error => {
                 Alert.alert(
                     'Reservation Failed',
-                    error.response.data,
+                    'Please try again.',
                     [
-                        { text: 'OK', onPress: () => Actions.Reserve() },
+                        { text: 'OK', onPress: () => Actions.bookdetail() },
                     ],
                     { cancelable: false },
                 );

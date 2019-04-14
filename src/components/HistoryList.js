@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import { Text, View, Image } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
-import Moment from 'react-moment';
+import moment from 'moment';
 
 const HistoryList = ({ booking }) => {
-  const {bookingID, startDate, endDate, location, size } = booking;
+  const { bookingID, startDate, endDate, location, size } = booking;
   const {
     thumbnailStyle,
     headerContentStyle,
@@ -13,18 +13,28 @@ const HistoryList = ({ booking }) => {
     headerTextStyle,
     imageStyle
   } = styles;
+
+  var weekDayName = moment(startDate).format('dddd');
+  var date1 = moment(startDate).format('DD-MM-YYYY');
+  var selectedStartDate = weekDayName + ' ' + date1
+
+  var weekDayName2 = moment(endDate).format('dddd');
+  var date2 = moment(endDate).format('DD-MM-YYYY');
+  var selectedEndDate = weekDayName2 + ' ' + date2
+  
   return (
     <Card>
       <CardSection>
-       
+
         <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{bookingID} - {endDate}</Text>
+          {/* <Text style={headerTextStyle}>Booking ID : {bookingID}</Text> */}
+          <Text style={headerTextStyle}>Start Date : {selectedStartDate}</Text>
+          <Text style={headerTextStyle}>End Date : {selectedEndDate}</Text>
           <Text>Location : {location}</Text>
           <Text>Size : {size} </Text>
-        </View> 
-       
+        </View>
 
-      </CardSection>      
+      </CardSection>
     </Card>
   );
 };
@@ -35,7 +45,7 @@ const styles = {
     justifyContent: 'space-around'
   },
   headerTextStyle: {
-    fontSize: 18
+    fontSize: 16
   },
   thumbnailStyle: {
     height: 50,
@@ -53,5 +63,9 @@ const styles = {
     width: null
   }
 };
+
+// AlbumDetail.propTypes = {
+//   album: PropTypes.object.isRequired
+// };
 
 export default HistoryList;

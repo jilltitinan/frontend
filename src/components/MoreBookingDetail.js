@@ -3,6 +3,7 @@ import { Text, View, Image, Alert } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
+import {WhiteButton} from './common/WhiteButton'
 import Confirm from './Confirm';
 import { Icon } from 'react-native-elements';
 import { bookingSelected } from '../actions';
@@ -10,7 +11,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-
+import moment from 'moment';
 
 // const MoreBookingDetail = ({ data }) => {
 class MoreBookingDetail extends Component {
@@ -37,20 +38,20 @@ class MoreBookingDetail extends Component {
         // console.log('delete presssssssss ', this.props.data.booking.bookingID);
         const value = await AsyncStorage.getItem('token');
         axios.delete(`https://locker54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`,
-        { headers: { "Authorization": `Bearer ${value}` } }
+            { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response => {
                 if (response.status === 200) {
-                   console.log('status 200');
-                   Alert.alert(
-                    'Cancle successful',
-                    'Press ok to go back.',
-                    [
-                      {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
-                      
-                    ],
-                    {cancelable: false},
-                  );
+                    console.log('status 200');
+                    Alert.alert(
+                        'Cancle successful',
+                        'Press ok to go back.',
+                        [
+                            { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+
+                        ],
+                        { cancelable: false },
+                    );
                 }
             }
             )
@@ -60,24 +61,24 @@ class MoreBookingDetail extends Component {
                     err.response.data,
                     'Press ok to go back.',
                     [
-                      {text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel',},
-                      
+                        { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+
                     ],
-                    {cancelable: false},
-                  );
+                    { cancelable: false },
+                );
             });
 
     }
 
-    onSetPress= async () => {
+    onSetPress = async () => {
         const value = await AsyncStorage.getItem('token');
         axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
-        { headers: { "Authorization": `Bearer ${value}` } }
+            { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response => {
                 if (response.status === 200) {
-                   console.log('status 200');
-                   Actions.showthecode();
+                    console.log('status 200');
+                    Actions.showthecode();
                 }
             }
             )
@@ -97,10 +98,19 @@ class MoreBookingDetail extends Component {
             buttonNext,
             containerStyle,
             bottom,
+            buttonWhite,
             buttonCancle,
         } = styles;
-        // if (data.title === 'Red') {
-        // console.log('data title ', data);
+
+
+        var weekDayName = moment(startDate).format('dddd');
+        var date1 = moment(startDate).format('DD-MM-YYYY');
+        var selectedStartDate = weekDayName + ' ' + date1
+
+        var weekDayName2 = moment(endDate).format('dddd');
+        var date2 = moment(endDate).format('DD-MM-YYYY');
+        var selectedEndDate = weekDayName2 + ' ' + date2
+
         return (
 
             <View
@@ -112,11 +122,13 @@ class MoreBookingDetail extends Component {
             >
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
-                        {/* <Text style={headerTextStyle}>{id_reserve}</Text> */}
-                        <Text>{bookingID}</Text>
-                        <Text>{startDate}</Text>
+                        <Text style={headerTextStyle}>Booking ID : {bookingID}</Text>
+                        <Text>Strt Date : {selectedStartDate}</Text>
+                        <Text>End Date : {selectedEndDate}</Text>
+                        <Text>Location : {location}</Text>
+                        <Text>Size : {size}</Text>
                         <Icon
-                            name='launch'
+                            name='pages'
                             color='#909395'
                             size={120}
                         />
@@ -124,7 +136,7 @@ class MoreBookingDetail extends Component {
                 </View>
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
-                    <Button style={buttonNext} onPress={() => this.onButtonPress()} > Cancle Booking </Button>
+                    <WhiteButton style={buttonWhite} onPress={() => this.onButtonPress()} > Cancle Booking </WhiteButton>
                     <Button style={buttonNext} onPress={() => this.onSetPress()}> Show the code </Button>
                 </View>
 
@@ -151,8 +163,15 @@ const styles = {
         marginHorizontal: 10,
         backgroundColor: '#3C6E71',
         elevation: 2,
-
     },
+    buttonWhite: {
+        marginBottom: 15,
+        borderRadius: 4,
+        marginHorizontal: 10,
+        backgroundColor: '#FFFFFF',
+        elevation: 2,
+    },
+
     containerStyle: {
         // borderBottomWidth: 1,
         padding: 5,

@@ -153,7 +153,7 @@ class RouterComponent extends React.Component {
                     <Scene key="Reserve">
                         <Scene
                             key='reservePlace'
-                            title='Reserve'
+                            title='Search Locker'
                             component={Reservation}
                             initial
                             renderLeftButton={this.renderGoHome()}
@@ -165,7 +165,7 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key="afterbooked" >
-                        <Scene key="afterbook" component={AfterBooked} title="After book Detail" renderLeftButton={this.renderGoHome()} />
+                        <Scene key="afterbook" component={AfterBooked} title="Booking Detail" renderLeftButton={this.renderGoHistory()} />
                     </Scene>
 
                     <Scene key="historydetail" >
@@ -187,7 +187,7 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key="shownocode" >
-                        <Scene key="setnocode" component={ShowNoCode} title="Show NO code"
+                        <Scene key="setnocode" component={ShowNoCode} title="Show the code"
                             renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
@@ -204,11 +204,11 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key="fullreserve" >
-                        <Scene key="fullreservation" component={FullReservation} title="full reserve" renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="fullreservation" component={FullReservation} title="Reservation" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key="entercode" >
-                        <Scene key="entercoderegister" component={ConfirmCode} title="Enter code" renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="entercoderegister" component={ConfirmCode} title="Setting code" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
                     <Scene key='container' hideNavBar>

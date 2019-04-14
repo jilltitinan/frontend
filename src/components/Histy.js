@@ -24,8 +24,16 @@ class Histy extends Component {
         console.log('booking ' + booking)
         this.props.historySelected(booking);
     }
-    _onRefresh = () => {
+    _onRefresh = async () => {
         this.setState({ refreshing: true });
+        const value = await AsyncStorage.getItem('token');
+
+        axios.get(`https://locker54.azurewebsites.net/mobile/History?id_account=${this.props.result.id_account}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
+            .then(response =>
+                this.setState({ reserve: response.data })
+            )
         { this.renderReserve() }
         this.setState({ refreshing: false });
     }

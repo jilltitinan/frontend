@@ -12,8 +12,6 @@ import { AsyncStorage } from 'react-native';
 
 const Google_APP_ID = '367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com';
 
-
-
 class Login extends Component {
     constructor(props) {
         super(props)
