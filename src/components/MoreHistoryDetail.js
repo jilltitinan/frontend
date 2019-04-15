@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
-import { Text, View, Image} from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { WhiteButton } from './common/WhiteButton'; 
+import { WhiteButton } from './common/WhiteButton';
 import { historySelected } from '../actions';
 import { connect } from 'react-redux';
 import { Button } from './common/Button';
@@ -15,8 +15,8 @@ class MoreHistoryDetail extends Component {
         axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.past.bookingID}`)
             .then(response => {
                 if (response.status === 200) {
-                   console.log('status 200');
-                   Actions.shownocode();
+                    console.log('status 200');
+                    Actions.shownocode();
                 }
             }
             )
@@ -50,6 +50,10 @@ class MoreHistoryDetail extends Component {
         var date2 = moment(endDate).format('DD-MM-YYYY');
         var selectedEndDate = weekDayName2 + ' ' + date2
 
+        var startTime = `${startDate}`;
+        var newStartTime = startTime.substring(11, 16);
+        var endTime = `${endDate}`
+        var newEndTime = endTime.substring(11, 16)
         return (
 
             <View
@@ -60,12 +64,32 @@ class MoreHistoryDetail extends Component {
                 }}
             >
                 <View style={containerStyle}>
-                    <View style={headerContentStyle}>
+                <View style={headerContentStyle}>
                         <Text style={headerTextStyle}>Booking ID : {bookingID}</Text>
-                        <Text>Strt Date : {selectedStartDate}</Text>
-                        <Text>End Date : {selectedEndDate}</Text>
-                        <Text>Location : {location}</Text>
-                        <Text>Size : {size}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Start Date :
+                            <Text style={{ fontWeight: '100',  fontSize: 16 }}> {selectedStartDate} </Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Start Time :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {newStartTime}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            End Date :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedEndDate}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            End Time :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {newEndTime} </Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Location :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}>  {location}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Size :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {size}</Text>
+                        </Text>
                         <Icon
                             name='pages'
                             color='#909395'
@@ -74,7 +98,7 @@ class MoreHistoryDetail extends Component {
                     </View>
                 </View>
                 <View style={bottom}>
-                   
+
                     <Button style={buttonNext} onPress={() => this.onSetPress()}> Show the code </Button>
                 </View>
 
@@ -94,7 +118,8 @@ const styles = {
         justifyContent: 'space-around',
     },
     headerTextStyle: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight:'bold'
     },
     bottom: {
         justifyContent: 'flex-end',

@@ -3,7 +3,7 @@ import { Text, View, Image, Alert } from 'react-native';
 import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
-import {WhiteButton} from './common/WhiteButton'
+import { WhiteButton } from './common/WhiteButton'
 import Confirm from './Confirm';
 import { Icon } from 'react-native-elements';
 import { bookingSelected } from '../actions';
@@ -111,6 +111,11 @@ class MoreBookingDetail extends Component {
         var date2 = moment(endDate).format('DD-MM-YYYY');
         var selectedEndDate = weekDayName2 + ' ' + date2
 
+        var startTime = `${startDate}`;
+        var newStartTime = startTime.substring(11, 16);
+        var endTime = `${endDate}`
+        var newEndTime = endTime.substring(11, 16)
+
         return (
 
             <View
@@ -123,10 +128,30 @@ class MoreBookingDetail extends Component {
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
                         <Text style={headerTextStyle}>Booking ID : {bookingID}</Text>
-                        <Text>Strt Date : {selectedStartDate}</Text>
-                        <Text>End Date : {selectedEndDate}</Text>
-                        <Text>Location : {location}</Text>
-                        <Text>Size : {size}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Start Date :
+                            <Text style={{ fontWeight: '100',  fontSize: 16 }}> {selectedStartDate} </Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Start Time :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {newStartTime}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            End Date :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedEndDate}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            End Time :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {newEndTime} </Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Location :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}>  {location}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Size :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {size}</Text>
+                        </Text>
                         <Icon
                             name='pages'
                             color='#909395'
@@ -151,7 +176,8 @@ const styles = {
         justifyContent: 'space-around',
     },
     headerTextStyle: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     bottom: {
         justifyContent: 'flex-end',

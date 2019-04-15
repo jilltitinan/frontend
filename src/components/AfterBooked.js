@@ -5,11 +5,13 @@ import CardSection from './common/CardSectionAlbum';
 import { Button } from './common/Button';
 import Confirm from './Confirm';
 import { Icon } from 'react-native-elements';
-import { reservationId } from '../actions';
+import { reservationId, bookingSelected } from '../actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import { AsyncStorage } from 'react-native';
+import moment from 'moment';
+import { WhiteButton } from './common/WhiteButton';
 
 
 // const MoreBookingDetail = ({ data }) => {
@@ -28,6 +30,7 @@ class Afterbooked extends Component {
             .then(res => {
                 const info = res.data
                 this.setState({ detail: info })
+                this.props.bookingSelected(this.state.detail);
                 console.log('detailll ' + this.state.detail);
             }).catch(function (error) {
                 console.log(error.state.data);
@@ -64,15 +67,25 @@ class Afterbooked extends Component {
 
     render() {
 
-        var newdate = moment(this.props.date).format('YYYY-MM-DD');
-        var newnewdate = newdate.toString();
-        var newEndDate = moment(this.props.endDate).format('YYYY-MM-DD');
+        var weekDayName = moment(this.state.detail.startDate).format('dddd');
+        var date1 = moment(this.state.detail.startDate).format('DD-MM-YYYY');
+        var selectedStartDate = weekDayName + ' ' + date1
+
+        var weekDayName2 = moment(this.state.detail.endDate).format('dddd');
+        var date2 = moment(this.state.detail.endDate).format('DD-MM-YYYY');
+        var selectedEndDate = weekDayName2 + ' ' + date2
+
+
+        var startTime = `${this.state.detail.startDate}`;
+        var newStartTime = startTime.substring(11, 16);
+        var endTime = `${this.state.detail.endDate}`
+        var newEndTime = endTime.substring(11, 16)
         // var newId = this.props.result.id_account.toString();
-        var newId_accout = this.props.result.id_account;
-        var newEndtime = parseInt(this.props.time);
-        var newHour = parseInt(this.props.hour);
-        var newDuration = newEndtime + newHour;
-        var newTime = this.props.time.toString();
+        // var newId_accout = this.props.result.id_account;
+        // var newEndtime = parseInt(this.props.time);
+        // var newHour = parseInt(this.props.hour);
+        // var newDuration = newEndtime + newHour;
+        // var newTime = this.props.time.toString();
 
         const {
             headerContentStyle,
@@ -80,7 +93,7 @@ class Afterbooked extends Component {
             buttonNext,
             containerStyle,
             bottom,
-            buttonCancle,
+            WhiteButtonNext,
         } = styles;
 
         return (
@@ -95,14 +108,32 @@ class Afterbooked extends Component {
                 <View style={containerStyle}>
                     <View style={headerContentStyle}>
                         <Text style={headerTextStyle}>Booking ID : {this.state.detail.bookingID}</Text>
-                        <Text>Start Date : {this.state.detail.startDate}</Text>
-                        <Text>Start Time : {this.state.detail.endDate}</Text>
-                        <Text>End Date : {this.state.detail.endDate}</Text>
-                        <Text>End Time : {this.state.detail.endDate}</Text>
-                        <Text>Location : {this.state.detail.location}</Text>
-                        <Text>Size : {this.state.detail.size}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Start Date :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedStartDate} </Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Start Time :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {newStartTime}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            End Date :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedEndDate}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            End Time :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {newEndTime} </Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Location :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}>  {this.state.detail.location}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            Size :
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {this.state.detail.size}</Text>
+                        </Text>
                         <Icon
-                            name='launch'
+                            name='pages'
                             color='#909395'
                             size={120}
                         />
@@ -110,7 +141,7 @@ class Afterbooked extends Component {
                 </View>
                 <View style={bottom}>
                     {/* <Button style={buttonNext}}>  </Button> */}
-                    <Button style={buttonNext} onPress={() => this.onButtonPress()}> Cancle Booking </Button>
+                    <WhiteButton style={WhiteButtonNext} onPress={() => this.onButtonPress()}> Cancle Booking </WhiteButton>
                     <Button style={buttonNext} onPress={() => Actions.entercode()}> Show the code </Button>
                 </View>
 
@@ -130,7 +161,8 @@ const styles = {
         justifyContent: 'space-around',
     },
     headerTextStyle: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     bottom: {
         justifyContent: 'flex-end',
@@ -144,6 +176,14 @@ const styles = {
         elevation: 2,
 
     },
+    WhiteButtonNext: {
+        marginBottom: 15,
+        borderRadius: 4,
+        marginHorizontal: 10,
+        backgroundColor: '#fff',
+        elevation: 2,
+
+    },
     containerStyle: {
         // borderBottomWidth: 1,
         padding: 5,
@@ -154,4 +194,4 @@ const styles = {
 };
 
 
-export default connect(mapStateToProps, { reservationId })(Afterbooked);
+export default connect(mapStateToProps, { reservationId, bookingSelected })(Afterbooked);

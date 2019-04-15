@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import { pinEnter, bookingSelected } from '../actions';
+import { pinEnter, bookingSelected, reservationId } from '../actions';
 import CodeInput from './common/CodeInput';
 import { Button } from './common/Button';
 import { connect } from 'react-redux';
@@ -45,10 +45,10 @@ class ComfirmCode extends Component {
                         'Save code success',
                         'Press ok to go back.',
                         [
-                            { text: 'OK' },
+                            { text: 'OK', onPress: () =>   Actions.bookdetail()},
                         ],
                         { cancelable: false },
-                        Actions.bookdetail(),
+                      
                     );
                 }
 
@@ -99,7 +99,7 @@ class ComfirmCode extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EFEFEF'
+        backgroundColor: '#FFFFFF'
     },
     titleWrapper: {
         justifyContent: 'center',
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     const { pin } = state.pin;
     const { data } = state.booking;
-    return { pin, data };
+    return { pin, data};
 };
 
 

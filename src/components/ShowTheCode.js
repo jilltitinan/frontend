@@ -58,7 +58,7 @@ class ShowTheCode extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EFEFEF'
+        backgroundColor: '#FFFFFF'
     },
     titleWrapper: {
         justifyContent: 'center',

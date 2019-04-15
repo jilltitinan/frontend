@@ -21,15 +21,21 @@ const HistoryList = ({ booking }) => {
   var weekDayName2 = moment(endDate).format('dddd');
   var date2 = moment(endDate).format('DD-MM-YYYY');
   var selectedEndDate = weekDayName2 + ' ' + date2
-  
+
   return (
     <Card>
       <CardSection>
 
         <View style={headerContentStyle}>
           {/* <Text style={headerTextStyle}>Booking ID : {bookingID}</Text> */}
-          <Text style={headerTextStyle}>Start Date : {selectedStartDate}</Text>
-          <Text style={headerTextStyle}>End Date : {selectedEndDate}</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+            Start Date :
+            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedStartDate} </Text>
+          </Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+            Start Date :
+            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedEndDate} </Text>
+          </Text>
           <Text>Location : {location}</Text>
           <Text>Size : {size} </Text>
         </View>

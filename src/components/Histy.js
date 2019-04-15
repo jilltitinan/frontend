@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, RefreshControl, Text } from 'react-native';
+import { View, ScrollView, TouchableOpacity, RefreshControl, Text, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import HistoryDetail from './HistoryDetail';

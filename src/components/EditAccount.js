@@ -37,8 +37,8 @@ class EditAccount extends Component {
                 console.log('res dataa  ' + res.data);
                 if (res.status == 200) {
                     Alert.alert(
-                        'Reservation Success',
-                        'press ok to go back',
+                        'Chagng number success',
+                        'Press ok to go back',
                         [
                             { text: 'OK'},
                         ],
@@ -49,7 +49,7 @@ class EditAccount extends Component {
             })
             .catch(error => {
                     Alert.alert(
-                        'Reservation Failed',
+                        'Change number failed',
                         error.response.data,
                         [
                             { text: 'OK', onPress: () => Actions.Reserve() },

@@ -154,8 +154,8 @@ class SumReservation extends Component {
                                 <Text style={headerTextStyle}>{selectedStartDate}</Text>
                                 <Text>{'Locker size: ' + this.props.size}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
-                                <Text>{'Total Hour: ' + this.props.hour}</Text>
-                                <Text>{'Start Time: ' + this.props.valueType}</Text>
+                                <Text>{'Start Time: ' + this.props.time}</Text>
+                                <Text>{'Total Hour: ' + this.props.hour}</Text>                                
                             </View>
                         </CardSection>
                     </Card>
