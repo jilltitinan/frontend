@@ -1,83 +1,94 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView, TouchableOpacity, RefreshControl, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import AlbumDetail from './AlbumDetail';
-import Card from './common/CardAlbum';
-import CardSection from './common/CardSectionAlbum';
-import Login from './Login';
+import { authen, bookingSelected } from '../actions';
+import MoreBookingDetail from './MoreBookingDetail';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { AsyncStorage } from 'react-native';
+import * as actions from '../actions';
+import { empty } from 'rxjs/observable/empty';
+import InboxDetail from './InboxDetail';
 
 class Inbox extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            refreshing: false,
+            reserve: [],
+        }
+    }
 
-    state = { contents: [] }
+    onButtonPress(booking) {
+        this.props.bookingSelected(booking);
+    }
 
-    // componentWillMount() {
-    //     axios.get('https://locker54.azurewebsites.net/api/Content/ContentId?id=1')
-    //         .then(response => this.setState({ contents: response.data }));
-    //         // console.log(contents);
-    // }
-
-    renderContents() {
-        const {
-            thumbnailStyle,
-            headerContentStyle,
-            thumbnailContainerStyle,
-            headerTextStyle,
-            imageStyle
-        } = styles;
-        return this.state.contents.map(content =>
-            <TouchableOpacity onPress={() => this.onButtonPress(content)} key={content.id_content}>
-                <Card>
-                    <CardSection>
-
-                        <View style={headerContentStyle}>
-                            <Text style={headerTextStyle}>fdf</Text>
-                            <Text>{content.plainText}</Text>
-                        </View>
-                        {/* <View style={thumbnailContainerStyle}>
-                            <Text>{thumbnail_image}</Text>
-                        </View> */}
-
-                    </CardSection>
-                </Card>
-            </TouchableOpacity>
+    _onRefresh = async () => {
+        this.setState({ refreshing: true });
+        const value = await AsyncStorage.getItem('token');
+        await axios.get(`https://locker54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
         )
+            .then(response =>
+                this.setState({ reserve: response.data })
+        )
+        { this.renderReserve() }
+        this.setState({ refreshing: false });
+    }
+
+    componentWillMount = async () => {
+        const value = await AsyncStorage.getItem('token');
+        await axios.get(`https://locker54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
+            .then(response =>
+                this.setState({ reserve: response.data })
+            )
+    }
+
+    renderReserve() {
+
+        return this.state.reserve.map(booking =>
+            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>
+                <InboxDetail booking={booking} />
+            </TouchableOpacity>
+        );
     }
 
     render() {
+        // console.log('AlbumList is ' + this.state);
         return (
-            <ScrollView>
-                {this.renderContents()}
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />
+                }>
+                {this.state.reserve.length != 0 && this.renderReserve()}
+                {this.state.reserve.length === 0 &&
+                    <View style={{ flex: 1, }}>
+                        <View style={{ flex: 0.8, padding: 120, }}>
+                            <Icon
+                                name='forum'
+                                color='#00A6A6'
+                                size={80} />
+                            <Text style={{ fontSize: 16, textAlign: 'center' }}>
+                                No Reservation
+                            </Text>
+                        </View>
+                    </View>}
             </ScrollView>
-        )
+        );
     }
 }
 
+const mapStateToProps = (state) => {
+    const { result } = state.auth;
+    return { result };
+}
 
-const styles = {
-    headerContentStyle: {
-        flexDirection: 'column',
-        justifyContent: 'space-around'
-    },
-    headerTextStyle: {
-        fontSize: 18
-    },
-    thumbnailStyle: {
-        height: 50,
-        width: 50
-    },
-    thumbnailContainerStyle: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 10
-    },
-    imageStyle: {
-        height: 300,
-        flex: 1,
-        width: null
-    }
-};
-
-export default Inbox;
+export default connect(mapStateToProps, { authen, bookingSelected })(Inbox);

@@ -7,6 +7,7 @@ import HistoryList from './HistoryList';
 import { authen, bookingSelected, historySelected } from '../actions';
 import { connect } from 'react-redux';
 import { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 
 class Histy extends Component {
