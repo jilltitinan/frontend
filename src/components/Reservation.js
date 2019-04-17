@@ -242,6 +242,7 @@ class Home extends Component {
                                                 onCancel={this.hideStartDateTimePicker}
                                                 datePickerModeAndroid='calendar'
                                                 minimumDate={today}
+                                                // maximumDate={2019-04-30}
                                             // onPress={() => this.onStartPress(selectedStartDate)}
                                             />
                                         </View>

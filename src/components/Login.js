@@ -27,7 +27,7 @@ class Login extends Component {
         console.log('add account : ', response)
         try {
             await AsyncStorage.setItem('token', response);
-            Actions.container();
+            // Actions.container();
         } catch (e) {
             Alert.alert(
                 'Login Failed',
@@ -65,6 +65,7 @@ class Login extends Component {
                 });
 
                 { this._storeData(response.data) }
+                Actions.container();
             } else {
                 console.log("cancelled")
             }

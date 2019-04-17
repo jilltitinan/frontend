@@ -55,7 +55,7 @@ class ComfirmCode extends Component {
             })
             .catch(error => {
                 Alert.alert(
-                    'Reservation Failed',
+                    "error.res.data",
                     'Please try again.',
                     [
                         { text: 'OK', onPress: () => Actions.bookdetail() },

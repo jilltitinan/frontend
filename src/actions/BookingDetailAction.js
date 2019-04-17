@@ -3,13 +3,13 @@ import { Actions } from 'react-native-router-flux';
 
 
 export const bookingSelected = (booking) => {
-    console.log('resduvxx   ' + booking)
+    console.log(' bookingSelected resduvxx   ' + booking)
     return (dispatch) => {
         dispatch({
             type: BOOKING_SELECTED,
             payload: { booking }
         })
-        Actions.bookdetail();
+        // Actions.bookdetail();
     }
 };
 

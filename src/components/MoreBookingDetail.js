@@ -130,7 +130,7 @@ class MoreBookingDetail extends Component {
                         <Text style={headerTextStyle}>Booking ID : {bookingID}</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
                             Start Date :
-                            <Text style={{ fontWeight: '100',  fontSize: 16 }}> {selectedStartDate} </Text>
+                            <Text style={{ fontWeight: '100', fontSize: 16 }}> {selectedStartDate} </Text>
                         </Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
                             Start Time :

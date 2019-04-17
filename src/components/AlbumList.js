@@ -23,6 +23,7 @@ class AlbumList extends Component {
 
     onButtonPress(booking) {
         this.props.bookingSelected(booking);
+        Actions.bookdetail();
     }
 
     _onRefresh = async () => {

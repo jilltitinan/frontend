@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Router, Scene, Actions, Tabs } from 'react-native-router-flux';
 import { authen } from '../actions';
@@ -27,7 +27,42 @@ import ShowTheCode from './ShowTheCode';
 import ShowNoCode from './ShowNoCode';
 import { AsyncStorage } from 'react-native';
 import Axios from 'axios';
+import { Permissions, Notifications } from 'expo';
 
+
+async function registerForPushNotificationsAsync(id_account) {
+    const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+        return;
+    }
+    let token = await Notifications.getExpoPushTokenAsync();
+    console.log('ress router token ' + token);
+    Axios.post('https://locker54.azurewebsites.net/notitoken',
+        {
+            "id_account": id_account,
+            "expoToken": token
+        }).then(res => {
+            console.log('ress ' + res);
+            if (res.status == 200) {
+                console.log('res dataa  ' + res.data);
+            }
+        })
+        .catch(error => {
+            Alert.alert(
+                error.response.data,
+                'Please try again.',
+                [{ text: 'OK', onPress: () => Actions.Reserve() },],
+                { cancelable: false },
+            );
+        })
+}
 
 class RouterComponent extends React.Component {
 
@@ -43,71 +78,57 @@ class RouterComponent extends React.Component {
                     if (res.status == 200) {
                         const information = res.data
                         this.setState({ accountInformation: information })
-                        // console.log("check token :  ", this.state.accountInformation)
                     }
                     else {
                         console.log("check token : broke")
                     }
                 })
-                .catch(err => {
-                    console.log(err.response.data);
-                    Alert.alert(
-                        err.response.data,
-                        'Press ok to go back.',
-                        [
-                            { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
-
-                        ],
-                        { cancelable: false },
-                    );
-                });
+                    .catch(err => {
+                        console.log(err.res.data);
+                        Alert.alert(
+                            err.res.data,
+                            'Press ok to go back. sfdafasdf',
+                            [{ text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },],
+                            { cancelable: false },
+                        );
+                    });
                 console.log("Before UserAccount call")
-            
+
                 await Axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?id_account=${this.state.accountInformation.id_account}`,
                     { headers: { "Authorization": `Bearer ${value}` } })
                     .then(response => {
                         const info = response.data
                         this.setState({ detail: info })
-                        console.log("data from axios : ", this.state.detail)
+                        // console.log("data from axios : ", this.state.detail)
                         if (response.status === 200) {
                             this.props.authen(this.state.detail);
+                            registerForPushNotificationsAsync(this.state.accountInformation.id_account);
                             Actions.container();
-                            console.log('status 200 at mobile/UserAccount');
+                            // console.log('status 200 at mobile/UserAccount');
                         }
                     })
                     .catch(err => {
                         console.log(err.response.data);
                         Alert.alert(
                             err.response.data,
-                            'Press ok to go back.',
-                            [
-                                { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
-
-                            ],
+                            'Press ok to go back. dfsf',
+                            [{ text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },],
                             { cancelable: false },
                         );
                     });
-
             }
-            // Actions.container();
-
             else {
                 Actions.authen();
             }
         } catch (error) {
             if (error.status === undefined) {
-
                 console.log("errrrrr ", error.data)
-
             } else {
                 console.log("hello error  ")
                 Actions.authen();
             }
-
-
         }
     };
-
 
     renderCustomButton() {
         return () => (
@@ -141,6 +162,22 @@ class RouterComponent extends React.Component {
         );
     }
 
+    renderGoBookingDetail() {
+        return () => (
+            <TouchableOpacity onPress={() => Actions.historydetail()}>
+                <Icon name="arrow-back" size={30} color="#FFF" />
+            </TouchableOpacity>
+        );
+    }
+
+    renderGoSumReserve() {
+        return () => (
+            <TouchableOpacity onPress={() => Actions.sumreserve()}>
+                <Icon name="arrow-back" size={30} color="#FFF" />
+            </TouchableOpacity>
+        );
+    }
+
     render() {
         const { tabBarStyle } = styles;
         return (
@@ -161,11 +198,11 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key="bookdetail" >
-                        <Scene key="booking" component={MoreBookingDetail} title="Booking Detail" renderLeftButton={this.renderCustomButton()} />
+                        <Scene key="booking" component={MoreBookingDetail} title="more Booking Detail" renderLeftButton={this.renderGoHistory()} />
                     </Scene>
 
                     <Scene key="afterbooked" >
-                        <Scene key="afterbook" component={AfterBooked} title="Booking Detail" renderLeftButton={this.renderGoHistory()} />
+                        <Scene key="afterbook" component={AfterBooked} title="After book Detail" renderLeftButton={this.renderGoHistory()} />
                     </Scene>
 
                     <Scene key="historydetail" >
