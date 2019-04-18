@@ -44,7 +44,7 @@ async function registerForPushNotificationsAsync(id_account) {
     }
     let token = await Notifications.getExpoPushTokenAsync();
     console.log('ress router token ' + token);
-    Axios.post('https://locker54.azurewebsites.net/notitoken',
+    await Axios.post('https://locker54.azurewebsites.net/api/Account/notitoken',
         {
             "id_account": id_account,
             "expoToken": token
@@ -57,8 +57,8 @@ async function registerForPushNotificationsAsync(id_account) {
         .catch(error => {
             Alert.alert(
                 error.response.data,
-                'Please try again.',
-                [{ text: 'OK', onPress: () => Actions.Reserve() },],
+                'Please try again.noti token',
+                [{ text: 'OK'}],
                 { cancelable: false },
             );
         })

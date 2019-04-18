@@ -12,23 +12,12 @@ import moment from 'moment';
 
 var today = new Date();
 var nextDay = new Date();
-const item1 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
-const item2 = ['2', '4', '6', '8', '10', '12', '14', '16', '18'];
-const item3 = ['2', '4', '6', '8', '10', '12', '14', '16'];
-const item4 = ['2', '4', '6', '8', '10', '12', '14'];
-const item5 = ['2', '4', '6', '8', '10', '12'];
-const item6 = ['2', '4', '6', '8', '10'];
-const item7 = ['2', '4', '6', '8'];
-const item8 = ['2', '4', '6'];
-const item9 = ['2', '4'];
-const item10 = ['2',];
-const item11 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
-const item12 = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24'];
-var BUTTONS = ['Option 0', 'Option 1', 'Option 2', 'Delete', 'Cancel',];
 class Home extends Component {
 
     state = {
         user: '',
+        startDate: '',
+        endDate: '',
         selectedStartDate: " ",
         selectedEndDate: " ",
         startDateTimePickerVisible: false,
@@ -81,26 +70,46 @@ class Home extends Component {
     showTimePicker = () => this.setState({ TimePickerVisible: true });
     hideShowTimePicker = () => this.setState({ TimePickerVisible: false });
 
-    handleStartDatePicked = (date) => {
-        var dateRedux = date.toString();
-        var weekDayName = moment(date).format('dddd');
-        var date3 = moment(date).format('DD-MM-YYYY');
+    handleStartDatePicked = (date1) => {
+        this.setState({ startDate: date1 });
+        var dateRedux = date1.toString();
+        var weekDayName = moment(date1).format('dddd');
+        var date3 = moment(date1).format('DD MMM YYYY');
         this.setState({ selectedStartDate: weekDayName + ' ' + date3, dateRedux: date3 });
         this.hideStartDateTimePicker();
         this.props.reservationStart(dateRedux);
-        nextDay = date;
+        nextDay = date1;
         nextDay.setDate(nextDay.getDate() + 1);
+        var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
+        var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
+        if (startMoment > endMoment) {
+            console.log("start date > end date")
+            this.setState({ selectedEndDate: '' })
+        } else {
+            console.log("start date else ", Date(startMoment), 'end date else : ', Date(endMoment))
+        }
     };
 
     handleEndDatePicked = (date) => {
         // var date5 = date.toString();
         // var enddateDay = date5.substring(0, 10);
+        var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
+        var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
+        this.setState({ endDate: date })
+        console.log("teste esesrte ", startMoment, "end date ", endMoment)
+
         var dateRedux = date.toString();
         var weekDayName = moment(date).format('dddd');
-        var date4 = moment(date).format('DD-MM-YYYY');
+        var date4 = moment(date).format('DD MMM YYYY');
         this.setState({ selectedEndDate: weekDayName + ' ' + date4, dateRedux: date4 });
         this.hideEndDateTimePicker();
         this.props.reservationEnd(dateRedux);
+        if (startMoment < endMoment) {
+            console.log("start date < end date")
+
+        } else {
+            console.log("start date else ", Date(startMoment), 'end date else : ', Date(endMoment))
+        }
     };
 
     handleTimePicked = (time) => {
@@ -114,43 +123,30 @@ class Home extends Component {
     };
 
     getItems(val) {
-        console.log('ddfdfsa', val.substring(0, 2))
-        if (val.substring(0, 2) === '04') {
-            return item1;
-        }
-        else if (val.substring(0, 2) === '06') {
-            return item2;
-        }
-        else if (val.substring(0, 2) === '08') {
-            return item3;
-        }
-        else if (val.substring(0, 2) === '10') {
-            return item4;
-        }
-        else if (val.substring(0, 2) === '12') {
-            return item5;
-        }
-        else if (val.substring(0, 2) === '14') {
-            return item6;
-        }
-        else if (val.substring(0, 2) === '16') {
-            return item7;
-        }
-        else if (val.substring(0, 2) === '18') {
-            return item8;
-        }
-        else if (val.substring(0, 2) === '20') {
-            return item9;
-        }
-        else if (val.substring(0, 2) === '22') {
-            return item10;
-        }
-        else if (val.substring(0, 2) === '00') {
-            return item12;
-        }
-        else {
-            return item11;
-        }
+        if (val.substring(0, 2) === '00') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']; }
+        else if (val.substring(0, 2) === '01') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22']; }
+        else if (val.substring(0, 2) === '02') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21']; }
+        else if (val.substring(0, 2) === '03') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']; }
+        else if (val.substring(0, 2) === '04') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19']; }
+        else if (val.substring(0, 2) === '05') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18']; }
+        else if (val.substring(0, 2) === '06') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17']; }
+        else if (val.substring(0, 2) === '07') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']; }
+        else if (val.substring(0, 2) === '08') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']; }
+        else if (val.substring(0, 2) === '09') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14']; }
+        else if (val.substring(0, 2) === '10') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']; }
+        else if (val.substring(0, 2) === '11') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']; }
+        else if (val.substring(0, 2) === '12') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']; }
+        else if (val.substring(0, 2) === '13') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']; }
+        else if (val.substring(0, 2) === '14') { return ['1', '2', '3', '4', '5', '6', '7', '8', '9']; }
+        else if (val.substring(0, 2) === '15') { return ['1', '2', '3', '4', '5', '6', '7', '8']; }
+        else if (val.substring(0, 2) === '16') { return ['1', '2', '3', '4', '5', '6', '7']; }
+        else if (val.substring(0, 2) === '17') { return ['1', '2', '3', '4', '5', '6']; }
+        else if (val.substring(0, 2) === '18') { return ['1', '2', '3', '4', '5']; }
+        else if (val.substring(0, 2) === '19') { return ['1', '2', '3', '4']; }
+        else if (val.substring(0, 2) === '20') { return ['1', '2', '3']; }
+        else if (val.substring(0, 2) === '21') { return ['1', '2',]; }
+        else if (val.substring(0, 2) === '22') { return ['1',]; }
+        else { return ['0']; }
     }
 
     // onValueChange(value) {
@@ -247,21 +243,24 @@ class Home extends Component {
                                     </View>
                                     <View style={picker2}>
                                         <View style={{ flex: 1, }}>
-                                            <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                            <TouchableOpacity onPress={this.showStartDateTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
                                                 <Text style={{ fontSize: 18 }}>Start Date</Text>
                                             </TouchableOpacity>
-                                            <DateTimePicker
-                                                isVisible={this.state.startDateTimePickerVisible}
-                                                onConfirm={this.handleStartDatePicked}
-                                                onCancel={this.hideStartDateTimePicker}
-                                                datePickerModeAndroid='calendar'
-                                                minimumDate={today}
-                                            // maximumDate=
-                                            // onPress={() => this.onStartPress(selectedStartDate)}
-                                            />
+                                            <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                                <DateTimePicker
+                                                    isVisible={this.state.startDateTimePickerVisible}
+                                                    onConfirm={this.handleStartDatePicked}
+                                                    onCancel={this.hideStartDateTimePicker}
+                                                    datePickerModeAndroid='calendar'
+                                                    minimumDate={today}
+                                                // maximumDate={30}
+                                                // onPress={() => this.onStartPress(selectedStartDate)}
+                                                /></TouchableOpacity>
                                         </View>
                                         <View style={{ flex: 1 }}>
-                                            <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+                                            <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                                <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 </View>
@@ -276,7 +275,7 @@ class Home extends Component {
                                     </View>
                                     <View style={picker2}>
                                         <View style={{ flex: 1 }}>
-                                            <TouchableOpacity onPress={this.showEndDateTimePicker}>
+                                            <TouchableOpacity onPress={this.showEndDateTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
                                                 <Text style={{ fontSize: 18 }}>End Date</Text>
                                             </TouchableOpacity>
                                             <DateTimePicker
@@ -285,11 +284,12 @@ class Home extends Component {
                                                 onCancel={this.hideEndDateTimePicker}
                                                 datePickerModeAndroid='calendar'
                                                 minimumDate={nextDay}
-                                            // onPress={() => this.onEndPress(selectedEndDate)}
                                             />
                                         </View>
                                         <View style={{ flex: 1 }}>
-                                            <Text style={{ fontSize: 16 }}>{selectedEndDate}</Text>
+                                            <TouchableOpacity onPress={this.showEndDateTimePicker}>
+                                                <Text style={{ fontSize: 16 }}>{selectedEndDate}</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 </View>
@@ -300,40 +300,23 @@ class Home extends Component {
                                 <View style={pickerCalendar}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
-                                            name='access-time'
-                                            color='#00A6A6'
-                                            size={40} />
-                                    </View>
-                                    <View style={picker2}>
-                                        <View style={{ flex: 1 }}>
-                                            <TouchableOpacity onPress={this.showTimePicker}>
-                                                <Text style={{ fontSize: 18 }}>Start Time</Text>
-                                            </TouchableOpacity>
-                                            <DateTimePicker    
-                                                isVisible={this.state.TimePickerVisible}
-                                                onConfirm={this.handleTimePicked}
-                                                onCancel={this.hideShowTimePicker}
-                                                mode='time'
-                                                timePickerModeAndroid='clock'                                              
-                                            />
-                                            <View style={pickerCalendar}>
-                                                <View style={{ flex: 1 }}>
-                                                    <Text style={{ fontSize: 16 }}>{selectedTime}</Text>
-                                                </View>
-                                            </View>
-
-                                        </View>
-
-                                    </View >
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Icon
                                             name='today'
                                             color='#00A6A6'
                                             size={40} />
                                     </View>
 
                                     <View style={picker2}>
-                                        <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                        {/* <Text style={{ fontSize: 18 }}>Hour</Text>
+                                        <Picker
+                                            defaultLabel={"waiting"}
+                                            selectedValue={this.state.selected2}
+                                            onValueChange={this.onValueChange2.bind(this)}>
+                                            {this.getItems(this.state.selected1).map((item, i) => {
+                                                return <Picker.Item label={item} key={`${i}+1`} value={item} />
+                                            })}
+                                        </Picker> */}
+
+                                        <TouchableOpacity onPress={this.showStartDateTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
                                             <Text style={{ fontSize: 18 }}>Start Date</Text>
                                         </TouchableOpacity>
                                         <View style={timePicker}>
@@ -342,26 +325,52 @@ class Home extends Component {
                                                 onConfirm={this.handleStartDatePicked}
                                                 onCancel={this.hideStartDateTimePicker}
                                                 datePickerModeAndroid='calendar'
-                                                minimumDate={today}                                                
+                                                minimumDate={today}
                                             />
                                         </View>
-                                        <View style={pickerCalendar}>
-                                            <View style={{ flex: 1 }}>
-                                                <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
-                                            </View>
-                                        </View>
+                                        <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                            <Text style={{ fontSize: 16, paddingTop: 10 }}>{selectedStartDate}</Text>
+                                        </TouchableOpacity>
+
 
                                     </View>
-                                </View >
-                                <View style={picker}>
+                                </View>
+                                <View style={pickerCalendar}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
                                             name='access-time'
                                             color='#00A6A6'
                                             size={40} />
                                     </View>
+                                    <View style={picker2}>
+                                        <View style={{ flex: 1 }}>
+                                            <TouchableOpacity onPress={this.showTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
+                                                <Text style={{ fontSize: 18 }}>Start Time</Text>
+                                            </TouchableOpacity>
+                                            <DateTimePicker
+                                                isVisible={this.state.TimePickerVisible}
+                                                onConfirm={this.handleTimePicked}
+                                                onCancel={this.hideShowTimePicker}
+                                                mode='time'
+                                                timePickerModeAndroid='clock'
+                                            />
+                                            <View style={{ flex: 1, paddingTop: 5 }}>
+                                                <TouchableOpacity onPress={this.showTimePicker}>
+                                                    <Text style={{ fontSize: 16 }}>{selectedTime}</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+
+                                    </View >
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Icon
+                                            name='timer'
+                                            color='#00A6A6'
+                                            size={40} />
+                                    </View>
 
                                     <View style={picker2}>
+
                                         <Text style={{ fontSize: 18 }}>Hour</Text>
                                         <Picker
                                             defaultLabel={"waiting"}
@@ -371,15 +380,32 @@ class Home extends Component {
                                                 return <Picker.Item label={item} key={`${i}+1`} value={item} />
                                             })}
                                         </Picker>
+                                        {/* <TouchableOpacity onPress={this.showStartDateTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
+                                            <Text style={{ fontSize: 18 }}>Start Date</Text>
+                                        </TouchableOpacity>
+                                        <View style={timePicker}>
+                                            <DateTimePicker
+                                                isVisible={this.state.startDateTimePickerVisible}
+                                                onConfirm={this.handleStartDatePicked}
+                                                onCancel={this.hideStartDateTimePicker}
+                                                datePickerModeAndroid='calendar'
+                                                minimumDate={today}
+                                            />
+                                        </View>
+                                        <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                            <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+                                        </TouchableOpacity> */}
+
                                     </View>
-                                </View>
+                                </View >
+
                             </View>
                         }
 
                     </View>
                 </View>
 
-                {((this.state.selectedEndDate && this.state.selectedStartDate && (this.state.switch1Value == false)) || (this.state.selectedStartDate && this.state.switch1Value)) &&
+                {((this.state.selectedEndDate && this.state.selectedStartDate && (this.state.switch1Value == false)) || (this.state.selectedStartDate && this.state.switch1Value && this.state.selectedTime)) &&
                     <View style={buttonNext}>
                         <Button onPress={this.onButtonPress.bind(this)}> Next </Button>
                     </View>
@@ -423,9 +449,9 @@ const styles = StyleSheet.create({
     },
     picker2: {
         flex: 1,
-        borderRadius: 4,
-        borderWidth: 0.5,
-        borderColor: '#d6d7da',
+        // borderRadius: 4,
+        // borderWidth: 0.5,
+        // borderColor: '#d6d7da',
     },
     timePicker: {
         backgroundColor: '#00A6A6',
