@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     date: '',
     endDate: '',
     hour: '2',
-    time: '4:00',
+    time: '',
     valueType: 'false',
     id : ''
 };

@@ -45,7 +45,9 @@ class SumReservation extends Component {
         var newEndtime = parseInt(this.props.time);
         var newHour = parseInt(this.props.hour);
         var newDuration = newEndtime + newHour;
+        var newMinute = this.props.time.substring(3,5);
         var newTime = this.props.time.toString();
+        console.log("new duration " , newMinute)
 
         if (this.props.valueType == 'true') { // one day
             const valueToken = await AsyncStorage.getItem('token');
@@ -55,8 +57,8 @@ class SumReservation extends Component {
                 "code": "string",
                 "isActive": true,
                 "status": "unuse",
-                "startDay": newnewdate + 'T0' + newTime + ':00Z',
-                "endDay": newnewdate + 'T0' + newDuration + ':00:00Z',
+                "startDay": newnewdate + 'T' + newTime + ':00Z',
+                "endDay": newnewdate + 'T' + newDuration + ':' + newMinute +':00Z',
                 "dateModified": "2019-03-27T08:40:32.391Z",
                 "size": this.props.size,
                 "location": this.props.location,

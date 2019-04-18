@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { DatePickerAndroid, TimePickerAndroid } from "react-native";
 
-export default class DatePicker extends React.PureComponent {
+export default class CustomDatePickerAndroid extends React.PureComponent {
   static propTypes = {
     date: PropTypes.instanceOf(Date),
     mode: PropTypes.oneOf(["date", "time", "datetime"]),
@@ -12,6 +12,7 @@ export default class DatePicker extends React.PureComponent {
     is24Hour: PropTypes.bool,
     isVisible: PropTypes.bool,
     datePickerModeAndroid: PropTypes.oneOf(["calendar", "spinner", "default"]),
+    timePickerModeAndroid: PropTypes.oneOf(["clock", "spinner", "default"]),
     minimumDate: PropTypes.instanceOf(Date),
     maximumDate: PropTypes.instanceOf(Date)
   };
@@ -20,6 +21,7 @@ export default class DatePicker extends React.PureComponent {
     date: new Date(),
     mode: "date",
     datePickerModeAndroid: "default",
+    timePickerModeAndroid: "default",
     is24Hour: true,
     isVisible: false,
     onHideAfterConfirm: () => {}
@@ -74,7 +76,7 @@ export default class DatePicker extends React.PureComponent {
         // Prepopulate and show time picker
         const timeOptions = {
           is24Hour: this.props.is24Hour,
-          mode: this.props.datePickerModeAndroid
+          mode: this.props.timePickerModeAndroid
         };
         if (this.props.date) {
           timeOptions.hour = this.props.date.getHours();
@@ -113,7 +115,7 @@ export default class DatePicker extends React.PureComponent {
         hour: this.props.date.getHours(),
         minute: this.props.date.getMinutes(),
         is24Hour: this.props.is24Hour,
-        mode: this.props.datePickerModeAndroid
+        mode: this.props.timePickerModeAndroid
       });
     } catch ({ message }) {
       console.warn("Cannot open time picker", message);

@@ -64,7 +64,7 @@ class Home extends Component {
         this.state = {
             switch1Value: false,
             isDateTimePickerVisible: false,
-            selected1: '04:00',
+            selected1: '',
         }
     }
 
@@ -78,9 +78,12 @@ class Home extends Component {
     hideStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: false });
     hideEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: false });
 
+    showTimePicker = () => this.setState({ TimePickerVisible: true });
+    hideShowTimePicker = () => this.setState({ TimePickerVisible: false });
+
     handleStartDatePicked = (date) => {
         var dateRedux = date.toString();
-        var weekDayName =  moment(date).format('dddd');
+        var weekDayName = moment(date).format('dddd');
         var date3 = moment(date).format('DD-MM-YYYY');
         this.setState({ selectedStartDate: weekDayName + ' ' + date3, dateRedux: date3 });
         this.hideStartDateTimePicker();
@@ -100,38 +103,49 @@ class Home extends Component {
         this.props.reservationEnd(dateRedux);
     };
 
+    handleTimePicked = (time) => {
+        var timeRedux = time.toString();
+        var showTime = timeRedux.substring(16, 21)
+        console.log('A date has been picked: ', showTime);
+        this.setState({ selectedTime: showTime, timeRedux: showTime });
+        this.setState({ selected1: showTime });
+        this.hideShowTimePicker();
+        this.props.reservationStartTime(showTime);
+    };
+
     getItems(val) {
-        if (val === '04:00') {
+        console.log('ddfdfsa', val.substring(0, 2))
+        if (val.substring(0, 2) === '04') {
             return item1;
         }
-        else if (val === '06:00') {
+        else if (val.substring(0, 2) === '06') {
             return item2;
         }
-        else if (val === '08:00') {
+        else if (val.substring(0, 2) === '08') {
             return item3;
         }
-        else if (val === '10:00') {
+        else if (val.substring(0, 2) === '10') {
             return item4;
         }
-        else if (val === '12:00') {
+        else if (val.substring(0, 2) === '12') {
             return item5;
         }
-        else if (val === '14:00') {
+        else if (val.substring(0, 2) === '14') {
             return item6;
         }
-        else if (val === '16:00') {
+        else if (val.substring(0, 2) === '16') {
             return item7;
         }
-        else if (val === '18:00') {
+        else if (val.substring(0, 2) === '18') {
             return item8;
         }
-        else if (val === '20:00') {
+        else if (val.substring(0, 2) === '20') {
             return item9;
         }
-        else if (val === '22:00') {
+        else if (val.substring(0, 2) === '22') {
             return item10;
         }
-        else if (val === '00:00') {
+        else if (val.substring(0, 2) === '00') {
             return item12;
         }
         else {
@@ -139,10 +153,10 @@ class Home extends Component {
         }
     }
 
-    onValueChange(value) {
-        this.setState({ selected1: value });
-        this.props.reservationStartTime(value);
-    }
+    // onValueChange(value) {
+    //     this.setState({ selected1: value });
+    //     this.props.reservationStartTime(value);
+    // }
 
     onValueChange2(value) {
         this.setState({ selected2: value });
@@ -169,8 +183,8 @@ class Home extends Component {
     }
 
     render() {
-        const { container, picker, text, picker2, picker3, buttonNext, pickerCalendar } = styles;
-        const { isDateTimePickerVisible, selectedStartDate, selectedEndDate } = this.state;
+        const { container, picker, text, picker2, picker3, buttonNext, pickerCalendar, timePicker } = styles;
+        const { isDateTimePickerVisible, selectedStartDate, selectedEndDate, selectedTime } = this.state;
         return (
             <View style={{ flex: 1 }}>
                 <View style={container}>
@@ -242,7 +256,7 @@ class Home extends Component {
                                                 onCancel={this.hideStartDateTimePicker}
                                                 datePickerModeAndroid='calendar'
                                                 minimumDate={today}
-                                                // maximumDate={2019-04-30}
+                                            // maximumDate=
                                             // onPress={() => this.onStartPress(selectedStartDate)}
                                             />
                                         </View>
@@ -283,7 +297,7 @@ class Home extends Component {
                         }
                         {this.state.switch1Value &&
                             <View style={picker3}>
-                                <View style={picker}>
+                                <View style={pickerCalendar}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
                                             name='access-time'
@@ -291,24 +305,26 @@ class Home extends Component {
                                             size={40} />
                                     </View>
                                     <View style={picker2}>
-                                        <Text style={{ fontSize: 18 }}>Start Time</Text>
-                                        <Picker
-                                            selectedValue={this.state.selected1}
-                                            onValueChange={this.onValueChange.bind(this)}>
-                                            <Picker.Item label="00:00" value="00:00" />
-                                            <Picker.Item label="02:00" value="02:00" />
-                                            <Picker.Item label="04:00" value="04:00" />
-                                            <Picker.Item label="06:00" value="06:00" />
-                                            <Picker.Item label="08:00" value="08:00" />
-                                            <Picker.Item label="10:00" value="10:00" />
-                                            <Picker.Item label="12:00" value="12:00" />
-                                            <Picker.Item label="14:00" value="14:00" />
-                                            <Picker.Item label="16:00" value="16:00" />
-                                            <Picker.Item label="18:00" value="18:00" />
-                                            <Picker.Item label="20:00" value="20:00" />
-                                            <Picker.Item label="22:00" value="22:00" />
-                                        </Picker>
-                                    </View>
+                                        <View style={{ flex: 1 }}>
+                                            <TouchableOpacity onPress={this.showTimePicker}>
+                                                <Text style={{ fontSize: 18 }}>Start Time</Text>
+                                            </TouchableOpacity>
+                                            <DateTimePicker    
+                                                isVisible={this.state.TimePickerVisible}
+                                                onConfirm={this.handleTimePicked}
+                                                onCancel={this.hideShowTimePicker}
+                                                mode='time'
+                                                timePickerModeAndroid='clock'                                              
+                                            />
+                                            <View style={pickerCalendar}>
+                                                <View style={{ flex: 1 }}>
+                                                    <Text style={{ fontSize: 16 }}>{selectedTime}</Text>
+                                                </View>
+                                            </View>
+
+                                        </View>
+
+                                    </View >
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
                                             name='today'
@@ -317,23 +333,26 @@ class Home extends Component {
                                     </View>
 
                                     <View style={picker2}>
-                                        <View style={{ flex: 1 }}>
-                                            <TouchableOpacity onPress={this.showStartDateTimePicker}>
-                                                <Text style={{ fontSize: 18 }}>Start Date</Text>
-                                            </TouchableOpacity>
+                                        <TouchableOpacity onPress={this.showStartDateTimePicker}>
+                                            <Text style={{ fontSize: 18 }}>Start Date</Text>
+                                        </TouchableOpacity>
+                                        <View style={timePicker}>
                                             <DateTimePicker
                                                 isVisible={this.state.startDateTimePickerVisible}
                                                 onConfirm={this.handleStartDatePicked}
                                                 onCancel={this.hideStartDateTimePicker}
                                                 datePickerModeAndroid='calendar'
-                                                minimumDate={today}
+                                                minimumDate={today}                                                
                                             />
                                         </View>
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+                                        <View style={pickerCalendar}>
+                                            <View style={{ flex: 1 }}>
+                                                <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+                                            </View>
                                         </View>
+
                                     </View>
-                                </View>
+                                </View >
                                 <View style={picker}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Icon
@@ -407,6 +426,9 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderWidth: 0.5,
         borderColor: '#d6d7da',
+    },
+    timePicker: {
+        backgroundColor: '#00A6A6',
     },
     picker3: {
         justifyContent: 'space-between',
