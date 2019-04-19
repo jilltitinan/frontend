@@ -84,60 +84,40 @@ class Home extends Component {
         var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
         var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
         if (startMoment > endMoment) {
-            console.log("start date > end date")
             this.setState({ selectedEndDate: '' })
         } else {
-            console.log("start date else ", Date(startMoment), 'end date else : ', Date(endMoment))
+            console.log("error handleStartDatePicked ")
         }
     };
 
     handleEndDatePicked = (date) => {
-        // var date5 = date.toString();
-        // var enddateDay = date5.substring(0, 10);
         var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
         var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
         this.setState({ endDate: date })
-        console.log("teste esesrte ", startMoment, "end date ", endMoment)
-
         var dateRedux = date.toString();
         var weekDayName = moment(date).format('dddd');
         var date4 = moment(date).format('DD MMM YYYY');
         this.setState({ selectedEndDate: weekDayName + ' ' + date4, dateRedux: date4 });
         this.hideEndDateTimePicker();
         this.props.reservationEnd(dateRedux);
-        if (startMoment < endMoment) {
-            console.log("start date < end date")
-
-        } else {
-            console.log("start date else ", Date(startMoment), 'end date else : ', Date(endMoment))
-        }
     };
 
-    handleTimePicked = (time) => {
-        
+    handleTimePicked = (time) => {        
         var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD").local().format('YYYY-MMM-DD')
         var currentDate = moment.utc(new Date(), "YYYY-MM-DD").add(1, 'days').local().format('YYYY-MMM-DD')
-
         var timeRedux = time.toString();
         var showTime = timeRedux.substring(16, 21)
         var timeHour = showTime.substring(0, 2)
         var newtime = parseInt(timeHour) * 60 + (parseInt(showTime.substring(3, 6)))
         var current = new Date().toTimeString();
         var currentTime = parseInt(current.substring(0, 2)) * 60 + (parseInt(current.substring(3, 6)));
-       
-        console.log("startDate : ", currentDate)
-        console.log("current time : ",startMoment )
         this.setState({ selectedTime: showTime, timeRedux: showTime });
         this.setState({ selected1: showTime });
-        if((currentTime > newtime) && (startMoment === currentDate) ) {
-            console.log('current > time')
+        if((currentTime > newtime) && (startMoment === currentDate) ) {          
             this.setState({ selectedTime: ' ' });
-        } else {
-            console.log('time')
-        }
+        } 
         this.hideShowTimePicker();
-        this.props.reservationStartTime(showTime);
-        
+        this.props.reservationStartTime(showTime);        
     };
 
     getItems(val) {
@@ -166,11 +146,6 @@ class Home extends Component {
         else if (val.substring(0, 2) === '22') { return ['1',]; }
         else { return ['0']; }
     }
-
-    // onValueChange(value) {
-    //     this.setState({ selected1: value });
-    //     this.props.reservationStartTime(value);
-    // }
 
     onValueChange2(value) {
         this.setState({ selected2: value });
@@ -214,7 +189,7 @@ class Home extends Component {
                             <Picker
                                 selectedValue={this.state.location}
                                 onValueChange={this.updateLocation}>
-                                <Picker.Item label="ECC" value="ecc" />
+                                <Picker.Item label="ecc" value="ecc" />
                                 <Picker.Item label="12Tower" value="12Tower" />
                                 <Picker.Item label="HM" value="hm" />
                             </Picker>
@@ -246,7 +221,7 @@ class Home extends Component {
                         <SwitchHome
                             toggleSwitch1={this.toggleSwitch1}
                             switch1Value={this.state.switch1Value} />
-                        <Text style={{ textAlign: 'right' }}>multiple day or single day</Text>
+                        <Text style={{ textAlign: 'right' }}>Multi-day/One day</Text>
                     </View>
                     <View style={picker3}>
                         {!this.state.switch1Value &&
