@@ -20,6 +20,7 @@ class Home extends Component {
         endDate: '',
         selectedStartDate: " ",
         selectedEndDate: " ",
+        selectedTime: '',
         startDateTimePickerVisible: false,
         endDateTimePickerVisible: false,
         select: 'moment',
@@ -113,13 +114,30 @@ class Home extends Component {
     };
 
     handleTimePicked = (time) => {
+        
+        var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD").local().format('YYYY-MMM-DD')
+        var currentDate = moment.utc(new Date(), "YYYY-MM-DD").add(1, 'days').local().format('YYYY-MMM-DD')
+
         var timeRedux = time.toString();
         var showTime = timeRedux.substring(16, 21)
-        console.log('A date has been picked: ', showTime);
+        var timeHour = showTime.substring(0, 2)
+        var newtime = parseInt(timeHour) * 60 + (parseInt(showTime.substring(3, 6)))
+        var current = new Date().toTimeString();
+        var currentTime = parseInt(current.substring(0, 2)) * 60 + (parseInt(current.substring(3, 6)));
+       
+        console.log("startDate : ", currentDate)
+        console.log("current time : ",startMoment )
         this.setState({ selectedTime: showTime, timeRedux: showTime });
         this.setState({ selected1: showTime });
+        if((currentTime > newtime) && (startMoment === currentDate) ) {
+            console.log('current > time')
+            this.setState({ selectedTime: ' ' });
+        } else {
+            console.log('time')
+        }
         this.hideShowTimePicker();
         this.props.reservationStartTime(showTime);
+        
     };
 
     getItems(val) {
@@ -306,16 +324,6 @@ class Home extends Component {
                                     </View>
 
                                     <View style={picker2}>
-                                        {/* <Text style={{ fontSize: 18 }}>Hour</Text>
-                                        <Picker
-                                            defaultLabel={"waiting"}
-                                            selectedValue={this.state.selected2}
-                                            onValueChange={this.onValueChange2.bind(this)}>
-                                            {this.getItems(this.state.selected1).map((item, i) => {
-                                                return <Picker.Item label={item} key={`${i}+1`} value={item} />
-                                            })}
-                                        </Picker> */}
-
                                         <TouchableOpacity onPress={this.showStartDateTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
                                             <Text style={{ fontSize: 18 }}>Start Date</Text>
                                         </TouchableOpacity>
@@ -380,22 +388,6 @@ class Home extends Component {
                                                 return <Picker.Item label={item} key={`${i}+1`} value={item} />
                                             })}
                                         </Picker>
-                                        {/* <TouchableOpacity onPress={this.showStartDateTimePicker} hitSlop={{ top: 20, bottom: 100, left: 50, right: 200 }}>
-                                            <Text style={{ fontSize: 18 }}>Start Date</Text>
-                                        </TouchableOpacity>
-                                        <View style={timePicker}>
-                                            <DateTimePicker
-                                                isVisible={this.state.startDateTimePickerVisible}
-                                                onConfirm={this.handleStartDatePicked}
-                                                onCancel={this.hideStartDateTimePicker}
-                                                datePickerModeAndroid='calendar'
-                                                minimumDate={today}
-                                            />
-                                        </View>
-                                        <TouchableOpacity onPress={this.showStartDateTimePicker}>
-                                            <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
-                                        </TouchableOpacity> */}
-
                                     </View>
                                 </View >
 

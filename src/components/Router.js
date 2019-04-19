@@ -28,6 +28,7 @@ import ShowNoCode from './ShowNoCode';
 import { AsyncStorage } from 'react-native';
 import Axios from 'axios';
 import { Permissions, Notifications } from 'expo';
+import Waiting from './Waiting';
 
 
 async function registerForPushNotificationsAsync(id_account) {
@@ -58,7 +59,7 @@ async function registerForPushNotificationsAsync(id_account) {
             Alert.alert(
                 error.response.data,
                 'Please try again.noti token',
-                [{ text: 'OK'}],
+                [{ text: 'OK' }],
                 { cancelable: false },
             );
         })
@@ -183,9 +184,16 @@ class RouterComponent extends React.Component {
         return (
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
-                    <Scene key="authen" hideNavBar>
-                        <Scene key="login" component={Login} title="Welcome" initial />
+                
+                    <Scene key="waiting" hideNavBar>
+                        <Scene key="waitingpage" component={Waiting} title="Welcome" initial />
                     </Scene>
+
+                    <Scene key="authen" hideNavBar>
+                        <Scene key="login" component={Login} title="Welcome" />
+                    </Scene>
+
+
 
                     <Scene key="Reserve">
                         <Scene
