@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { Router, Scene, Actions, Tabs } from 'react-native-router-flux';
+import { Router, Scene, Actions, Tabs, ActionConst } from 'react-native-router-flux';
 import { authen } from '../actions';
 import { connect } from 'react-redux';
 import { IconTab } from './common/IconTab';
@@ -186,14 +186,12 @@ class RouterComponent extends React.Component {
                 <Scene key="all" hideNavBar>
                 
                     <Scene key="waiting" hideNavBar>
-                        <Scene key="waitingpage" component={Waiting} title="Welcome" initial />
+                        <Scene key="waitingpage" component={Waiting} title="Welcome" />
                     </Scene>
 
                     <Scene key="authen" hideNavBar>
                         <Scene key="login" component={Login} title="Welcome" />
                     </Scene>
-
-
 
                     <Scene key="Reserve">
                         <Scene
@@ -256,9 +254,9 @@ class RouterComponent extends React.Component {
                         <Scene key="entercoderegister" component={ConfirmCode} title="Setting code" renderLeftButton={this.renderCustomButton()} />
                     </Scene>
 
-                    <Scene key='container' hideNavBar>
-                        <Tabs key='tabber' tabBarStyle={tabBarStyle} showLabel={true}>
-                            <Scene key='Home' icon={IconTab} iconName='home' labelStyle={{ color: 'red' }} initial>
+                    <Scene key='container' hideNavBar type={ActionConst.RESET}>
+                        <Tabs key='tabber' tabBarStyle={tabBarStyle} showLabel={true} labelStyle={{ color: '#3C6E71' }}> 
+                            <Scene key='Home' icon={IconTab} iconName='home' >
                                 <Scene
                                     key='home'
                                     component={Home}
