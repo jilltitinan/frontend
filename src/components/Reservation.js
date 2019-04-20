@@ -24,6 +24,8 @@ class Home extends Component {
         startDateTimePickerVisible: false,
         endDateTimePickerVisible: false,
         select: 'moment',
+        timeCheck: '',
+        currentCheck: '',
     };
 
     onButtonPress() {
@@ -81,19 +83,20 @@ class Home extends Component {
         this.props.reservationStart(dateRedux);
         nextDay = date1;
         nextDay.setDate(nextDay.getDate() + 1);
-        var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
-        var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
+        var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD')
+        var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD')
+        var currentDate = moment.utc(new Date(), "YYYY-MM-DD").add(1, 'days').local().format('YYYY-MMM-DD')
         if (startMoment > endMoment) {
             this.setState({ selectedEndDate: '' })
-        } else {
-            console.log("error handleStartDatePicked ")
+        } else if (((this.state.currentCheck - this.state.timeCheck) >= 5) && (startMoment === currentDate)) {
+            this.setState({ selectedTime: ' ' })
+        }
+        else {
+            console.log("error handleStartDatePicked ", currentDate, startMoment)
         }
     };
 
     handleEndDatePicked = (date) => {
-        var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
-        var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD h:mm A')
-        this.setState({ endDate: date })
         var dateRedux = date.toString();
         var weekDayName = moment(date).format('dddd');
         var date4 = moment(date).format('DD MMM YYYY');
@@ -102,7 +105,8 @@ class Home extends Component {
         this.props.reservationEnd(dateRedux);
     };
 
-    handleTimePicked = (time) => {        
+    handleTimePicked = (time) => {
+
         var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD").local().format('YYYY-MMM-DD')
         var currentDate = moment.utc(new Date(), "YYYY-MM-DD").add(1, 'days').local().format('YYYY-MMM-DD')
         var timeRedux = time.toString();
@@ -111,13 +115,14 @@ class Home extends Component {
         var newtime = parseInt(timeHour) * 60 + (parseInt(showTime.substring(3, 6)))
         var current = new Date().toTimeString();
         var currentTime = parseInt(current.substring(0, 2)) * 60 + (parseInt(current.substring(3, 6)));
+        this.setState({ timeCheck: newtime, currentCheck: currentTime });
         this.setState({ selectedTime: showTime, timeRedux: showTime });
         this.setState({ selected1: showTime });
-        if((currentTime > newtime) && (startMoment === currentDate) ) {          
+        if (((currentTime - newtime) >= 5) && (startMoment === currentDate)) {
             this.setState({ selectedTime: ' ' });
-        } 
+        }
         this.hideShowTimePicker();
-        this.props.reservationStartTime(showTime);        
+        this.props.reservationStartTime(showTime);
     };
 
     getItems(val) {
