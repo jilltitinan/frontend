@@ -29,7 +29,7 @@ class Histy extends Component {
         this.setState({ refreshing: true });
         const value = await AsyncStorage.getItem('token');
 
-        axios.get(`https://locker54.azurewebsites.net/mobile/History?id_account=${this.props.result.id_account}`,
+        axios.get(`https://lockerce54.azurewebsites.net/mobile/History?id_account=${this.props.result.id_account}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response =>
@@ -42,7 +42,7 @@ class Histy extends Component {
     componentWillMount = async () => {
         const value = await AsyncStorage.getItem('token');
 
-        axios.get(`https://locker54.azurewebsites.net/mobile/History?id_account=${this.props.result.id_account}`,
+        axios.get(`https://lockerce54.azurewebsites.net/mobile/History?id_account=${this.props.result.id_account}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response =>

@@ -22,7 +22,7 @@ class ComfirmCode extends Component {
     }
 
     // componentDidMount() {
-    //     axios.get(`https://locker54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.data.booking.bookingID}`)
+    //     axios.get(`https://lockerce54.azurewebsites.net/web/ReserveDetail?id_reserve=${this.props.data.booking.bookingID}`)
     //         .then(res => {
     //             const info = res.data
     //             this.setState({ detail: info })
@@ -33,7 +33,7 @@ class ComfirmCode extends Component {
     onSavePress = async (bookingID) => {
 
         const valueToken = await AsyncStorage.getItem('token');
-        axios.post('https://locker54.azurewebsites.net/mobile/SetCode', {
+        axios.post('https://lockerce54.azurewebsites.net/mobile/SetCode', {
             "id_reserve": bookingID,
             "code": this.props.pin.pin,
         },

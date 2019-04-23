@@ -12,7 +12,7 @@ import moment from 'moment';
 class MoreHistoryDetail extends Component {
 
     onSetPress() {
-        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.past.bookingID}`)
+        axios.get(`https://lockerce54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.past.bookingID}`)
             .then(response => {
                 if (response.status === 200) {
                     console.log('status 200');

@@ -24,9 +24,9 @@ class Login extends Component {
     }
 
     _storeData = async (response) => {
-        console.log('add account : ', response)
+        console.log('add account : ', response.token)
         try {
-            await AsyncStorage.setItem('token', response);
+            await AsyncStorage.setItem('token', response.token);
             // Actions.container();
         } catch (e) {
             Alert.alert(
@@ -60,7 +60,7 @@ class Login extends Component {
             })
 
             if (result.type === "success") {                
-                const response = await axios.post('https://locker54.azurewebsites.net/mobile/usersauthenticate', {
+                const response = await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
                     "_Token": this.state.token,
                 });
 

@@ -37,7 +37,7 @@ class MoreBookingDetail extends Component {
     deleteReservation = async () => {
         // console.log('delete presssssssss ', this.props.data.booking.bookingID);
         const value = await AsyncStorage.getItem('token');
-        axios.delete(`https://locker54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`,
+        axios.delete(`https://lockerce54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response => {
@@ -72,7 +72,7 @@ class MoreBookingDetail extends Component {
 
     onSetPress = async () => {
         const value = await AsyncStorage.getItem('token');
-        axios.get(`https://locker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
+        axios.get(`https://lockerce54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response => {

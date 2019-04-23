@@ -51,7 +51,7 @@ class SumReservation extends Component {
 
         if (this.props.valueType == 'true') { // one day
             const valueToken = await AsyncStorage.getItem('token');
-            axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
+            axios.post('https://lockerce54.azurewebsites.net/mobile/AddReserve', {
 
                 "id_reserve": 0,
                 "code": "string",
@@ -89,7 +89,7 @@ class SumReservation extends Component {
             try {
                 const valueToken = await AsyncStorage.getItem('token');
                 // console.log('new dateeeee' + valueToken)
-                axios.post('https://locker54.azurewebsites.net/mobile/AddReserve', {
+                axios.post('https://lockerce54.azurewebsites.net/mobile/AddReserve', {
 
                     "id_reserve": 0,
                     "code": "string",

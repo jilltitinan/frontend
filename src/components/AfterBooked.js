@@ -25,7 +25,7 @@ class Afterbooked extends Component {
 
     componentDidMount = async () => {
         const valueToken = await AsyncStorage.getItem('token');
-        axios.get(`https://locker54.azurewebsites.net/mobile/BookingDetail?id_reserve=${this.props.id}`,
+        axios.get(`https://lockerce54.azurewebsites.net/mobile/BookingDetail?id_reserve=${this.props.id}`,
             { headers: { "Authorization": `Bearer ${valueToken}` } })
             .then(res => {
                 const info = res.data

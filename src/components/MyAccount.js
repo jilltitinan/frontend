@@ -20,7 +20,7 @@ class MyAccount extends Component {
     // componentDidMount() {
     //     var newId = this.props.result.user.email.toString();
     //     var newId_accout = newId.substring(0, newId.length - 12);
-    //     axios.get(`https://locker54.azurewebsites.net/mobile/UserAccount?id_account=${newId_accout}`)
+    //     axios.get(`https://lockerce54.azurewebsites.net/mobile/UserAccount?id_account=${newId_accout}`)
     //     .then(res => {
     //         const info = res.data
     //         this.setState({ detail: info })

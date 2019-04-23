@@ -14,7 +14,7 @@ class BookingDetail extends Component {
 
 
     componentWillMount() {
-        axios.get(`https://locker54.azurewebsites.net/api/Reservation/ReserveID?id_account=${this.props.result.id_account}`)
+        axios.get(`https://lockerce54.azurewebsites.net/api/Reservation/ReserveID?id_account=${this.props.result.id_account}`)
             .then(response => this.setState({ reserve: response.data })
         );
     }
