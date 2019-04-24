@@ -15,7 +15,7 @@
       "backgroundColor": "#ffffff"
     },
     "android": {
-      "package": "com.yourcompany.yourappname"
+      "package": "host.exp.exponent"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { authen } from '../actions';
-import { StyleSheet, Text, View, Image, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert } from 'react-native';
+import { Button } from './common/Button';
 import Expo from "expo";
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -8,6 +9,7 @@ import { SocialIcon } from 'react-native-elements';
 import axios from 'axios';
 import { AuthSession } from 'expo';
 import { Action } from 'rxjs/scheduler/Action';
+import { Google } from 'expo';
 import { AsyncStorage } from 'react-native';
 
 const Google_APP_ID = '367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com';
@@ -28,10 +30,10 @@ class Login extends Component {
         try {
             await AsyncStorage.setItem('token', response.token);
             // Actions.container();
-        } catch (e) {
+        } catch ({message}) {
             Alert.alert(
                 'Login Failed',
-                e.response.data,
+                message,
                 [
                     { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ],
@@ -42,42 +44,65 @@ class Login extends Component {
 
     signIn = async () => {
         try {
-            const result = await Expo.Google.logInAsync({
+            // const result = await Google.logInAsync({
+            //     androidClientId:
+            //         "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
+            //     //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+            //     scopes: ["profile", "email"]
+            // })
+
+            // console.log(result);
+
+            const result = await Google.logInAsync({
                 androidClientId:
                     "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
-                //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
-                scopes: ["profile", "email"]
-            })
-            console.log(result);
-            // this.props.authen(result);
+                androidStandaloneAppClientId: "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
+            });
 
-            this.setState({
-                signedIn: true,
-                name: result.user.name,
-                email: result.user.email,
-                id: result.user.id,
-                token: result.idToken,
-            })
+            // console.log(type, accessToken, user)
+            // Alert.alert(
+            //     'Login Start', [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
+            //     { cancelable: false },
+            // );
 
-            if (result.type === "success") {                
-                const response = await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
-                    "_Token": this.state.token,
-                });
+            if (result.type === 'success') {
+                // Alert.alert(
+                //     'Login success', [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
+                //     { cancelable: false },
+                // );
+                this.props.authen(result);
 
-                { this._storeData(response.data) }
-                Actions.container();
-            } else {
-                console.log("cancelled")
+                this.setState({
+                    signedIn: true,
+                    name: result.user.name,
+                    email: result.user.email,
+                    id: result.user.id,
+                    token: result.idToken,
+                })
+
+                if (result.type === "success") {
+                    const response = await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
+                        "_Token": this.state.token,
+                    });
+
+                    { this._storeData(response.data) }
+                    Actions.container();
+                } else {
+                    console.log("cancelled")
+                }
             }
-        } catch (e) {
-            console.log("error  account ", e.response.data)
-            if (e.response.data == 'account_already_exist') {
+        }
+        catch ({message}) {
+            // console.log(message);
+            Actions.container();
+            console.log("error  accounxt ", message)
+            if (message == 'account_already_exist') {
                 Actions.container();
             }
             else {
                 Alert.alert(
                     'Login Failed',
-                    e.response.data,
+                    message,
                     [
                         { text: 'OK', onPress: () => console.log('OK Pressed') },
                     ],
@@ -86,12 +111,25 @@ class Login extends Component {
             }
 
         }
+
     }
+
     render() {
         return (
             <View style={styles.container}>
 
-                <LoginPage signIn={this.signIn} />
+
+                <View style={{ flex: 1, marginTop: 100, }}>
+                    <View >
+                        <Image
+                            style={{ width: 217.5, height: 298 }}
+                            source={require('/frontend/src/components/image/dog1.png')}
+                        />
+                    </View>
+                    <Text style={styles.header}>Welcome to Locker</Text>
+                    <Button onPress={() => this.signIn()}>Sign In with google</Button>
+                </View>
+
 
             </View>
         )
@@ -109,7 +147,7 @@ const LoginPage = props => {
                 />
             </View>
             <Text style={styles.header}>Welcome to Locker</Text>
-            <Button title="Sign in with Google" onPress={() => props.signIn()} />
+            <Button onPress={() => this.signIn()}>Sign In with google</Button>
         </View>
 
     )

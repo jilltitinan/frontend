@@ -87,7 +87,7 @@ class Home extends Component {
         var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD')
         var currentDate = moment.utc(new Date(), "YYYY-MM-DD").add(1, 'days').local().format('YYYY-MMM-DD')
         if (startMoment > endMoment) {
-            this.setState({ selectedEndDate: '' })
+            this.setState({ selectedEndDate: ' ' })
         } else if (((this.state.currentCheck - this.state.timeCheck) >= 5) && (startMoment === currentDate)) {
             this.setState({ selectedTime: ' ' })
         }
