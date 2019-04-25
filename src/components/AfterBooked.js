@@ -31,7 +31,7 @@ class Afterbooked extends Component {
                 const info = res.data
                 this.setState({ detail: info })
                 this.props.bookingSelected(this.state.detail);
-                console.log('detailll ' + this.state.detail);
+                console.log('detailll ' + this.props.id);
             }).catch(function (error) {
                 console.log(error.state.data);
             });

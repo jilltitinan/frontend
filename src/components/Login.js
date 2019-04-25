@@ -26,14 +26,30 @@ class Login extends Component {
     }
 
     _storeData = async (response) => {
+        Alert.alert(
+            'asynscstorage before',
+            'asyncstorage',
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
         console.log('add account : ', response.token)
         try {
+            Alert.alert(
+                'asynscstorage alert',
+                'asyncstorage',
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false },
+            );
             await AsyncStorage.setItem('token', response.token);
-            // Actions.container();
-        } catch ({message}) {
+            Actions.container();
+        } catch ({ message }) {
             Alert.alert(
                 'Login Failed',
-                message,
+               " message",
                 [
                     { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ],
@@ -43,75 +59,107 @@ class Login extends Component {
     };
 
     signIn = async () => {
-        try {
-            // const result = await Google.logInAsync({
-            //     androidClientId:
-            //         "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
-            //     //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
-            //     scopes: ["profile", "email"]
-            // })
 
-            // console.log(result);
+        // const result = await Google.logInAsync({
+        //     androidClientId:
+        //         "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
+        //     //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+        //     scopes: ["profile", "email"]
+        // })
 
-            const result = await Google.logInAsync({
-                androidClientId:
-                    "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
-                androidStandaloneAppClientId: "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
-            });
+        // console.log(result);
 
-            // console.log(type, accessToken, user)
+        const result = await Expo.Google.logInAsync({
+            androidClientId: "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
+            // behavior: 'web',
+            webClientId: '367051335006-ag2c12ft86pc50q7tk1am1qd7iv0nb5i.apps.googleusercontent.com',
+            scopes: ["profile", "email"],
+            androidStandaloneAppClientId: "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
+        });
+
+        // console.log(type, accessToken, user)
+        // Alert.alert(
+        //     'Login Start', [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
+        //     { cancelable: false },
+        // );
+
+        if (result.type === 'success') {
             // Alert.alert(
-            //     'Login Start', [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
+            //     'Login success', [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
             //     { cancelable: false },
             // );
+            Alert.alert(
+                'Ying API',
+                result.accessToken,
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false },
+            );
+            this.props.authen(result);
+            console.log("type success ")
+            this.setState({
+                signedIn: true,
+                name: result.user.name,
+                email: result.user.email,
+                id: result.user.id,
+                token: result.idToken,
+            })
 
-            if (result.type === 'success') {
-                // Alert.alert(
-                //     'Login success', [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
-                //     { cancelable: false },
-                // );
-                this.props.authen(result);
-
-                this.setState({
-                    signedIn: true,
-                    name: result.user.name,
-                    email: result.user.email,
-                    id: result.user.id,
-                    token: result.idToken,
-                })
-
-                if (result.type === "success") {
-                    const response = await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
-                        "_Token": this.state.token,
-                    });
-
-                    { this._storeData(response.data) }
-                    Actions.container();
-                } else {
-                    console.log("cancelled")
-                }
-            }
-        }
-        catch ({message}) {
-            // console.log(message);
-            Actions.container();
-            console.log("error  accounxt ", message)
-            if (message == 'account_already_exist') {
-                Actions.container();
-            }
-            else {
+            // if (result.type === "success") {
+            try {
                 Alert.alert(
-                    'Login Failed',
-                    message,
+                    'try type success',
+                    this.state.token,
                     [
                         { text: 'OK', onPress: () => console.log('OK Pressed') },
                     ],
                     { cancelable: false },
                 );
+
+                await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
+                    "_Token": this.state.token,
+                }).then(response => {
+                    Alert.alert(
+                        'After try success',
+                        response.data.token,
+                        [
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: false },
+                    );
+                    console.log("mobile/usersauthenticate", response.data.token)
+                    { this._storeData(response.data) }
+                    Actions.container();
+                })
+
+               
+            }
+            catch (e) {
+                // console.log(message);
+
+                // console.log("error  accounxt ", e.response.data.message)
+                // if (message == 'account_already_exist') {
+                //     Actions.container();
+                // }
+                // else {
+                Alert.alert(
+                    'Login Failed',
+                    e.response.data.message,
+                    [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false },
+                );
+                // }
             }
 
         }
 
+        else {
+            Actions.container();
+            console.log("cancelled")
+        }
     }
 
     render() {

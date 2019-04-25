@@ -108,6 +108,7 @@ class SumReservation extends Component {
                 )
                     .then(res => {
                         if (res.status == 200) {
+                            console.log("Reserve ID sum reserve", res.data)
                             this.props.reservationId(res.data);
                             Actions.afterbooked();
                         }
