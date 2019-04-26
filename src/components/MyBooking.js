@@ -48,7 +48,13 @@ class MyBooking extends Component {
               style={styles.tabItem}
               onPress={() => this.setState({ index: i })}
             >
-              <Animated.Text style={{ color }}>{route.title}</Animated.Text>
+              <View style={{flexDirection: 'column'}}>
+                <Icon
+                  name='today'
+                  style={{ color }}
+                  size={10} />
+                <Animated.Text style={{ color }}>{route.title}</Animated.Text>
+              </View>
             </TouchableOpacity>
 
           );

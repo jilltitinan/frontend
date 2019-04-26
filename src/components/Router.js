@@ -184,7 +184,7 @@ class RouterComponent extends React.Component {
         return (
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
-                
+
                     <Scene key="waiting" hideNavBar>
                         <Scene key="waitingpage" component={Waiting} title="Welcome" />
                     </Scene>
@@ -255,7 +255,7 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key='container' hideNavBar type={ActionConst.RESET}>
-                        <Tabs key='tabber' tabBarStyle={tabBarStyle} showLabel={true} labelStyle={{ color: '#3C6E71' }}> 
+                        <Tabs key='tabber' tabBarStyle={tabBarStyle} showLabel={true} labelStyle={{ color: '#3C6E71' }}>
                             <Scene key='Home' icon={IconTab} iconName='home' >
                                 <Scene
                                     key='home'

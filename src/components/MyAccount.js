@@ -4,7 +4,8 @@ import {
     Text,
     View,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl
 } from 'react-native';
 import { authen } from '../actions';
 import { Button } from './common/Button';
@@ -15,18 +16,34 @@ import { AsyncStorage, localStorage } from 'react-native';
 
 
 class MyAccount extends Component {
-    state = { detail: {} }  
-    
-    // componentDidMount() {
-    //     var newId = this.props.result.user.email.toString();
-    //     var newId_accout = newId.substring(0, newId.length - 12);
-    //     axios.get(`https://lockerce54.azurewebsites.net/mobile/UserAccount?id_account=${newId_accout}`)
-    //     .then(res => {
-    //         const info = res.data
-    //         this.setState({ detail: info })
-    //         console.log('detailll ' + this.state.detail.id_account);
-    //       })
-    // }
+    state = { detail: {}, accountInformation: {} }
+
+    componentDidMount = async () => {
+        const value = await AsyncStorage.getItem('token');
+        if (value !== null) {
+            console.log("Before axios useraccount    ", value)
+            await axios.post('https://lockerce54.azurewebsites.net/api/Account/checkToken', {
+                "_Token": value
+            }).then(res => {
+                if (res.status == 200) {
+                    const information = res.data
+                    this.setState({ accountInformation: information })
+                }
+                else {
+                    console.log("check token : broke")
+                }
+            })
+                .catch(err => {
+                    console.log(err.res.data);
+                    Alert.alert(
+                        err.res.data,
+                        'Press ok to go back.',
+                        [{ text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },],
+                        { cancelable: false },
+                    );
+                });
+        }
+    }
     Logout() {
         console.log('logouttt   fdsfsad')
         AsyncStorage.clear('token');
@@ -54,12 +71,12 @@ class MyAccount extends Component {
     }
     render() {
 
-        
+
         return (
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
-                    <Text style={styles.title}>{this.props.result.name}</Text>
-                    <Text style={styles.title}>Point : {this.props.result.point}</Text>
+                    <Text style={styles.title}>{this.state.accountInformation.name}</Text>
+                    <Text style={styles.title}>Point : {this.state.accountInformation.point}</Text>
                 </View>
                 <View style={styles.inputWrapper1}>
                     <TouchableOpacity

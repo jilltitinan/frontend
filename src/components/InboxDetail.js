@@ -4,30 +4,18 @@ import Card from './common/CardAlbum';
 import CardSection from './common/CardSectionAlbum';
 import moment from 'moment';
 import { Icon } from 'react-native-elements';
-
+import { authen, bookingSelected } from '../actions';
+import { connect } from 'react-redux';
+import { AsyncStorage } from 'react-native';
 
 const InboxDetail = ({ booking }) => {
-    const { bookingID, startDate, endDate, location, size } = booking;
-    const {
-        thumbnailStyle,
-        headerContentStyle,
-        thumbnailContainerStyle,
-        headerTextStyle,
-        imageStyle
-    } = styles;
+    const { headerContentStyle, } = styles;
 
-    var weekDayName = moment(startDate).format('dddd');
-    var date1 = moment(startDate).format('DD-MM-YYYY');
-    var selectedStartDate = weekDayName + ' ' + date1
-
-    var weekDayName2 = moment(endDate).format('dddd');
-    var date2 = moment(endDate).format('DD-MM-YYYY');
-    var selectedEndDate = weekDayName2 + ' ' + date2
 
     return (
         <Card>
             <CardSection>
-                <View style={{flexDirection: 'column', alignItems: 'center', padding: 5,}}>
+                <View style={{ flexDirection: 'column', alignItems: 'center', padding: 5, }}>
                     <Icon
                         name='mail'
                         color='#C4C4C4'
@@ -37,10 +25,10 @@ const InboxDetail = ({ booking }) => {
 
                 <View style={headerContentStyle}>
                     <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                        Almost time up!
+                        Notification!
                     </Text>
                     <Text style={{ fontWeight: '100', fontSize: 16 }}>
-                        Don't forget to bring anything out.
+                        {booking.content}
                     </Text>
 
                 </View>
@@ -80,4 +68,9 @@ const styles = {
 //   album: PropTypes.object.isRequired
 // };
 
-export default InboxDetail;
+const mapStateToProps = (state) => {
+    const { result } = state.auth;
+    return { result };
+}
+
+export default connect(mapStateToProps, { authen, bookingSelected })(InboxDetail);

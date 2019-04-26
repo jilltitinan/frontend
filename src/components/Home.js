@@ -12,10 +12,39 @@ import { LinearGradient } from 'expo';
 import { Icon } from 'react-native-elements';
 import Slideshow from 'react-native-image-slider-show';
 
-class Home extends Component {
-    componentWillMount() {
-        const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
+const spaceWidth = (parseInt(width) - 260) / 3;
 
+
+
+class Home extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            position: 1,
+            interval: null,
+            dataSource: [
+                { url: 'https://www.ihrsa.org/uploads/Articles/Column-Width/Legal_Active_Sports_Clubs_locker-room.jpg' },
+                { url: 'https://i.ytimg.com/vi/B8SgEKMcPk4/maxresdefault.jpg' },
+                { url: 'https://www.voucherpro.co.uk/blog/wp-content/uploads/2018/03/Footlocker-Promo-Code.png' },
+            ],
+        };
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
+    }
+
+    componentWillMount() {
+        this.setState({
+            interval: setInterval(() => {
+                this.setState({
+                    position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
+                });
+            }, 2000)
+        });
         // Responsive Condition
         if (width > 375) {
             this.setState({
@@ -40,11 +69,10 @@ class Home extends Component {
             <View style={container}>
                 <Card>
                     <Slideshow
-                        dataSource={[
-                            { url: 'https://www.ihrsa.org/uploads/Articles/Column-Width/Legal_Active_Sports_Clubs_locker-room.jpg' },
-                            { url: 'http://placeimg.com/640/480/any' },
-                            { url: 'http://placeimg.com/640/480/any' }
-                        ]} />
+                        dataSource={this.state.dataSource}
+                        position={this.state.position}
+                        onPositionChanged={position => this.setState({ position })}
+                    />
                 </Card>
                 <Card>
                     <View style={button}>
@@ -59,13 +87,12 @@ class Home extends Component {
                                     height: 130,
                                     backgroundColor: '#fff',
                                     borderRadius: 10,
-
                                 }}  >
                                 <Icon name={"spa"} size={40} color={GRAY} />
                                 <Text style={{ fontWeight: 'bold', color: GREEN, fontSize: 20 }}> Reservation</Text>
                             </TouchableOpacity>
                         </View>
-                        <View>
+                        <View >
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 1,
@@ -91,17 +118,15 @@ class Home extends Component {
 
 const styles = {
     container: {
-        flexDirection: 'column',
         flex: 1,
-        justifyContent: 'flex-start'
     },
     button: {
         flexDirection: 'row',
         flex: 1,
         marginTop: 10,
         justifyContent: 'space-between',
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingLeft: spaceWidth,
+        paddingRight: spaceWidth,
     }
 }
 

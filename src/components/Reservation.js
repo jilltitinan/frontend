@@ -86,13 +86,15 @@ class Home extends Component {
         var startMoment = moment.utc(this.state.startDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD')
         var endMoment = moment.utc(this.state.endDate, "YYYY-MM-DD HH").local().format('YYYY-MMM-DD')
         var currentDate = moment.utc(new Date(), "YYYY-MM-DD").add(1, 'days').local().format('YYYY-MMM-DD')
-        if (startMoment > endMoment) {
+        if (startMoment < endMoment) {
             this.setState({ selectedEndDate: ' ' })
-        } else if (((this.state.currentCheck - this.state.timeCheck) >= 5) && (startMoment === currentDate)) {
+        }
+        if (((this.state.currentCheck - this.state.timeCheck) >= 5) && (startMoment === currentDate)) {
             this.setState({ selectedTime: ' ' })
         }
         else {
             console.log("error handleStartDatePicked ", currentDate, startMoment)
+            this.setState({ selectedEndDate: ' ' })
         }
     };
 

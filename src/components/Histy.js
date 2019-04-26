@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-
 class Histy extends Component {
 
     constructor(props) {
@@ -24,6 +23,7 @@ class Histy extends Component {
         // const { title } = this.props;
         console.log('booking ' + booking)
         this.props.historySelected(booking);
+        Actions.historydetail();
     }
     _onRefresh = async () => {
         this.setState({ refreshing: true });

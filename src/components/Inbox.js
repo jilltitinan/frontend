@@ -23,7 +23,7 @@ class Inbox extends Component {
     }
 
     onButtonPress(booking) {
-        this.props.bookingSelected(booking);
+        console.log("Inbox ", booking)
     }
 
     _onRefresh = async () => {
@@ -52,7 +52,7 @@ class Inbox extends Component {
     renderReserve() {
 
         return this.state.reserve.map(booking =>
-            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>
+            <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.id_noti}>
                 <InboxDetail booking={booking} />
             </TouchableOpacity>
         );
