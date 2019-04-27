@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { Router, Scene, Actions, Tabs, ActionConst } from 'react-native-router-flux';
+import { Router, Scene, Actions, Tabs, ActionConst, ActivityIndicator } from 'react-native-router-flux';
 import { authen } from '../actions';
 import { connect } from 'react-redux';
 import { IconTab } from './common/IconTab';
@@ -75,7 +75,7 @@ class RouterComponent extends React.Component {
                 console.log("Before axios useraccount    ", value)
                 await Axios.post('https://lockerce54.azurewebsites.net/api/Account/checkToken', {
                     "_Token": value
-                }).then(res => {
+                }).then(res => {                    
                     if (res.status == 200) {
                         const information = res.data
                         this.setState({ accountInformation: information })
@@ -100,12 +100,12 @@ class RouterComponent extends React.Component {
                     .then(response => {
                         const info = response.data
                         this.setState({ detail: info })
-                        // console.log("data from axios : ", this.state.detail)
+                        console.log("data from axios : ", this.state.detail)
                         if (response.status === 200) {
                             this.props.authen(this.state.detail);
                             registerForPushNotificationsAsync(this.state.accountInformation.id_account);
                             Actions.container();
-                            // console.log('status 200 at mobile/UserAccount');
+                            console.log('status 200 at mobile/UserAccount');
                         }
                     })
                     .catch(err => {
@@ -124,6 +124,7 @@ class RouterComponent extends React.Component {
         } catch (error) {
             if (error.status === undefined) {
                 console.log("errrrrr ", error.data)
+                Actions.authen();
             } else {
                 console.log("hello error  ")
                 Actions.authen();
@@ -282,7 +283,7 @@ class RouterComponent extends React.Component {
                                 />
                             </Scene>
 
-                            <Scene key='My Account' icon={IconTab} iconName='account'>
+                            <Scene key='MyAccount' icon={IconTab} iconName='account'>
                                 <Scene
                                     key='MainMenu4'
                                     component={MyAccount}

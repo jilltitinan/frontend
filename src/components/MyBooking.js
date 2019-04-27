@@ -30,7 +30,7 @@ class MyBooking extends Component {
 
   _renderTabBar = props => {
     const inputRange = props.navigationState.routes.map((x, i) => i);
-
+    const { iconName, focused } = this.props;
     return (
 
       <View style={styles.tabBar}>
@@ -48,11 +48,13 @@ class MyBooking extends Component {
               style={styles.tabItem}
               onPress={() => this.setState({ index: i })}
             >
-              <View style={{flexDirection: 'column'}}>
+              <View style={{flexDirection: 'row',}}>
                 <Icon
-                  name='today'
-                  style={{ color }}
-                  size={10} />
+                  name={this.state.index === i ? 'folder' : 'folder-open'} 
+                  iconStyle={{ paddingRight : 5}}
+                  color= {this.state.index === i ? '#00A6A6' : '#222'} 
+                  size={15} />
+    
                 <Animated.Text style={{ color }}>{route.title}</Animated.Text>
               </View>
             </TouchableOpacity>

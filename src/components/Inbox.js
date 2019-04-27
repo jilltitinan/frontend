@@ -77,7 +77,7 @@ class Inbox extends Component {
                                 color='#00A6A6'
                                 size={80} />
                             <Text style={{ fontSize: 16, textAlign: 'center' }}>
-                                No Reservation
+                                No Message
                             </Text>
                         </View>
                     </View>}

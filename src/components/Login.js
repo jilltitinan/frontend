@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { authen } from '../actions';
-import { StyleSheet, Text, View, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, ActivityIndicator, Modal, TouchableHighlight } from 'react-native';
 import Expo from "expo";
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -10,8 +10,10 @@ import { AuthSession } from 'expo';
 import { Action } from 'rxjs/scheduler/Action';
 import { Google } from 'expo';
 import { AsyncStorage } from 'react-native';
+// import { Loading } from './common/Loading';
+// import Loading from 'react-native-whc-loading'
+import Loading from './common/Loader';
 
-const Google_APP_ID = '367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com';
 
 class Login extends Component {
     constructor(props) {
@@ -20,7 +22,8 @@ class Login extends Component {
             signedIn: false,
             name: "",
             email: '',
-            id: ''
+            id: '',
+            isLoading: false,
         }
     }
 
@@ -59,12 +62,14 @@ class Login extends Component {
                 token: result.idToken,
             })
             try {
+                this.setState({ isLoading: true })
                 await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
                     "_Token": this.state.token,
                 }).then(response => {
 
                     console.log("mobile/usersauthenticate", response.data.token)
                     { this._storeData(response.data) }
+                    this.setState({ isLoading: false })
                     Actions.container();
                 })
 
@@ -88,31 +93,33 @@ class Login extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.container}>
 
-                <View style={{ paddingBottom: 50 }} >
-                    <Image
-                        style={{ width: 217.5, height: 298 }}
-                        source={require('/frontend/src/components/image/dog1.png')}
+        if (this.state.isLoading === false) {
+            return (
+                <View style={styles.container}>
+                    <View style={{ paddingBottom: 50 }} >
+                        <Image
+                            style={{ width: 217.5, height: 298 }}
+                            source={require('/frontend/src/components/image/dog1.png')}
+                        />
+                    </View>
+                    <SocialIcon
+                        style={{ backgroundColor: "#DB4437", borderRadius: 15, padding: 10 }}
+                        onPress={() => this.signIn()}
+                        title='Sign In With KMITL Google Account'
+                        button
+                        raised={false}
+                        type='google'
                     />
                 </View>
-                {/* <Button
-                    buttonStyle={{ backgroundColor: "#4285F4", borderRadius: 15 }}
-                    onPress={() => this.signIn()}
-                    leftIcon={{ name: 'google' }}
-                    title="Sign in with Google KMITL accout" /> */}
-                <SocialIcon
-                    style={{ backgroundColor: "#DB4437", borderRadius: 15, padding: 10 }}
-                    onPress={() => this.signIn()}
-                    title='Sign In With KMITL Google Account'
-                    button
-                    raised={false}
-                    type='google'
-                />
+            )
+        } else {
+            return (
+                <Loading />
+            )
+        }
 
-            </View>
-        )
+
     }
 }
 

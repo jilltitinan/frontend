@@ -218,7 +218,6 @@ class Home extends Component {
                                 onValueChange={this.updateSize}>
 
                                 <Picker.Item label="s" value="s" />
-                                <Picker.Item label="m" value="m" /> 
                                 <Picker.Item label="l" value="l" />
                             </Picker>
                         </View>

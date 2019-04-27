@@ -37,10 +37,10 @@ class EditAccount extends Component {
                 console.log('res dataa  ' + res.data);
                 if (res.status == 200) {
                     Alert.alert(
-                        'Chagng number success',
-                        'Press ok to go back',
+                        'Change number success.',
+                        'Press OK to go back.',
                         [
-                            { text: 'OK'},
+                            { text: 'OK', onPress: () => Actions.MyAccount()},
                         ],
                         { cancelable: false },
                     );
@@ -52,7 +52,7 @@ class EditAccount extends Component {
                         'Change number failed',
                         error.response.data,
                         [
-                            { text: 'OK', onPress: () => Actions.Reserve() },
+                            { text: 'OK', onPress: () => Actions.MyAccount() },
                         ],
                         { cancelable: false },
                     );

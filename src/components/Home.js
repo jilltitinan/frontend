@@ -33,18 +33,18 @@ class Home extends Component {
         };
     }
 
-    componentWillUnmount() {
-        clearInterval(this.state.interval);
-    }
+    // componentWillUnmount() {
+    //     clearInterval(this.state.interval);
+    // }
 
     componentWillMount() {
-        this.setState({
-            interval: setInterval(() => {
-                this.setState({
-                    position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
-                });
-            }, 2000)
-        });
+        // this.setState({
+        //     interval: setInterval(() => {
+        //         this.setState({
+        //             position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
+        //         });
+        //     }, 2000)
+        // });
         // Responsive Condition
         if (width > 375) {
             this.setState({
