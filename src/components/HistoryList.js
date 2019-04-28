@@ -15,11 +15,11 @@ const HistoryList = ({ booking }) => {
   } = styles;
 
   var weekDayName = moment(startDate).format('dddd');
-  var date1 = moment(startDate).format('DD-MM-YYYY');
+  var date1 = moment(startDate).format('DD MMM YYYY');
   var selectedStartDate = weekDayName + ' ' + date1
 
   var weekDayName2 = moment(endDate).format('dddd');
-  var date2 = moment(endDate).format('DD-MM-YYYY');
+  var date2 = moment(endDate).format('DD MMM YYYY');
   var selectedEndDate = weekDayName2 + ' ' + date2
 
   return (

@@ -186,11 +186,11 @@ class RouterComponent extends React.Component {
             <Router navigationBarStyle={{ backgroundColor: '#00A6A6' }} titleStyle={{ color: "#FFF" }}>
                 <Scene key="all" hideNavBar>
 
-                    <Scene key="waiting" hideNavBar>
+                    <Scene key="waiting" hideNavBar type={ActionConst.RESET}>
                         <Scene key="waitingpage" component={Waiting} title="Welcome" />
                     </Scene>
 
-                    <Scene key="authen" hideNavBar>
+                    <Scene key="authen" hideNavBar type={ActionConst.RESET}>
                         <Scene key="login" component={Login} title="Welcome" />
                     </Scene>
 

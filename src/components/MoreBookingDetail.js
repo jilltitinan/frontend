@@ -13,12 +13,9 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import moment from 'moment';
 
-// const MoreBookingDetail = ({ data }) => {
 class MoreBookingDetail extends Component {
-    // console.log('jylllllll',data);    
 
     onButtonPress() {
-
         Alert.alert(
             'Cancle locker',
             'Are you sure to cancle this locker?',
@@ -35,7 +32,6 @@ class MoreBookingDetail extends Component {
     }
 
     deleteReservation = async () => {
-        // console.log('delete presssssssss ', this.props.data.booking.bookingID);
         const value = await AsyncStorage.getItem('token');
         axios.delete(`https://lockerce54.azurewebsites.net/mobile/CancelReserve?id=${this.props.data.booking.bookingID}`,
             { headers: { "Authorization": `Bearer ${value}` } }
@@ -104,11 +100,11 @@ class MoreBookingDetail extends Component {
 
 
         var weekDayName = moment(startDate).format('dddd');
-        var date1 = moment(startDate).format('DD-MM-YYYY');
+        var date1 = moment(startDate).format('DD MMM YYYY');
         var selectedStartDate = weekDayName + ' ' + date1
 
         var weekDayName2 = moment(endDate).format('dddd');
-        var date2 = moment(endDate).format('DD-MM-YYYY');
+        var date2 = moment(endDate).format('DD MMM YYYY');
         var selectedEndDate = weekDayName2 + ' ' + date2
 
         var startTime = `${startDate}`;

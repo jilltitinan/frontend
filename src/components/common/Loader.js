@@ -1,39 +1,16 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import AnimatedLoader from "react-native-animated-loader";
-
+import { StyleSheet, View, Image } from 'react-native';
 
 export default class Loader extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { visible: false };
-    }
-   
-    componentDidMount() {
-      setInterval(() => {
-        this.setState({
-          visible: !this.state.visible
-        });
-      }, 30000);
-    }
-   
-    render() {
-      const { visible } = this.state;
-      return (
-        <AnimatedLoader
-          visible={visible}
-          overlayColor="rgba(255,255,255,0.75)"
-          // source={require("./loader.json")}
-          animationStyle={styles.lottie}
-          speed={1}
+
+  render() {
+    return (
+      <View style ={{ justifyContent:'center', alignItems: 'center', backgroundColor:'#ffffff', flex: 1}}>
+        <Image
+          style={{ width: 217.5, height: 298 }}
+          source={require('/frontend/src/components/image/lockerGif.gif')}
         />
-      );
-    }
+      </View>
+    );
   }
-   
-  const styles = StyleSheet.create({
-    lottie: {
-      width: 100,
-      height: 100
-    }
-  });
+}

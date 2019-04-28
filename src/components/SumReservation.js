@@ -9,11 +9,13 @@ import CardSection from './common/CardSectionAlbum';
 import axios from 'axios';
 import moment from 'moment';
 import { AsyncStorage } from 'react-native';
+import { Loading } from './common/Loader';
 
 class SumReservation extends Component {
     state = {
         selectedStartDate: " ",
         selectedEndDate: " ",
+        isLoading: false,
     };
 
     componentWillMount() {
@@ -45,20 +47,19 @@ class SumReservation extends Component {
         var newEndtime = parseInt(this.props.time);
         var newHour = parseInt(this.props.hour);
         var newDuration = newEndtime + newHour;
-        var newMinute = this.props.time.substring(3,5);
+        var newMinute = this.props.time.substring(3, 5);
         var newTime = this.props.time.toString();
-        console.log("new duration " , newMinute)
+        console.log("new duration ", newMinute)
 
-        if (this.props.valueType == 'true') { // one day
+        if (this.props.valueType == 'true' && this.state.isLoading === false) { // one day
             const valueToken = await AsyncStorage.getItem('token');
             axios.post('https://lockerce54.azurewebsites.net/mobile/AddReserve', {
-
                 "id_reserve": 0,
                 "code": "string",
                 "isActive": true,
                 "status": "unuse",
                 "startDay": newnewdate + 'T' + newTime + ':00Z',
-                "endDay": newnewdate + 'T' + newDuration + ':' + newMinute +':00Z',
+                "endDay": newnewdate + 'T' + newDuration + ':' + newMinute + ':00Z',
                 "dateModified": "2019-03-27T08:40:32.391Z",
                 "size": this.props.size,
                 "location": this.props.location,
@@ -74,23 +75,12 @@ class SumReservation extends Component {
                     }
                 })
                 .catch(error => {
-
-                    Alert.alert(
-                        'Reservation Failed',
-                        error.response.data,
-                        [
-                            { text: 'OK', onPress: () => Actions.Reserve() },
-                        ],
-                        { cancelable: false },
-                    );
-
+                    Actions.fullreserve();
                 })
-        } else { //more than one day
+        } else if (this.props.valueType == 'false' && this.state.isLoading === false) { //more than one day
             try {
                 const valueToken = await AsyncStorage.getItem('token');
-                // console.log('new dateeeee' + valueToken)
                 axios.post('https://lockerce54.azurewebsites.net/mobile/AddReserve', {
-
                     "id_reserve": 0,
                     "code": "string",
                     "isActive": true,
@@ -102,7 +92,6 @@ class SumReservation extends Component {
                     "location": this.props.location,
                     "id_account": newId_accout,
                     "id_vacancy": 0
-
                 },
                     { headers: { "Authorization": `Bearer ${valueToken}` } }
                 )
@@ -115,16 +104,19 @@ class SumReservation extends Component {
                     })
                     .catch(error => {
                         Actions.fullreserve();
-                        
+
                     })
             } catch (error) {
-                console.log(error)
+                Actions.fullreserve();
             }
+        } else {
+            return (
+                <Loading />
+            )
         }
     }
 
     render() {
-        // const { title, artist, thumbnail_image, image } = album;
         console.disableYellowBox = true;
         const {
             thumbnailStyle,
@@ -137,11 +129,11 @@ class SumReservation extends Component {
         } = styles;
 
         var weekDayName = moment(this.props.date).format('dddd');
-        var date1 = moment(this.props.date).format('DD-MM-YYYY');
+        var date1 = moment(this.props.date).format('DD MMM YYYY');
         var selectedStartDate = weekDayName + ' ' + date1
 
         var weekDayName2 = moment(this.props.endDate).format('dddd');
-        var date2 = moment(this.props.endDate).format('DD-MM-YYYY');
+        var date2 = moment(this.props.endDate).format('DD MMM YYYY');
         var selectedEndDate = weekDayName2 + ' ' + date2
 
         if (this.props.valueType == 'true') {
@@ -158,7 +150,7 @@ class SumReservation extends Component {
                                 <Text>{'Locker size: ' + this.props.size}</Text>
                                 <Text>{'Location: ' + this.props.location}</Text>
                                 <Text>{'Start Time: ' + this.props.time}</Text>
-                                <Text>{'Total Hour: ' + this.props.hour}</Text>                                
+                                <Text>{'Total Hour: ' + this.props.hour}</Text>
                             </View>
                         </CardSection>
                     </Card>

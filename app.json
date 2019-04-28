@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "Locker",
     "description": "This project is really great.",
     "slug": "frontend",
     "privacy": "public",
@@ -11,7 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/components/image/iconLocker.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

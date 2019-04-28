@@ -20,8 +20,6 @@ class Histy extends Component {
     }
 
     onButtonPress(booking) {
-        // const { title } = this.props;
-        console.log('booking ' + booking)
         this.props.historySelected(booking);
         Actions.historydetail();
     }
@@ -49,13 +47,11 @@ class Histy extends Component {
                 this.setState({ reserve: response.data })
             )
             .catch(err => {
-                console.log(err.response.data);
                 Alert.alert(
                     err.response.data,
                     'Press ok to go back.',
                     [
                         { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
-
                     ],
                     { cancelable: false },
                 );
@@ -64,8 +60,6 @@ class Histy extends Component {
     }
 
     renderReserve() {
-        // console.log('History');
-
         return this.state.reserve.map(booking =>
             <TouchableOpacity onPress={() => this.onButtonPress(booking)} key={booking.bookingID}>
                 <HistoryList booking={booking} />
@@ -74,7 +68,6 @@ class Histy extends Component {
     }
 
     render() {
-        // console.log('history is ' + this.state);
         return (
             <ScrollView
                 refreshControl={

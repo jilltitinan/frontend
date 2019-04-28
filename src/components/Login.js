@@ -51,7 +51,6 @@ class Login extends Component {
             scopes: ["profile", "email"],
             androidStandaloneAppClientId: "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
         });
-
         if (result.type === 'success') {
             this.props.authen(result);
             this.setState({
@@ -72,8 +71,6 @@ class Login extends Component {
                     this.setState({ isLoading: false })
                     Actions.container();
                 })
-
-
             }
             catch (e) {
                 Alert.alert(
@@ -94,7 +91,7 @@ class Login extends Component {
 
     render() {
 
-        if (this.state.isLoading === false) {
+        // if (this.state.isLoading === false) {
             return (
                 <View style={styles.container}>
                     <View style={{ paddingBottom: 50 }} >
@@ -113,11 +110,11 @@ class Login extends Component {
                     />
                 </View>
             )
-        } else {
-            return (
-                <Loading />
-            )
-        }
+        // } else {
+        //     return (
+        //         <Loading />
+        //     )
+        // }
 
 
     }

@@ -59,7 +59,6 @@ class AlbumList extends Component {
     }
 
     render() {
-        // console.log('AlbumList is ' + this.state);
         return (
             <ScrollView
                 refreshControl={

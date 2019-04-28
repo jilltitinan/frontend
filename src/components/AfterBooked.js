@@ -53,16 +53,36 @@ class Afterbooked extends Component {
         );
     }
 
-    deleteReservation() {
-        Alert.alert(
-            'Cancle successful',
-            'Press ok to go back.',
-            [
-                { text: 'OK', onPress: () => console.log('go back Pressed'), style: 'cancel', },
-
-            ],
-            { cancelable: false },
-        );
+    deleteReservation = async () => {
+        const value = await AsyncStorage.getItem('token');
+        axios.delete(`https://lockerce54.azurewebsites.net/mobile/CancelReserve?id=${this.props.id}`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('status 200');
+                    Alert.alert(
+                        'Cancle successful',
+                        'Press OK to go back.',
+                        [
+                            { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+                        ],
+                        { cancelable: false },
+                    );
+                }
+            }
+            )
+            .catch(err => {
+                console.log(err.response.data);
+                Alert.alert(
+                    err.response.data,
+                    'Press OK to go back.',
+                    [
+                        { text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },
+                    ],
+                    { cancelable: false },
+                );
+            });
     }
 
     render() {
@@ -80,12 +100,6 @@ class Afterbooked extends Component {
         var newStartTime = startTime.substring(11, 16);
         var endTime = `${this.state.detail.endDate}`
         var newEndTime = endTime.substring(11, 16)
-        // var newId = this.props.result.id_account.toString();
-        // var newId_accout = this.props.result.id_account;
-        // var newEndtime = parseInt(this.props.time);
-        // var newHour = parseInt(this.props.hour);
-        // var newDuration = newEndtime + newHour;
-        // var newTime = this.props.time.toString();
 
         const {
             headerContentStyle,
@@ -140,7 +154,6 @@ class Afterbooked extends Component {
                     </View>
                 </View>
                 <View style={bottom}>
-                    {/* <Button style={buttonNext}}>  </Button> */}
                     <WhiteButton style={WhiteButtonNext} onPress={() => this.onButtonPress()}> Cancle Booking </WhiteButton>
                     <Button style={buttonNext} onPress={() => Actions.entercode()}> Show the code </Button>
                 </View>
