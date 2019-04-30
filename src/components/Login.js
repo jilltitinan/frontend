@@ -52,21 +52,22 @@ class Login extends Component {
             androidStandaloneAppClientId: "367051335006-v73qu683beioaonp7k4b9ote57hfqspe.apps.googleusercontent.com",
         });
         if (result.type === 'success') {
-            this.props.authen(result);
+            // this.props.authen(result);
+            // console.log("Login redux authen ", result)
             this.setState({
                 signedIn: true,
                 name: result.user.name,
                 email: result.user.email,
                 id: result.user.id,
                 token: result.idToken,
-            })
-            try {
+            })            
+            try {                
                 this.setState({ isLoading: true })
                 await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
                     "_Token": this.state.token,
                 }).then(response => {
-
-                    console.log("mobile/usersauthenticate", response.data.token)
+                    console.log("mobile/usersauthenticate", response.data)
+                    this.props.authen(response.data);
                     { this._storeData(response.data) }
                     this.setState({ isLoading: false })
                     Actions.container();

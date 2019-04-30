@@ -40,6 +40,7 @@ class AlbumList extends Component {
     }
 
     componentWillMount = async () => {
+        console.log("album list : ", this.props.result.id_account);
         const value = await AsyncStorage.getItem('token');
         await axios.get(`https://lockerce54.azurewebsites.net/mobile/Pending?id_account=${this.props.result.id_account}`,
             { headers: { "Authorization": `Bearer ${value}` } }
