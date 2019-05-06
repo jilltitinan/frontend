@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { SwitchHome } from './common/SwitchHome';
 
 class Setting extends Component {
     componentWillMount() {
         const { width } = Dimensions.get('window');
-
         // Responsive Condition
         if (width > 375) {
             this.setState({
@@ -42,10 +41,19 @@ class Setting extends Component {
             <View style={{ flex: 1 }}>
                 <View style={container}>
                     <View style={box}>
-                        <Text>Notification</Text>
-                        <SwitchHome
+                        <TouchableOpacity
+                            onPress={() => Alert.alert(
+                                'Promotion',
+                                'Coming soon.',
+                                [{ text: 'OK' },],
+                            )}
+                        >
+                            <Text>Promotion</Text>
+                        </TouchableOpacity>
+
+                        {/* <SwitchHome
                             toggleSwitch1={this.toggleSwitch1}
-                            switch1Value={this.state.switch1Value} />
+                            switch1Value={this.state.switch1Value} /> */}
                     </View>
                 </View>
             </View>

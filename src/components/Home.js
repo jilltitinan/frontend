@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Dimensions, TouchableHighlight, TouchableOpacity, Text, Button } from 'react-native';
+import { View, Image, Dimensions, TouchableHighlight, TouchableOpacity, Text, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { HomeButton } from './common/HomeButton';
 import { Card } from './common/Card';
@@ -103,7 +103,13 @@ class Home extends Component {
                                     height: 130,
                                     backgroundColor: '#fff',
                                     borderRadius: 10,
-                                }}                    >
+                                }}
+                                onPress={() => Alert.alert(
+                                    'Promotion',
+                                    'Coming soon.',
+                                    [{ text: 'OK' },],
+                                )}
+                            >
                                 <Icon name={"snooze"} size={40} color={GRAY} />
                                 <Text style={{ fontWeight: 'bold', color: GREEN, fontSize: 20 }}> Promotion </Text>
                             </TouchableOpacity>

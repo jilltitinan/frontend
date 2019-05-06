@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Picker, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Image, Picker, Text, StyleSheet, TouchableOpacity, Dimensions, AsyncStorage } from 'react-native';
 import DateTimePicker from './common/DatePicker';
 import { Icon } from 'react-native-elements';
 import { reservationUpdate, reservationSize, reservationStart, reservationEnd, reservationHour, reservationStartTime, reservationType } from '../actions';
@@ -9,6 +9,7 @@ import { SwitchHome } from './common/SwitchHome';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import moment from 'moment';
+import axios from 'axios';
 
 var today = new Date();
 var nextDay = new Date();
@@ -26,7 +27,23 @@ class Home extends Component {
         select: 'moment',
         timeCheck: '',
         currentCheck: '',
+        locker: [],
     };
+
+    componentDidMount = async () => {
+        // https://lockerce54.azurewebsites.net/web/Locker
+        const value = await AsyncStorage.getItem('token');
+        await axios.get(`https://lockerce54.azurewebsites.net/mobile/Locker`,
+            { headers: { "Authorization": `Bearer ${value}` } }
+        )
+            .then(response =>
+                this.setState({ locker: response.data })
+
+            )
+        // console.log("locker ", this.state.locker)
+
+
+    }
 
     onButtonPress() {
         Actions.sumreserve();
@@ -178,6 +195,12 @@ class Home extends Component {
         }
     }
 
+    renderPickerItem(locker = []) {
+        return locker.map(address => 
+            <Picker.Item label={address.location} value={address.location} key={address.mac_address} />
+        )
+    }
+
     render() {
         const { container, picker, text, picker2, picker3, buttonNext, pickerCalendar, timePicker } = styles;
         const { isDateTimePickerVisible, selectedStartDate, selectedEndDate, selectedTime } = this.state;
@@ -196,10 +219,12 @@ class Home extends Component {
                             <Picker
                                 selectedValue={this.state.location}
                                 onValueChange={this.updateLocation}>
-                                <Picker.Item label="ecc" value="ecc" />
+                                {/* <Picker.Item label="ecc" value="ecc" />
                                 <Picker.Item label="12Tower" value="12Tower" />
-                                <Picker.Item label="HM" value="hm" />
+                                <Picker.Item label="HM" value="hm" /> */}
+                                { this.renderPickerItem(this.state.locker) }
                             </Picker>
+
                         </View>
 
                     </View>

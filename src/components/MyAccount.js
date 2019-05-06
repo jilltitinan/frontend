@@ -5,7 +5,8 @@ import {
     View,
     Dimensions,
     TouchableOpacity,
-    RefreshControl
+    RefreshControl,
+    ScrollView
 } from 'react-native';
 import { authen } from '../actions';
 import { Button } from './common/Button';
@@ -16,7 +17,35 @@ import { AsyncStorage, localStorage } from 'react-native';
 
 
 class MyAccount extends Component {
-    state = { detail: {}, accountInformation: {} }
+    state = { detail: {}, accountInformation: {},  refreshing: false, }
+
+    _onRefresh = async () => {
+        this.setState({ refreshing: true });
+        const value = await AsyncStorage.getItem('token');
+        await axios.post('https://lockerce54.azurewebsites.net/api/Account/checkToken', {
+            "_Token": value
+        }).then(res => {
+            if (res.status == 200) {
+                const information = res.data
+                this.setState({ accountInformation: information })
+                { this.myAccout() }
+                this.setState({ refreshing: false });
+            }
+            else {
+                console.log("check token : broke")
+            }
+        })
+            .catch(err => {
+                console.log(err.res.data);
+                Alert.alert(
+                    err.res.data,
+                    'Press ok to go back.',
+                    [{ text: 'OK', onPress: () => Actions.MyBooking(), style: 'cancel', },],
+                    { cancelable: false },
+                );
+            });
+        this.setState({ refreshing: false });
+    }
 
     componentDidMount = async () => {
         const value = await AsyncStorage.getItem('token');
@@ -50,29 +79,14 @@ class MyAccount extends Component {
         Actions.authen();
     }
 
-    componentWillMount() {
-        const { width } = Dimensions.get('window');
-
-        if (width > 375) {
-            this.setState({
-                ...this.state,
-                size: 24,
-            });
-        } else if (width > 320) {
-            this.setState({
-                ...this.state,
-                size: 24,
-            });
-        } else {
-            this.setState({
-                ...this.state,
-            });
-        }
-    }
-    render() {
-
-
-        return (
+    myAccout(){
+        <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />
+                }>
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.state.accountInformation.name}</Text>
@@ -112,6 +126,78 @@ class MyAccount extends Component {
                     <Button onPress={() => this.Logout()}>Log out</Button>
                 </View>
             </View>
+            </ScrollView>
+    }
+
+    componentWillMount() {
+        const { width } = Dimensions.get('window');
+
+        if (width > 375) {
+            this.setState({
+                ...this.state,
+                size: 24,
+            });
+        } else if (width > 320) {
+            this.setState({
+                ...this.state,
+                size: 24,
+            });
+        } else {
+            this.setState({
+                ...this.state,
+            });
+        }
+    }
+    render() {
+
+        return (
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />
+                }>
+            <View style={styles.container}>
+                <View style={styles.titleWrapper}>
+                    <Text style={styles.title}>{this.state.accountInformation.name}</Text>
+                    <Text style={styles.title}>Point : {this.state.accountInformation.point}</Text>
+                </View>
+                <View style={styles.inputWrapper1}>
+                    <TouchableOpacity
+                        style={styles.container2}
+                        onPress={Actions.editaccount}>
+                        <Text style={styles.text}>
+                            Edit Account
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.container2}
+                        onPress={Actions.termandcondition}>
+                        <Text style={styles.text}>
+                            Terms and Conditons
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.container2}
+                        onPress={Actions.privacypolicy}>
+                        <Text style={styles.text}>
+                            Privacy Policy
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.container2}
+                        onPress={Actions.setting}>
+                        <Text style={styles.text}>
+                            Settings
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.button}>
+                    <Button onPress={() => this.Logout()}>Log out</Button>
+                </View>
+            </View>
+            </ScrollView>
         );
     }
 }
