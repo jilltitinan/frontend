@@ -45,7 +45,7 @@ async function registerForPushNotificationsAsync(id_account) {
     }
     let token = await Notifications.getExpoPushTokenAsync();
     console.log('ress router token ' + token);
-    await Axios.post('https://lockerce54.azurewebsites.net/api/Account/notitoken',
+    await Axios.post('https://celocker54.azurewebsites.net/api/Account/notitoken',
         {
             "id_account": id_account,
             "expoToken": token
@@ -73,7 +73,7 @@ class RouterComponent extends React.Component {
             const value = await AsyncStorage.getItem('token');
             if (value !== null) {
                 console.log("Before axios useraccount    ", value)
-                await Axios.post('https://lockerce54.azurewebsites.net/api/Account/checkToken', {
+                await Axios.post('https://celocker54.azurewebsites.net/api/Account/checkToken', {
                     "_Token": value
                 }).then(res => {                    
                     if (res.status == 200) {
@@ -95,7 +95,7 @@ class RouterComponent extends React.Component {
                     });
                 console.log("Before UserAccount call")
 
-                await Axios.get(`https://lockerce54.azurewebsites.net/mobile/UserAccount?id_account=${this.state.accountInformation.id_account}`,
+                await Axios.get(`https://celocker54.azurewebsites.net/mobile/UserAccount?id_account=${this.state.accountInformation.id_account}`,
                     { headers: { "Authorization": `Bearer ${value}` } })
                     .then(response => {
                         const info = response.data
@@ -205,11 +205,11 @@ class RouterComponent extends React.Component {
                     </Scene>
 
                     <Scene key="bookdetail" >
-                        <Scene key="booking" component={MoreBookingDetail} title="more Booking Detail" renderLeftButton={this.renderGoHistory()} />
+                        <Scene key="booking" component={MoreBookingDetail} title="Booking Detail" renderLeftButton={this.renderGoHistory()} />
                     </Scene>
 
                     <Scene key="afterbooked" >
-                        <Scene key="afterbook" component={AfterBooked} title="After book Detail" renderLeftButton={this.renderGoHistory()} />
+                        <Scene key="afterbook" component={AfterBooked} title="Booking Detail" renderLeftButton={this.renderGoHistory()} />
                     </Scene>
 
                     <Scene key="historydetail" >

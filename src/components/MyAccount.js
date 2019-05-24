@@ -22,7 +22,7 @@ class MyAccount extends Component {
     _onRefresh = async () => {
         this.setState({ refreshing: true });
         const value = await AsyncStorage.getItem('token');
-        await axios.post('https://lockerce54.azurewebsites.net/api/Account/checkToken', {
+        await axios.post('https://celocker54.azurewebsites.net/api/Account/checkToken', {
             "_Token": value
         }).then(res => {
             if (res.status == 200) {
@@ -51,7 +51,7 @@ class MyAccount extends Component {
         const value = await AsyncStorage.getItem('token');
         if (value !== null) {
             console.log("Before axios useraccount    ", value)
-            await axios.post('https://lockerce54.azurewebsites.net/api/Account/checkToken', {
+            await axios.post('https://celocker54.azurewebsites.net/api/Account/checkToken', {
                 "_Token": value
             }).then(res => {
                 if (res.status == 200) {

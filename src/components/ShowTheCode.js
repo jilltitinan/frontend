@@ -24,7 +24,7 @@ class ShowTheCode extends Component {
 
     componentDidMount = async () => {
         const value = await AsyncStorage.getItem('token');
-        axios.get(`https://lockerce54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
+        axios.get(`https://celocker54.azurewebsites.net/mobile/GetCode?id_reserve=${this.props.data.booking.bookingID}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(res => {

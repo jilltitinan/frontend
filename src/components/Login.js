@@ -63,7 +63,7 @@ class Login extends Component {
             })            
             try {                
                 this.setState({ isLoading: true })
-                await axios.post('https://lockerce54.azurewebsites.net/mobile/usersauthenticate', {
+                await axios.post('https://celocker54.azurewebsites.net/mobile/usersauthenticate', {
                     "_Token": this.state.token,
                 }).then(response => {
                     console.log("mobile/usersauthenticate", response.data)

@@ -13,7 +13,7 @@ class EditAccount extends Component {
         // var newId = this.props.result.user.email.toString();
         // var newId_accout = newId.substring(0, newId.length - 12);
         const value = await AsyncStorage.getItem('token');
-        await axios.get(`https://lockerce54.azurewebsites.net/mobile/Getphone?id_account=${this.props.result.id_account}`,
+        await axios.get(`https://celocker54.azurewebsites.net/mobile/Getphone?id_account=${this.props.result.id_account}`,
         { headers: { "Authorization": `Bearer ${value}` } })
             .then(response => this.setState({ reserve: response.data }));
     }
@@ -26,7 +26,7 @@ class EditAccount extends Component {
     onSavePress = async (phoneNum) => {
         console.log("onSavePress ", phoneNum)
         const valueToken = await AsyncStorage.getItem('token');
-        axios.post('https://lockerce54.azurewebsites.net/mobile/AddPhoneNumber', {            
+        axios.post('https://celocker54.azurewebsites.net/mobile/AddPhoneNumber', {            
                 "id_account": this.props.result.id_account,
                 "phone": phoneNum              
         },

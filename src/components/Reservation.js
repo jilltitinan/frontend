@@ -31,9 +31,9 @@ class Home extends Component {
     };
 
     componentDidMount = async () => {
-        // https://lockerce54.azurewebsites.net/web/Locker
+        // https://celocker54.azurewebsites.net/web/Locker
         const value = await AsyncStorage.getItem('token');
-        await axios.get(`https://lockerce54.azurewebsites.net/mobile/Locker`,
+        await axios.get(`https://celocker54.azurewebsites.net/mobile/Locker`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response =>
@@ -403,7 +403,7 @@ class Home extends Component {
                     </View>
                 </View>
 
-                {((this.state.selectedEndDate && this.state.selectedStartDate && (this.state.switch1Value == false)) || (this.state.selectedStartDate && this.state.switch1Value && this.state.selectedTime)) &&
+                {(((this.state.selectedEndDate != null) && (this.state.selectedStartDate) && (this.state.switch1Value == false)) || (this.state.selectedStartDate && this.state.switch1Value && this.state.selectedTime)) &&
                     <View style={buttonNext}>
                         <Button onPress={this.onButtonPress.bind(this)}> Next </Button>
                     </View>

@@ -67,10 +67,8 @@ const styles = {
     marginHorizontal: 10,
   },
   iconStyle: {
-    flex: 0.8,
-    padding: 120,
-    // justifyContent: 'space-around',
-    // backgroundColor: 'red',
+    flex: 1,
+    justifyContent: 'center', alignItems: 'center'
   },
  
 }

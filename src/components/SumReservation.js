@@ -49,11 +49,11 @@ class SumReservation extends Component {
         var newDuration = newEndtime + newHour;
         var newMinute = this.props.time.substring(3, 5);
         var newTime = this.props.time.toString();
-        console.log("new duration ", newMinute)
+        console.log("new duration ", newDuration)
 
-        if (this.props.valueType == 'true' && this.state.isLoading === false) { // one day
+        if (this.props.valueType == 'true' && this.state.isLoading === false && newDuration > 9) { // one day
             const valueToken = await AsyncStorage.getItem('token');
-            axios.post('https://lockerce54.azurewebsites.net/mobile/AddReserve', {
+            axios.post('https://celocker54.azurewebsites.net/mobile/AddReserve', {
                 "id_reserve": 0,
                 "code": "string",
                 "isActive": true,
@@ -80,7 +80,7 @@ class SumReservation extends Component {
         } else if (this.props.valueType == 'false' && this.state.isLoading === false) { //more than one day
             try {
                 const valueToken = await AsyncStorage.getItem('token');
-                axios.post('https://lockerce54.azurewebsites.net/mobile/AddReserve', {
+                axios.post('https://celocker54.azurewebsites.net/mobile/AddReserve', {
                     "id_reserve": 0,
                     "code": "string",
                     "isActive": true,
@@ -109,7 +109,35 @@ class SumReservation extends Component {
             } catch (error) {
                 Actions.fullreserve();
             }
-        } else {
+        } else if (this.props.valueType == 'true' && this.state.isLoading === false && newDuration < 10) { // one day
+            const valueToken = await AsyncStorage.getItem('token');
+            axios.post('https://celocker54.azurewebsites.net/mobile/AddReserve', {
+                "id_reserve": 0,
+                "code": "string",
+                "isActive": true,
+                "status": "unuse",
+                "startDay": newnewdate + 'T' + newTime + ':00Z',
+                "endDay": newnewdate + 'T0' + newDuration + ':' + newMinute + ':00Z',
+                "dateModified": "2019-03-27T08:40:32.391Z",
+                "size": this.props.size,
+                "location": this.props.location,
+                "id_account": newId_accout,
+                "id_vacancy": 0
+            },
+                { headers: { "Authorization": `Bearer ${valueToken}` } }
+            )
+                .then(res => {
+                    if (res.status == 200) {
+                        this.props.reservationId(res.data);
+                        Actions.afterbooked();
+                    }
+                })
+                .catch(error => {
+                    Actions.fullreserve();
+                })
+        }
+        
+        else {
             return (
                 <Loading />
             )

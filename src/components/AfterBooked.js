@@ -25,7 +25,7 @@ class Afterbooked extends Component {
 
     componentDidMount = async () => {
         const valueToken = await AsyncStorage.getItem('token');
-        axios.get(`https://lockerce54.azurewebsites.net/mobile/BookingDetail?id_reserve=${this.props.id}`,
+        axios.get(`https://celocker54.azurewebsites.net/mobile/BookingDetail?id_reserve=${this.props.id}`,
             { headers: { "Authorization": `Bearer ${valueToken}` } })
             .then(res => {
                 const info = res.data
@@ -55,7 +55,7 @@ class Afterbooked extends Component {
 
     deleteReservation = async () => {
         const value = await AsyncStorage.getItem('token');
-        axios.delete(`https://lockerce54.azurewebsites.net/mobile/CancelReserve?id=${this.props.id}`,
+        axios.delete(`https://celocker54.azurewebsites.net/mobile/CancelReserve?id=${this.props.id}`,
             { headers: { "Authorization": `Bearer ${value}` } }
         )
             .then(response => {
